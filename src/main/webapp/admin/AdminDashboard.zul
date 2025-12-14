@@ -1,0 +1,172 @@
+<?page title="Admin_Dashboard" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/Dashboard.css" ?>
+<zk>
+
+	<!-- Font Awesome -->
+	<style>
+		@import
+		url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+	</style>
+
+	
+
+	<vlayout width="100%" height="100%" style="overflow-y:auto;"
+		apply="com.lms.admin.controller.DashboardComposer">
+		<hlayout sclass="top-header" width="100%">
+			<div hflex="2">
+				<label value="CreditHuB" sclass="brand-title"  />
+				<label id="sidebarToggle" value="☰" sclass="toggle-btn"
+					/>
+				<space />
+			</div>
+
+			<hlayout sclass="header-actions" hflex="3">
+
+				<!-- Greeting -->
+				<label id="greetingText" value="Hello, Admin"
+					sclass="greeting-text" />
+				<div
+					style="display:flex; align-items:center; gap:10px;">	
+					<!-- Name -->
+					<label id="loginName" value="Aashish"
+						sclass="login-name" />
+
+					<!-- Avatar -->
+					<div id="avatarBox" sclass="avatar-box">
+						<label id="avatarLetter" value="A" />
+					</div>
+				</div>
+			</hlayout>
+		</hlayout>
+		<hlayout sclass="main-content" width="100%" height="100%">
+
+			<!-- SIDEBAR -->
+			<vlayout id="sidebar" sclass="sidebar">
+				<!-- Dashboard -->
+				<hlayout sclass="menu-item active">
+					<label sclass="menu-icon fa fa-gauge" />
+					<label value="Dashboard" />
+				</hlayout>
+
+				<!-- Loans -->
+				<hlayout sclass="menu-item" id="menuLoans">
+					<label sclass="menu-icon fa fa-coins" />
+					<label value="Loans" />
+				</hlayout>
+
+				<!-- Applications -->
+				<hlayout sclass="menu-item" id="menuApplications">
+					<label sclass="menu-icon fa fa-file-lines" />
+					<label value="Applications" />
+				</hlayout>
+
+				<!-- Users -->
+				<hlayout sclass="menu-item">
+					<label sclass="menu-icon fa fa-users" />
+					<label value="Users" />
+				</hlayout>
+
+				<!-- Reports -->
+				<hlayout sclass="menu-item" id="menuReports">
+					<label sclass="menu-icon fa fa-chart-line" />
+					<label value="Reports" />
+				</hlayout>
+
+				<!-- Payments -->
+				<hlayout sclass="menu-item">
+					<label sclass="menu-icon fa fa-wallet" />
+					<label value="Payments" />
+				</hlayout>
+
+				<!-- Settings -->
+				<hlayout sclass="menu-item">
+					<label sclass="menu-icon fa fa-gear" />
+					<label value="Settings" />
+				</hlayout>
+
+				<!-- Notifications -->
+				<hlayout sclass="menu-item">
+					<label sclass="menu-icon fa fa-bell" />
+					<label value="Notifications" />
+				</hlayout>
+
+				<!-- Support -->
+				<hlayout sclass="menu-item">
+					<label sclass="menu-icon fa fa-headset" />
+					<label value="Support" />
+				</hlayout>
+
+			</vlayout>
+
+			<!-- MAIN CONTENT -->
+			<vlayout id="mainContainer" sclass="main-container">
+
+				<hlayout sclass="card-container">
+
+					<div sclass="dash-card card-blue">
+						<label id="lblTotalLoans" sclass="card-number" />
+						<label value="Total Loans" sclass="card-label" />
+						<label sclass="card-icon icon-dashboard"></label>
+					</div>
+
+					<div sclass="dash-card card-red">
+						<label id="lblPendingApps" sclass="card-number" />
+						<label value="Pending Apps" sclass="card-label" />
+						<label sclass="card-icon icon-clock"></label>
+					</div>
+
+					<div sclass="dash-card card-green">
+						<label id="lblActiveLoans" sclass="card-number" />
+						<label value="Active Loans" sclass="card-label" />
+						<label sclass="card-icon icon-check"></label>
+					</div>
+
+					<div sclass="dash-card card-orange">
+						<label id="lblOverdue" sclass="card-number" />
+						<label value="Overdue Loans"
+							sclass="card-label" />
+						<label sclass="card-icon icon-warning"></label>
+					</div>
+				</hlayout>
+
+				<!-- Charts -->
+				<hlayout sclass="charts-row">
+					<charts id="loanTrendChart" type="line" />
+					<charts id="loanTypeChart" type="pie" />
+				</hlayout>
+
+				<!-- Recent Applications -->
+				<vlayout>
+					<label value="Recent Applications"
+						sclass="section-title" />
+					<listbox id="loanListbox" mold="paging" pageSize="5"
+						width="100%">
+						<listhead>
+							<listheader label="Applicant" />
+							<listheader label="Amount" />
+							<listheader label="Status" />
+							<listheader label="Date" />
+						</listhead>
+
+						<template name="model">
+							<listitem>
+								<listcell label="${each[0]}" />
+								<listcell label="${each[1]}" />
+								<listcell label="${each[2] }" />
+								<listcell label="${each[3] }" />
+							</listitem>
+						</template>
+					</listbox>
+
+				</vlayout>
+
+				<hlayout sclass="footer-bar">
+					<label
+						value="© 2025 CrediHub | All Rights Reserved" />
+					<space />
+					<label value="Made by ❤ CreditHuB Team" />
+				</hlayout>
+			</vlayout>
+		</hlayout>
+	</vlayout>
+</zk>

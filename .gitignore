@@ -1,0 +1,12 @@
+# Eclipse metadata
+.metadata/
+bin/
+build/
+*.class
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

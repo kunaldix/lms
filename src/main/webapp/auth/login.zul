@@ -1,0 +1,174 @@
+<?page title="Login | CreditHub" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:html="native">
+
+    <style>
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+        
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body, .z-window { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            color: #333; margin: 0; padding: 0; background-color: #f4f6f8;
+        }
+
+        .main-container { display: flex; height: 100vh; width: 100%; }
+
+        /* --- Left Panel Styling --- */
+        .left-panel { 
+            background-color: #004a99; 
+            color: white; 
+            width: 70%; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            padding: 40px; 
+            position: relative;
+            text-align: center;
+        }
+        
+        .brand-logo {
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 5px; 
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .trust-image {
+            max-width: 280px; 
+            height: auto;
+            margin-bottom: 15px; 
+            border-radius: 8px;
+            opacity: 0.95;
+        }
+
+        /* --- Right Panel Styling --- */
+        .right-panel { 
+            background-color: white; 
+            width: 30%; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            position: relative;
+        }
+
+        .login-container { 
+            background: #fff; 
+            padding: 2.5rem; 
+            width: 440px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0, 74, 153, 0.2); 
+            position: absolute;
+            left: -220px; 
+        }
+
+        .login-title { 
+            margin-bottom: 1.5rem; font-size: 1.6rem; text-align: center; 
+            font-weight: 700; color: #004a99; display: block;
+        }
+
+        .form-label { margin-bottom: 0.5rem; font-weight: 600; display: block; color: #555; }
+
+        .custom-input {
+            width: 100%; padding: 0.8rem; font-size: 1rem; border: 1px solid #ddd; 
+            border-radius: 6px; transition: all 0.3s ease; margin-bottom: 15px;
+        }
+
+        .custom-input:focus { outline: none; border-color: #004a99; box-shadow: 0 0 0 3px rgba(0, 74, 153, 0.1); }
+
+        .btn-login, .btn-otp {
+            width: 100%; padding: 0.8rem; font-size: 1rem; border: none; border-radius: 6px; 
+            background-color: #004a99; color: #fff; font-weight: bold; cursor: pointer; margin-top: 10px;
+        }
+        .btn-login:hover, .btn-otp:hover { background-color: #003377; }
+
+        .links { margin-top: 1.5rem; text-align: center; }
+        .links a { color: #004a99; text-decoration: none; margin: 0 0.5rem; font-size: 0.9rem; font-weight: 500;}
+        .links a:hover { text-decoration: underline; }
+
+        .trust-text { font-size: 16px; font-weight: 500; letter-spacing: 0.5px; opacity: 0.9; margin-bottom: 4px; }
+
+    </style>
+    
+    <div class="main-container">
+        
+        <div class="left-panel">
+            
+            <image src="../img/logo.png" sclass="brand-logo" />
+
+            <image src="../img/hands_trust.png" sclass="trust-image" />
+            
+            <div style="width: 100px; height: 3px; background: rgba(255,255,255,0.4); border-radius: 2px; margin-bottom: 15px;"></div>
+
+            <vbox align="center" spacing="2px"> 
+                <label value="Your Trusted Platform for Loan Management" 
+                       style="font-size: 20px; font-weight: bold; line-height: 1.3; max-width: 90%; margin-bottom: 10px;" />
+
+                <label value="Building lasting relationships built on confidence." sclass="trust-text" />
+                <label value="Your secure partner for financial growth." sclass="trust-text" />
+                <label value="Transparent, reliable, and always here for you." sclass="trust-text" />
+            </vbox>
+        </div>
+
+        <div class="right-panel">
+            
+            <window border="none" sclass="login-container" closable="false" apply="com.lms.controller.LoginPage">
+                
+                <label value="Welcome Back" sclass="login-title" />
+                <separator height="10px"/>
+
+                <div id="div1" visible="true" width="100%">
+                    
+                    <div visible="${not empty param.login_error}" 
+                         style="background-color: #ffebee; color: #c62828; padding: 10px; border-radius: 6px; margin-bottom: 15px; text-align: center; border: 1px solid #ef9a9a;">
+                        <span class="fa fa-circle-exclamation" style="margin-right: 5px;"></span>
+                        <label value="Invalid Username or Password" style="font-weight: 600;"/>
+                    </div>
+
+                    <html:form id="securityForm" action="../j_spring_security_check" method="POST">
+                        <label value="User Name" sclass="form-label" />
+                        <html:input type="text" name="j_username" class="custom-input" placeholder="e.g. admin@credithub.com" />
+                        
+                        <label value="Password" sclass="form-label" />
+                        <div style="position: relative;">
+                            <html:input type="password" name="j_password" id="passwordField" class="custom-input" placeholder="Enter your password" />
+                            <span class="fa fa-eye" style="position: absolute; right: 15px; top: 13px; color: #aaa; cursor: pointer;"></span>
+                        </div>
+
+                        <html:button type="submit" class="btn-login">Login securely</html:button>
+                    </html:form>
+                </div>
+
+                <div id="div2" visible="false" width="100%">
+                    <vbox spacing="2px" width="100%">
+                        <label value="Phone Number" sclass="form-label" />
+                        <textbox id="phoneno" sclass="custom-input" placeholder="Enter your Phone No" maxlength="10" />
+                        <label value="OTP" sclass="form-label" />
+                        <textbox id="otp" type="password" sclass="custom-input" placeholder="Enter 6-digit OTP" />
+                    </vbox>
+                </div>
+
+                <div id="div3" visible="false" width="100%">
+                    <vlayout spacing="15px">
+                        <label value="Forgot Password" style="font-size: 1.2rem; font-weight: bold; color: #004a99;" />
+                        <label value="Enter registered email to reset." style="color: #666;" />
+                        <textbox id="emailBox" sclass="custom-input" placeholder="Enter Your Email" />
+                        <button id="resetBtn" label="Send Reset Link" sclass="btn-otp" />
+                    </vlayout>
+                </div>
+
+                <vbox spacing="10px" width="100%" style="margin-top: 10px;">
+                    <button id="otpBtn" visible="true" label="Login with OTP" sclass="btn-otp" style="background-color: #fff; color: #004a99; border: 1px solid #004a99;" />
+                    <button id="backBtn" visible="false" label="Back to Login" sclass="btn-otp" style="background-color: #6c757d;" />
+                </vbox>
+
+                <hbox sclass="links" align="center" pack="center" width="100%">
+                    <a label="Forgot Password?" id="fpassword" />
+                    <label value="|" style="color: #ccc; margin: 0 5px;" />
+                    <a id="signup" label="New User? Sign Up" />
+                </hbox>
+
+            </window>
+        </div>
+    </div>
+</zk>

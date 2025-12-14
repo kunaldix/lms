@@ -1,0 +1,308 @@
+<?page title="Admin_Dashboard" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/Profile.css" ?>
+<zk>
+
+	<!-- Font Awesome -->
+	<style>
+		@import
+		url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+	</style>
+
+	<vlayout width="100%" height="100%" style="overflow-y:auto;"
+		apply="com.lms.controller.ProfileController">
+		<hlayout sclass="top-header" width="100%">
+			<div hflex="2">
+				<label value="CreditHuB" sclass="brand-title" />
+				<label id="sidebarToggle" value="☰" sclass="toggle-btn" />
+				<space />
+			</div>
+
+			<hlayout sclass="header-actions" hflex="3">
+
+				<!-- Greeting -->
+				<label id="greetingText" value="Hello, Admin"
+					sclass="greeting-text" />
+				<div
+					style="display:flex; align-items:center; gap:10px;">
+					<!-- Name -->
+					<label id="loginName" value="Aashish"
+						sclass="login-name" />
+
+					<!-- Avatar -->
+					<div id="avatarBox" sclass="avatar-box">
+						<label id="avatarLetter" value="A" />
+					</div>
+				</div>
+			</hlayout>
+		</hlayout>
+		<hlayout sclass="main-content" width="100%" height="100%">
+
+			<!-- SIDEBAR -->
+			<vlayout id="sidebar" sclass="sidebar">
+				<!-- Dashboard -->
+				<hlayout sclass="menu-item active">
+					<label sclass="menu-icon fa fa-gauge" />
+					<label value="Dashboard" />
+				</hlayout>
+
+				<!-- Loans -->
+				<hlayout sclass="menu-item" id="menuLoans">
+					<label sclass="menu-icon fa fa-coins" />
+					<label value="Loans" />
+				</hlayout>
+
+				<!-- Applications -->
+				<hlayout sclass="menu-item" id="menuApplications">
+					<label sclass="menu-icon fa fa-file-lines" />
+					<label value="Applications" />
+				</hlayout>
+
+				<!-- Users -->
+				<hlayout sclass="menu-item">
+					<label sclass="menu-icon fa fa-users" />
+					<label value="Users" />
+				</hlayout>
+
+				<!-- Reports -->
+				<hlayout sclass="menu-item" id="menuReports">
+					<label sclass="menu-icon fa fa-chart-line" />
+					<label value="Reports" />
+				</hlayout>
+
+				<!-- Payments -->
+				<hlayout sclass="menu-item">
+					<label sclass="menu-icon fa fa-wallet" />
+					<label value="Payments" />
+				</hlayout>
+
+				<!-- Settings -->
+				<hlayout sclass="menu-item">
+					<label sclass="menu-icon fa fa-gear" />
+					<label value="Settings" />
+				</hlayout>
+
+				<!-- Notifications -->
+				<hlayout sclass="menu-item">
+					<label sclass="menu-icon fa fa-bell" />
+					<label value="Notifications" />
+				</hlayout>
+
+				<!-- Support -->
+				<hlayout sclass="menu-item">
+					<label sclass="menu-icon fa fa-headset" />
+					<label value="Support" />
+				</hlayout>
+
+			</vlayout>
+
+			<!-- MAIN CONTENT -->
+			<vlayout id="mainContainer" sclass="main-container">
+
+				<vlayout sclass="profile-wrapper">
+
+					<!-- COVER SECTION -->
+					<div sclass="profile-cover">
+						<image src="/img/cover.jpg" sclass="cover-img" />
+
+						<!-- Avatar -->
+						<div sclass="profile-avatar-box">
+							<image src="/img/avatar.jpg"
+								sclass="profile-avatar" />
+						</div>
+
+						<!-- Edit Button -->
+						<button label="Edit Profile"
+							sclass="edit-profile-btn" onClick="profileWin.open()"/>
+					</div>
+
+					<!-- BASIC INFO -->
+					<div sclass="profile-header">
+						<label value="Aashish Dixit"
+							sclass="profile-name" />
+							<separator height="2px"/>
+						<label value="Administrator • CreditHub"
+							sclass="profile-role" />
+							<separator height="2px"/>
+						<label value="Aashish@example.com"
+							sclass="profile-email" />
+
+						<!-- Stats -->
+						<hbox sclass="profile-stats">
+							<vlayout>
+								<label value="245" sclass="stat-number" />
+								<label value="Applications"
+									sclass="stat-label" />
+							</vlayout>
+							<vlayout>
+								<label value="18" sclass="stat-number" />
+								<label value="Loans"
+									sclass="stat-label" />
+							</vlayout>
+							<vlayout>
+								<label value="12" sclass="stat-number" />
+								<label value="Documents"
+									sclass="stat-label" />
+							</vlayout>
+						</hbox>
+					</div>
+
+					<!-- CARD AREA -->
+					<hlayout sclass="profile-card-area">
+
+						<!-- LEFT PANEL -->
+						<vlayout sclass="left-card" hflex="1">
+
+							<!-- Personal Info -->
+							<div sclass="card shadow">
+								<label value="Personal Information"
+									sclass="card-title" />
+								<separator />
+
+								<grid sclass="info-grid">
+									<rows>
+										<row>
+											<label value="Full Name:" />
+											<label
+												value="Aashish Dixit" />
+										</row>
+										<row>
+											<label value="Email:" />
+											<label
+												value="aashish@example.com" />
+										</row>
+										<row>
+											<label value="Phone:" />
+											<label
+												value="+91 9876543210" />
+										</row>
+										<row>
+											<label value="Role:" />
+											<label value="Admin" />
+										</row>
+										<row>
+											<label value="Joined On:" />
+											<label value="12 July 2023" />
+										</row>
+									</rows>
+								</grid>
+							</div>
+
+							<!-- Address -->
+							<div sclass="card shadow">
+								<label value="Address"
+									sclass="card-title" />
+								<separator />
+
+								<grid sclass="info-grid">
+									<rows>
+										<row>
+											<label value="Country:" />
+											<label value="India" />
+										</row>
+										<row>
+											<label value="State:" />
+											<label value="Maharashtra" />
+										</row>
+										<row>
+											<label value="City:" />
+											<label value="Pune" />
+										</row>
+										<row>
+											<label value="Pincode:" />
+											<label value="411001" />
+										</row>
+									</rows>
+								</grid>
+							</div>
+
+						</vlayout>
+
+						<!-- RIGHT PANEL -->
+						<vlayout sclass="right-card" hflex="1">
+
+							<!-- Activity -->
+							<div sclass="card shadow">
+								<label value="Recent Activity"
+									sclass="card-title" />
+								<separator />
+
+								<listbox width="100%"
+									sclass="custom-list">
+									<listitem>
+										<listcell>
+											<label
+												value="Logged in from 192.168.1.4" />
+										</listcell>
+										<listcell>
+											<label value="Today"
+												sclass="time-badge" />
+										</listcell>
+									</listitem>
+
+									<listitem>
+										<listcell>
+											<label
+												value="Viewed Loan Applications" />
+										</listcell>
+										<listcell>
+											<label value="1 hr ago"
+												sclass="time-badge" />
+										</listcell>
+									</listitem>
+
+									<listitem>
+										<listcell>
+											<label
+												value="Updated Profile Picture" />
+										</listcell>
+										<listcell>
+											<label value="Yesterday"
+												sclass="time-badge" />
+										</listcell>
+									</listitem>
+								</listbox>
+							</div>
+
+							<!-- Documents -->
+							<div sclass="card shadow">
+								<label value="Documents"
+									sclass="card-title" />
+								<separator />
+
+								<listbox width="100%">
+									<listhead>
+										<listheader label="Document" />
+										<listheader label="Status" />
+									</listhead>
+
+									<listitem>
+										<listcell>
+											<label value="Aadhar Card" />
+										</listcell>
+										<listcell>
+											<label value="Verified"
+												sclass="verified-status" />
+										</listcell>
+									</listitem>
+
+									<listitem>
+										<listcell>
+											<label value="PAN Card" />
+										</listcell>
+										<listcell>
+											<label value="Pending"
+												sclass="pending-status" />
+										</listcell>
+									</listitem>
+								</listbox>
+
+							</div>
+						</vlayout>
+
+					</hlayout>
+
+				</vlayout>
+			</vlayout>
+		</hlayout>
+	</vlayout>
+</zk>

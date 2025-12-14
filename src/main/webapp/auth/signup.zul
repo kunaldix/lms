@@ -1,0 +1,192 @@
+<?page title="Sign Up | CreditHub" contentType="text/html;charset=UTF-8"?>
+<zk>
+    <style>
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body, .z-window { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            color: #333; margin: 0; padding: 0;
+            background-color: #f4f6f8; 
+        }
+
+        .main-container { display: flex; height: 100vh; width: 100%; }
+
+        /* --- Left Panel Styling --- */ 
+        .left-panel { 
+            background-color: #004a99; color: white; width: 70%; 
+            display: flex; flex-direction: column; justify-content: center; 
+            align-items: center; padding: 40px; position: relative; 
+        }
+
+        .brand-logo { 
+            max-width: 300px; height: auto; margin-bottom: 5px; 
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2)); 
+        }
+
+        .trust-image { 
+            max-width: 280px; height: auto; margin-bottom: 15px; 
+            border-radius: 8px; opacity: 0.95; 
+        }
+
+        .trust-text { font-size: 16px; font-weight: 500; letter-spacing: 0.5px; opacity: 0.9; margin-bottom: 4px; }
+
+        /* --- Right Panel Styling --- */ 
+        .right-panel { 
+            background-color: white; width: 30%; display: flex; 
+            justify-content: center; align-items: center; position: relative; 
+        }
+
+        /* Signup Card */ 
+        .signup-container { 
+            background: #fff; padding: 2rem 2.5rem; 
+            width: 460px; height: auto; max-height: 90vh; 
+            border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 74, 153, 0.2);
+            position: absolute; left: -230px; display: flex; flex-direction: column; 
+        }
+
+        .form-title { 
+            margin-bottom: 1rem; font-size: 1.6rem; text-align: center; 
+            font-weight: 700; color: #004a99; display: block; 
+        }
+
+        .form-label { 
+            margin-bottom: 0.3rem; font-weight: 600; display: block; 
+            color: #555; font-size: 0.9rem; 
+        }
+
+       
+
+        /* Footer Section */ 
+        .form-footer { margin-top: 15px; padding-top: 15px; border-top: 1px solid #f0f0f0; }
+
+        .btn-submit { 
+            width: 100%; padding: 0.8rem; font-size: 1rem; border: none; 
+            border-radius: 6px; background-color: #004a99; color: #fff; 
+            font-weight: bold; cursor: pointer; transition: background 0.2s; 
+        }
+
+        .btn-submit:hover { background-color: #003377; }
+
+        .links { margin-top: 1rem; text-align: center; } 
+        .links a { color: #004a99; text-decoration: none; font-weight: 600; cursor: pointer; } 
+        .links a:hover { text-decoration: underline; }
+
+        .eye-btn { 
+            background: transparent !important; border: none !important; 
+            box-shadow: none !important; color: #888 !important; cursor: pointer; 
+            position: absolute; right: 5px; top: 5px; font-size: 1.1rem; 
+        } 
+        .eye-btn:hover { color: #004a99 !important; }
+
+        /* Scrollable Form Area */ 
+        .scrollable-form { 
+            overflow-y: auto; padding-right: 5px; flex-grow: 1; 
+            min-height: 0; margin-bottom: 5px; 
+        }
+
+        .scrollable-form::-webkit-scrollbar { width: 6px; }
+        .scrollable-form::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; } 
+        .scrollable-form::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        .scrollable-form::-webkit-scrollbar-thumb:hover { background: #bbb; }
+        
+    </style>
+
+    <div class="main-container">
+
+        <div class="left-panel">
+            <image src="/img/logo.png" sclass="brand-logo" />
+            <image src="/img/hands_trust.png" sclass="trust-image" />
+            
+            <div style="width: 100px; height: 3px; background: rgba(255,255,255,0.4); border-radius: 2px; margin-bottom: 15px;"></div>
+
+            <vbox align="center" spacing="2px"> 
+                <label value="Your Trusted Platform for Loan Management" 
+                       style="font-size: 20px; font-weight: bold; line-height: 1.3; max-width: 90%; margin-bottom: 10px;" />
+
+                <label value="Building lasting relationships built on confidence." sclass="trust-text" />
+                <label value="Your secure partner for financial growth." sclass="trust-text" />
+                <label value="Transparent, reliable, and always here for you." sclass="trust-text" />
+            </vbox>
+        </div>   
+
+        <div class="right-panel">
+
+            <window border="none" sclass="signup-container"
+                closable="false" apply="com.lms.controller.SignupComposer"
+                contentStyle="display:flex; flex-direction:column; height:100%;">
+
+                <label value="Create Account" sclass="form-title" />
+
+                <div sclass="scrollable-form">
+
+                    <vbox spacing="12px" width="100%">
+
+                        <vlayout spacing="2px">
+                            <label value="Full Name" sclass="form-label" />
+                            <textbox id="tname" sclass="custom-input" width="100%"
+                                placeholder="e.g. John Doe" />
+                        </vlayout>
+
+                        <vlayout spacing="2px">
+                            <label value="Email Address" sclass="form-label" />
+                            <textbox id="temail" sclass="custom-input" width="100%"
+                                placeholder="name@example.com" />
+                        </vlayout>
+
+                        <vlayout spacing="2px">
+                            <label value="Mobile Number" sclass="form-label" />
+                            <textbox id="tphone" sclass="custom-input" width="100%"
+                                maxlength="10" placeholder="10-digit number" />
+                        </vlayout>
+
+                        <vlayout spacing="2px">
+                            <label value="Account Type" sclass="form-label" />
+                            <combobox id="crole" sclass="custom-combo"
+                                width="100%" placeholder="Select Role" readonly="true">
+                                <comboitem label="Customer" value="CUSTOMER" />
+                                <comboitem label="Admin" value="ADMIN" />
+                            </combobox>
+                        </vlayout>
+
+                        <vlayout spacing="2px">
+                            <label value="Password" sclass="form-label" />
+                            <div style="position:relative; width:100%">
+                                <textbox id="tpassword" type="password"
+                                    sclass="custom-input" placeholder="Create password"
+                                    width="100%" />
+                                <button id="showPwd"
+                                    iconSclass="z-icon-eye-slash" sclass="eye-btn"
+                                    tooltiptext="Show Password" />
+                            </div>
+                        </vlayout>
+
+                        <vlayout spacing="2px">
+                            <label value="Confirm Password" sclass="form-label" />
+                            <div style="position:relative; width:100%">
+                                <textbox id="tconfirmPwd"
+                                    type="password" sclass="custom-input"
+                                    placeholder="Confirm password" width="100%" />
+                                <button id="showCPwd"
+                                    iconSclass="z-icon-eye-slash" sclass="eye-btn"
+                                    tooltiptext="Show Password" />
+                            </div>
+                        </vlayout>
+
+                    </vbox>
+                </div>
+
+                <div sclass="form-footer">
+                    <button id="signupBtn" label="Create Account" sclass="btn-submit" />
+
+                    <hbox sclass="links" align="center" pack="center" width="100%">
+                        <label value="Already have an account?" style="color:#666;" />
+                        <a id="loginLink" label="Login here" href="login.zul" />
+                    </hbox>
+                </div>
+
+            </window>
+        </div>
+    </div>
+</zk>

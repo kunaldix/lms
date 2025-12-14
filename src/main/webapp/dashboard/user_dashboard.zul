@@ -1,0 +1,135 @@
+<?page title="My Dashboard | CreditHub" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/user_dashboard.css" ?>
+<zk>
+	<style>
+		@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+	</style>
+
+	<vlayout width="100%" height="100%"
+		apply="com.lms.controller.UserDashboardComposer">
+		
+		<hlayout sclass="top-header" width="100%">
+            
+            <div hflex="2" style="display:flex; align-items:center;">
+                
+                <image src="/img/logo.png" height="85px" style="margin-right: 15px;" />
+                
+                <label id="sidebarToggle" value="☰" sclass="toggle-btn" />
+            </div>
+
+            <hlayout sclass="header-actions" hflex="3">
+                <label id="greetingText" value="Welcome Back," sclass="greeting-text" />
+                <div style="display:flex; align-items:center; gap:10px;">    
+                    <label id="loginName" sclass="login-name" />
+                    <div id="avatarBox" sclass="avatar-box">
+                        <label id="avatarLetter" />
+                    </div>
+                </div>
+            </hlayout>
+        </hlayout>
+
+		<hlayout sclass="main-content" width="100%" height="100%">
+
+			<vlayout id="sidebar" sclass="sidebar">
+				<hlayout sclass="menu-item active">
+					<label sclass="menu-icon fa fa-home" />
+					<label value="My Dashboard" sclass="menu-text" />
+				</hlayout>
+
+				<hlayout sclass="menu-item" id="menuMyLoans">
+					<label sclass="menu-icon fa fa-money-bill-wave" />
+					<label value="My Loans" sclass="menu-text" />
+				</hlayout>
+
+				<hlayout sclass="menu-item" id="menuApply">
+					<label sclass="menu-icon fa fa-plus-circle" />
+					<label value="Apply New Loan" sclass="menu-text" />
+				</hlayout>
+
+				<hlayout sclass="menu-item">
+					<label sclass="menu-icon fa fa-history" />
+					<label value="History" sclass="menu-text" />
+				</hlayout>
+
+				<hlayout sclass="menu-item">
+					<label sclass="menu-icon fa fa-user" />
+					<label value="My Profile" sclass="menu-text" />
+				</hlayout>
+				
+				<hlayout sclass="menu-item">
+					<label sclass="menu-icon fa fa-headset" />
+					<label value="Support" sclass="menu-text" />
+				</hlayout>
+			</vlayout>
+
+			<vlayout id="mainContainer" sclass="main-container">
+
+				<hlayout sclass="card-container">
+					
+					<div sclass="dash-card card-blue">
+						<label id="lblTotalBorrowed" sclass="card-number" />
+						<label value="Total Borrowed" sclass="card-label" />
+						<label sclass="card-icon fa fa-hand-holding-dollar"></label>
+					</div>
+
+					<div sclass="dash-card card-green">
+						<label id="lblActiveLoans" sclass="card-number" />
+						<label value="Active Loans" sclass="card-label" />
+						<label sclass="card-icon fa fa-file-contract"></label>
+					</div>
+
+					<div sclass="dash-card card-orange">
+						<label id="lblNextEmi" sclass="card-number" />
+						<label value="Next EMI Due" sclass="card-label" />
+						<label sclass="card-icon fa fa-calendar-check"></label>
+					</div>
+
+					<div sclass="dash-card card-red">
+						<label id="lblOutstanding" sclass="card-number" />
+						<label value="Outstanding Balance" sclass="card-label" />
+						<label sclass="card-icon fa fa-chart-pie"></label>
+					</div>
+				</hlayout>
+
+				<hlayout sclass="charts-row">
+					<vlayout hflex="1">
+						<label value="Repayment Progress" sclass="section-title" />
+						<charts id="repaymentChart" type="pie" />
+					</vlayout>
+					<vlayout hflex="1">
+						<label value="EMI Payment History" sclass="section-title" />
+						<charts id="emiHistoryChart" type="column" />
+					</vlayout>
+				</hlayout>
+
+				<vlayout>
+					<label value="Upcoming EMI Payments" sclass="section-title" />
+					<listbox id="emiListbox" mold="paging" pageSize="5" width="100%">
+						<listhead>
+							<listheader label="Loan Account" width="20%"/>
+							<listheader label="Loan Type" width="20%"/>
+							<listheader label="Due Date" width="20%"/>
+							<listheader label="EMI Amount" width="20%"/>
+							<listheader label="Status" width="20%"/>
+						</listhead>
+						<template name="model">
+							<listitem>
+								<listcell label="${each.loanAccount}" />
+								<listcell label="${each.loanType}" />
+								<listcell label="${each.dueDate}" />
+								<listcell label="${each.amount}" style="font-weight:bold; color:#004a99;" />
+								<listcell label="${each.status}" style="color:red;" />
+							</listitem>
+						</template>
+					</listbox>
+				</vlayout>
+
+				<hlayout sclass="footer-bar">
+					<label value="© 2025 CrediHub | User Panel" />
+					<space />
+					<label value="Secure. Fast. Reliable." />
+				</hlayout>
+			</vlayout>
+		</hlayout>
+	</vlayout>
+</zk>

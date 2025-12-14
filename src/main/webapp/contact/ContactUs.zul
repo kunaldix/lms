@@ -1,0 +1,271 @@
+<?page title="Contact Us | Loan Management System" contentType="text/html;charset=UTF-8"?>
+<zk>
+
+    <!-- ========================= GLOBAL STYLE ========================= -->
+    <style>
+        body, .z-window {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #f5f6fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* Left Panel */
+        .left-panel {
+            width: 65%;
+            background-color: #004a99;
+            padding: 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .left-title-box {
+            border: 2px solid #fff;
+            padding: 20px;
+            width: 50%;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .left-text {
+            width: 60%;
+            margin-left: 10%;
+        }
+
+        .left-text-title {
+            font-size: 28px;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        /* Right Panel */
+        .right-panel {
+            width: 35%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 40px;
+            overflow: hidden;      /* prevents whole page scroll */
+        }
+
+        .scroll-container {
+            width: 100%;
+            height: 90vh;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        /* Contact Form Card */
+        .contact-card {
+            width: 90%;
+            max-width: 700px;
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.2);
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #004a99;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #004a99;
+        }
+
+        .btn-primary {
+            background-color: #004a99;
+            color: #fff;
+            border-radius: 4px;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <!-- ========================= MAIN LAYOUT ========================= -->
+    <div class="main-wrapper">
+
+        <!-- LEFT PANEL -->
+        <div class="left-panel">
+            <div class="left-title-box">
+                <label value="🏦 IMAGE INFO SYSTEMS BANK"/>
+            </div>
+
+            <div class="left-text">
+                <label value="We are here to support you with your financial journey." style="font-size:18px;"/>
+                <separator/>
+                <label value="Reach out to us for any assistance related to loans." sclass="left-text-title"/>
+            </div>
+            <button label="Logout" href="/j_spring_security_logout"/>
+        </div>
+
+        <!-- RIGHT PANEL WITH SCROLLABLE CARD -->
+        <div class="right-panel">
+            <div class="scroll-container">
+
+                <window border="none" width="100%" class="contact-card"
+                        apply="com.lms.controller.ContactUsComposer">
+
+                    <label value="Contact Us" sclass="card-title"/>
+					<separator></separator>
+                    <vlayout spacing="18px">
+
+                        <!-- CUSTOMER INFO -->
+                        <groupbox mold="3d">
+                            <caption label="Customer Information" sclass="section-title"/>
+                            
+                            <grid>
+                                <columns>
+                                    <column width="40%"/>
+                                    <column/>
+                                </columns>
+                                <rows>
+                                    <row>
+                                        <label value="Full Name *"/>
+                                        <textbox id="name" width="180px"/>
+                                    </row>
+
+                                    <row>
+                                        <label value="Email *"/>
+                                        <textbox id="email" type="email" width="180px"/>
+                                    </row>
+
+                                    <row>
+                                        <label value="Phone Number *"/>
+                                        <textbox id="phone" maxlength="10"
+                                                 width="180px" constraint="no empty, /[0-9]+/"/>
+                                    </row>
+
+                                    <row>
+                                        <label value="Preferred Contact Method"/>
+                                        <combobox id="contactMethod" width="180px">
+                                            <comboitem label="Email"/>
+                                            <comboitem label="Phone"/>
+                                        </combobox>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </groupbox>
+
+                        <!-- LOAN INFO -->
+                        <groupbox  mold="3d" closable="true" open="false" >
+                            <caption label="Loan Information" sclass="section-title"/>
+
+                            <grid>
+                                <columns>
+                                    <column width="40%"/>
+                                    <column/>
+                                </columns>
+                                <rows>
+
+                                    <row>
+                                        <label value="Loan Type"/>
+                                        <combobox id="loanType" width="180px">
+                                            <comboitem label="Home Loan"/>
+                                            <comboitem label="Personal Loan"/>
+                                            <comboitem label="Business Loan"/>
+                                            <comboitem label="Car Loan"/>
+                                            <comboitem label="Education Loan"/>
+                                        </combobox>
+                                    </row>
+
+                                    <row>
+                                        <label value="Existing Customer?"/>
+                                        <radiogroup id="existingCustomer" orient="horizontal">
+                                            <radio label="Yes" value="Y"/>
+                                            <radio label="No" value="N" checked="true"/>
+                                        </radiogroup>
+                                    </row>
+
+                                    <row>
+                                        <label value="Loan Account Number"/>
+                                        <textbox id="loanAccNo" width="180px" placeholder="If applicable"/>
+                                    </row>
+
+                                </rows>
+                            </grid>
+                        </groupbox>
+
+                        <!-- INQUIRY DETAILS -->
+                        <groupbox  mold="3d" closable="true" open="false">
+                            <caption label="Inquiry Details" sclass="section-title"/>
+
+                            <grid>
+                                <columns>
+                                    <column width="40%"/>
+                                    <column/>
+                                </columns>
+                                <rows>
+
+                                    <row>
+                                        <label value="Subject *"/>
+                                        <combobox id="subject" width="180px">
+                                            <comboitem label="General Inquiry"/>
+                                            <comboitem label="Loan Status"/>
+                                            <comboitem label="EMI Related Issue"/>
+                                            <comboitem label="Document Submission Query"/>
+                                            <comboitem label="Others"/>
+                                        </combobox>
+                                    </row>
+
+                                    <row valign="top">
+                                        <label value="Message *"/>
+                                        <textbox id="message" multiline="true" rows="4" width="180px"/>
+                                    </row>
+
+                                    <row>
+                                        <label value="Urgency Level"/>
+                                        <combobox id="urgency" width="180px">
+                                            <comboitem label="Low"/>
+                                            <comboitem label="Medium"/>
+                                            <comboitem label="High"/>
+                                        </combobox>
+                                    </row>
+
+                                    <row>
+                                        <label value="Attachment"/>
+                                        <fileupload id="fileUpload" label="Upload File"/>
+                                    </row>
+
+                                </rows>
+                            </grid>
+                        </groupbox>
+
+                        <!-- BUTTONS -->
+                        <hlayout spacing="12px" style="margin-top:10px;">
+                            <button id="submitBtn" label="Submit" width="150px" sclass="btn-primary"/>
+                            <button id="resetBtn" label="Reset" width="150px"/>
+                        </hlayout>
+
+                    </vlayout>
+
+                </window>
+
+            </div>
+        </div>
+
+    </div>
+
+</zk>
