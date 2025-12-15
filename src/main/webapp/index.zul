@@ -184,7 +184,7 @@
         <!--  NAVBAR  -->
         <div sclass="navbar">
             <div sclass="navbar-left">
-            	<label value="CreditHuB" style="font-size:25px; font-weight:800;"/>
+            <image src="/img/logo.png" height="85px" style="margin-right: 15px;" />
                 <label value="Home" id="homeNav" style="cursor:pointer;"/>
                 <label value="About Us" id="aboutNav" style="cursor:pointer;"/>
                 <label value="Services" id="serviceNav" style="cursor:pointer;"/>
