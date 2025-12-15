@@ -10,8 +10,6 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Vlayout;
 
-import com.lms.model.User;
-
 public class ProfileController extends SelectorComposer<Vlayout> {
 
 	private static final long serialVersionUID = -3206917372193374003L;
