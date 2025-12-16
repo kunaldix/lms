@@ -1,250 +1,186 @@
 <?page title="Loan Management System" contentType="text/html;charset=UTF-8"?>
 <zk>
-    <window border="none" hflex="1" vflex="1" apply="com.lms.controller.HomePage">
-        <style>
-            body, .z-body {
-                margin: 0;
-                background: #004a99;
-                font-family: 'Poppins', sans-serif;
-                overflow: hidden; /* prevent scroll */
-            }
+	<window border="none" hflex="1" vflex="1"
+		apply="com.lms.controller.HomePage">
+		<style>
+			@import
+			url("https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css");
+			
+			@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&amp;display=swap");
+			
+			@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&amp;display=swap');
 
-            /*  NAVBAR  */
-            .navbar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                background: #004a99;
-                color: white;
-                height: 60px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0 50px;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-                z-index: 10;
-            }
+			/* Your existing styles */ @import
+			url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
 
-            .navbar-left {
-                display: flex;
-                align-items: center;
-                gap: 35px;
-            }
+			body, .z-body { margin: 0; background: #f4f6f8; font-family:
+			'Poppins', sans-serif; overflow: hidden; /* prevent scroll
+			*/ }
 
-            .navbar-left label {
-                font-weight: 500;
-                font-size: 15px;
-                cursor: pointer;
-                transition: color 0.3s;
-            }
+			/* NAVBAR */ .navbar { position: fixed; top: 0; left: 0;
+			width: 100%; background: white; color: white; height: 60px;
+			display: flex; align-items: center; justify-content:
+			space-between; padding: 0 50px; box-shadow: 0 4px 10px
+			rgba(0,0,0,0.1); z-index: 10; }
 
-            .navbar-left label:hover {
-                color: #cce0ff;
-            }
+			.navbar-left { display: flex; align-items: center; gap:
+			35px; color:#004a99;}
 
-            .navbar-right {
-                display: flex;
-                gap: 10px;
-            }
+			.navbar-left label { font-weight: 500; font-size: 15px;
+			cursor: pointer; transition: color 0.3s; }
 
-            .btn {
-                background: white;
-                color: #004a99;
-                border-radius: 20px;
-                padding: 6px 16px;
-                font-weight: 600;
-                cursor: pointer;
-                border: none;
-                font-size: 14px;
-                cursor:pointer;
-            }
+			.navbar-left label:hover { color: #cce0ff; }
 
-            .btn:hover {
-                background: #004a99;
-            }
+			.navbar-right { display: flex; gap: 10px; }
 
-            /*  PAGE CONTAINER  */
-            .page-container {
-                position: absolute;
-                top: 60px; /* below navbar */
-                bottom: 0;
-                left: 0;
-                right: 0;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                padding: 20px 60px;
-            }
+			.btn { background: #004a99; color: white; border-radius:
+			20px; padding: 6px 16px; font-weight: 600; cursor: pointer;
+			border: none; font-size: 14px; cursor:pointer; }
 
-            /*  HERO SECTION  */
-            .hero-section {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                flex: 1;
-                background: linear-gradient(120deg, #1f4b9e, #003366);
-                border-radius: 25px;
-                padding: 40px 50px;
-                color: white;
-                box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-            }
+			.btn:hover { background: white; color: #004a99; }
 
-            .hero-text {
-                max-width: 50%;
-            }
+			/* PAGE CONTAINER */ .page-container { position: absolute;
+			top: 60px; /* below navbar */ bottom: 0; left: 0; right: 0;
+			display: flex; flex-direction: column; justify-content:
+			space-between; padding: 20px 60px; }
 
-            .hero-text h1 {
-                font-size: 36px;
-                line-height: 1.3;
-                margin: 0;
-                font-weight: 700;
-            }
+			/* HERO SECTION */ .hero-section { display: flex;
+			justify-content: space-between; align-items: center; flex:
+			1; background: linear-gradient(120deg, #1f4b9e, #003366);
+			border-radius: 25px; padding: 40px 50px; color: white;
+			box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
 
-            .hero-text span {
-                color: #a5c8ff;
-            }
+			.hero-text { max-width: 50%; }
 
-            .hero-text p {
-                margin-top: 10px;
-                font-size: 15px;
-                color: #e0e8ff;
-            }
+			.hero-text h1 { font-size: 36px; line-height: 1.3; margin:
+			0; font-weight: 700; }
 
-            .know-btn {
-                margin-top: 20px;
-                background: white;
-                color: #004a99;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 20px;
-                font-weight: 600;
-                cursor: pointer;
-                font-size: 14px;
-            }
+			.hero-text span { color: #a5c8ff; }
 
-            .hero-image img {
-                width: 280px;
-                border-radius: 15px;
-                box-shadow: 0 5px 12px rgba(0,0,0,0.2);
-            }
+			.hero-text p { margin-top: 10px; font-size: 15px; color:
+			#e0e8ff; }
 
-            /*  INFO SECTION  */
-            .info-section {
-                display: flex;
-                justify-content: space-around;
-                margin-top: 20px;
-            }
+			.know-btn { margin-top: 20px; background: white; color:
+			#004a99; padding: 10px 20px; border: none; border-radius:
+			20px; font-weight: 600; cursor: pointer; font-size: 14px; }
 
-            .info-box {
-                background: white;
-                flex: 1;
-                margin: 0 10px;
-                padding: 15px;
-                border-radius: 15px;
-                text-align: center;
-                box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-                transition: 0.3s;
-            }
+			.hero-image img { width: 280px; border-radius: 15px;
+			box-shadow: 0 5px 12px rgba(0,0,0,0.2); }
 
-            .info-box:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-            }
+			/* INFO SECTION */ .info-section { display: flex;
+			justify-content: space-around; margin-top: 20px; }
 
-            .info-box i {
-                font-size: 26px;
-                color: #1f4b9e;
-                margin-bottom: 5px;
-            }
+			.info-box { background: white; flex: 1; margin: 0 10px;
+			padding: 15px; border-radius: 15px; text-align: center;
+			box-shadow: 0 3px 10px rgba(0,0,0,0.1); transition: 0.3s; }
 
-            .info-box h3 {
-                margin: 5px 0 8px;
-                font-size: 16px;
-                color: #004a99;
-            }
+			.info-box:hover { transform: translateY(-5px); box-shadow: 0
+			5px 15px rgba(0,0,0,0.15); }
 
-            .info-box p {
-                font-size: 13px;
-                color: #555;
-            }
+			.info-box i { font-size: 26px; color: #1f4b9e;
+			margin-bottom: 5px; }
 
-            /*  FOOTER  */
-            .footer {
-                text-align: center;
-                background: #004a99;
-                color: white;
-                border-radius: 15px;
-                padding: 10px;
-                font-size: 13px;
-                box-shadow: 0 -3px 8px rgba(0,0,0,0.1);
-            }
-        </style>
+			.info-box h3 { margin: 5px 0 8px; font-size: 16px; color:
+			#004a99; }
+			.brand-logo { 
+            max-width: 300px; height: 80px; margin-bottom: 5px; 
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2)); 
+        }
 
-        <!--  NAVBAR  -->
-        <div sclass="navbar">
-            <div sclass="navbar-left">
-            <image src="/img/logo.png" height="85px" style="margin-right: 15px;" />
-                <label value="Home" id="homeNav" style="cursor:pointer;"/>
-                <label value="About Us" id="aboutNav" style="cursor:pointer;"/>
-                <label value="Services" id="serviceNav" style="cursor:pointer;"/>
-                <label value="Contact" id="contactNav" style="cursor:pointer;"/>
-            </div>
-            <div sclass="navbar-right" visible="true">
-                <button sclass="btn" label="Sign Up" id="signBtn" />
-                <button sclass="btn" label="Log In"  id="logBtn"/>
-                <button label="Logout" href="/j_spring_security_logout"/>
-            </div>
-        </div>
+			.info-box p { font-size: 13px; color: #555; }
 
-        <!--  PAGE CONTENT  -->
-        <div sclass="page-container">
+			/* FOOTER */ .footer { text-align: center; background:
+			#004a99; color: white; border-radius: 15px; padding: 10px;
+			font-size: 13px; box-shadow: 0 -3px 8px rgba(0,0,0,0.1); }
+		</style>
 
-            <!-- HERO SECTION -->
-            <div sclass="hero-section">
-                <div sclass="hero-text">
-                    <html>
-                        <h1>Where <span>Money</span> Meets Trust</h1>
-                        <p>Manage your finances effortlessly with our Loan Management System.</p>
-                    </html>
-                    <button sclass="know-btn" label="Know More" id="knowMBtn"/>
-                </div>
-                <div sclass="hero-image">
-                    <image id="img" width="400px" height="auto" />
-                </div>
-            </div>
+		<!--  NAVBAR  -->
+		<div sclass="navbar">
+			<div sclass="navbar-left">
+				<image src="/img/logo.png" sclass="brand-logo"/>
+				<label value="Home" id="homeNav"
+					style="cursor:pointer;" />
+				<label value="About Us" id="aboutNav"
+					style="cursor:pointer;" />
+				<label value="Services" id="serviceNav"
+					style="cursor:pointer;" />
+				<label value="Contact" id="contactNav"
+					style="cursor:pointer;" />
+			</div>
+			<div sclass="navbar-right" visible="true">
+				<button sclass="btn" label="Sign Up" id="signBtn" />
+				<button sclass="btn" label="Log In" id="logBtn" />
+				<button label="Logout" href="/j_spring_security_logout" />
+			</div>
+		</div>
 
-            <!-- INFO SECTION -->
-            <div sclass="info-section">
-                <div sclass="info-box">
-                    <html>
-                        <h3>Saving Account</h3>
-                        <p>Grow your savings securely with flexible options.</p>
-                    </html>
-                </div>
+		<!--  PAGE CONTENT  -->
+		<div sclass="page-container">
 
-                <div sclass="info-box">
-                    <html>
-                        <h3>Business Loans</h3>
-                        <p>Expand your business with easy loan approvals.</p>
-                    </html>
-                </div>
+			<!-- HERO SECTION -->
+			<div sclass="hero-section">
+				<div sclass="hero-text">
+					<html>
+						<h1>
+							Where
+							<span>Money</span>
+							Meets Trust
+						</h1>
+						<p>
+							Manage your finances effortlessly with our
+							Loan Management System.
+						</p>
+					</html>
+					<button sclass="know-btn" label="Know More"
+						id="knowMBtn" />
+				</div>
+				<div sclass="hero-image">
+					<image id="img" width="400px" height="auto" />
+				</div>
+			</div>
 
-                <div sclass="info-box">
-                    <html>
-                        <h3>Debit &amp; Credit Card</h3>
-                        <p>Enjoy seamless transactions with our trusted card services.</p>
-                    </html>
-                </div>
-            </div>
+			<!-- INFO SECTION -->
+			<div sclass="info-section">
+				<div sclass="info-box">
+					<html>
+						<h3>Saving Account</h3>
+						<p>
+							Grow your savings securely with flexible
+							options.
+						</p>
+					</html>
+				</div>
 
-            <!-- FOOTER -->
-            <div sclass="footer">
-                <label id="welcomeMsg" value="Welcome to Loan Management System" />
-                <separator height="5px"/>
-                <label value="© 2025 Loan Management System | All Rights Reserved."/>
-            </div>
+				<div sclass="info-box">
+					<html>
+						<h3>Business Loans</h3>
+						<p>
+							Expand your business with easy loan
+							approvals.
+						</p>
+					</html>
+				</div>
 
-        </div>
-    </window>
+				<div sclass="info-box">
+					<html>
+						<h3>Debit &amp; Credit Card</h3>
+						<p>
+							Enjoy seamless transactions with our trusted
+							card services.
+						</p>
+					</html>
+				</div>
+			</div>
+
+			<!-- FOOTER -->
+			<div sclass="footer">
+				<label id="welcomeMsg"
+					value="Welcome to Loan Management System" />
+				<separator height="5px" />
+				<label
+					value="© 2025 Loan Management System | All Rights Reserved." />
+			</div>
+
+		</div>
+	</window>
 </zk>

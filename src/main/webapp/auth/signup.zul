@@ -2,6 +2,11 @@
 <zk>
     <style>
         @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+        
+        @import
+			url("https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css");
+			
+			@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&amp;display=swap");
 
         *, *::before, *::after { box-sizing: border-box; }
 
@@ -69,8 +74,8 @@
 
         .btn-submit:hover { background-color: #003377; }
 
-        .links { margin-top: 1rem; text-align: center; } 
-        .links a { color: #004a99; text-decoration: none; font-weight: 600; cursor: pointer; } 
+        .links { margin-top: 1.5rem; text-align: center; }
+        .links a { color: #004a99; text-decoration: none; margin: 0 0.5rem; font-size: 1rem; font-weight: 500;}
         .links a:hover { text-decoration: underline; }
 
         .eye-btn { 
@@ -96,7 +101,7 @@
     <div class="main-container">
 
         <div class="left-panel">
-            <image src="/img/logo.png" sclass="brand-logo" />
+            <image src="../img/logo_login.png" sclass="brand-logo"/>
             <image src="/img/hands_trust.png" sclass="trust-image" />
             
             <div style="width: 100px; height: 3px; background: rgba(255,255,255,0.4); border-radius: 2px; margin-bottom: 15px;"></div>

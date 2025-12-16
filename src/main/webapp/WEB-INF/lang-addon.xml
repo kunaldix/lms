@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<language-addon>
+	<addon-name>xyz</addon-name>
+	<language-name>xul/html</language-name>
+	<component>
+		<component-name>navbar</component-name>
+		<component-class>com.lms.custom_macro.Navbar</component-class>
+	</component>
+	<component>
+		<component-name>sidebar</component-name>
+		<component-class>com.lms.custom_macro.Sidebar</component-class>
+		<widget-class>zul.wgt.Div</widget-class>
+	</component>
+</language-addon>
+

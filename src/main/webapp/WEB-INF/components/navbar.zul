@@ -1,0 +1,37 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+    <hlayout sclass="top-header" width="100%">
+
+			<div hflex="2" style="display:flex; align-items:center;">
+
+				<image src="/img/logo.png" height="85px"
+					style="margin-right: 15px;" />
+
+				<label id="sidebarToggle" value="☰" sclass="toggle-btn" />
+			</div>
+
+			<hlayout sclass="header-actions" hflex="3">
+				<label id="greetingText" value="Welcome Back,"
+					sclass="greeting-text" />
+				<div
+					style="display:flex; align-items:center; gap:10px;">
+					<label id="loginName" sclass="login-name" />
+					<div id="avatarBox" sclass="avatar-box"
+						onClick='userMenu.open(self, "after_end")'>
+						<image id="userProfileImage"
+							sclass="avatar-img" />
+					</div>
+
+					<menupopup id="userMenu">
+						<menuitem id="popProfile" label="My Profile"
+							iconSclass="fa fa-user" onClick='Executions.sendRedirect("/profile/user_profile.zul")'/>
+						<menuitem id="popSupport" label="Support"
+							iconSclass="fa fa-headset" />
+						<menuseparator />
+						<menuitem label="Logout"
+							iconSclass="fa fa-sign-out-alt" href="/j_spring_security_logout" />
+					</menupopup>
+				</div>
+			</hlayout>
+		</hlayout>
+</zk>

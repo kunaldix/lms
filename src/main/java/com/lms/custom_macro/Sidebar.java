@@ -1,0 +1,68 @@
+package com.lms.custom_macro;
+
+import org.zkoss.zk.ui.HtmlMacroComponent;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zul.Hlayout;
+
+public class Sidebar extends HtmlMacroComponent {
+
+    private static final long serialVersionUID = 7780960820375450823L;
+    
+	// Wiring the menu items from sidebar.zul
+    @Wire private Hlayout menuDashboard;
+    @Wire private Hlayout menuLoans;
+    @Wire private Hlayout menuApply;
+    @Wire private Hlayout menuHistory;
+    @Wire private Hlayout menuProfile;
+    @Wire private Hlayout menuSupport;
+
+    private String activePage;
+
+    public Sidebar() {
+        this.setMacroURI("/WEB-INF/components/sidebar.zul");
+    }
+
+    // This allows you to use <sidebar activePage="loans" /> in ZUL
+    public void setActivePage(String page) {
+        this.activePage = page;
+    }
+
+    @Override
+    public void afterCompose() {
+        super.afterCompose();
+        
+        // Highlight the correct menu item based on the parameter
+        if ("dashboard".equals(activePage) && menuDashboard != null) {
+            menuDashboard.setSclass(menuDashboard.getSclass() + " active");
+        } else if ("loans".equals(activePage) && menuLoans != null) {
+            menuLoans.setSclass(menuLoans.getSclass() + " active");
+        } else if ("apply".equals(activePage) && menuApply != null) {
+            menuApply.setSclass(menuApply.getSclass() + " active");
+        } else if ("history".equals(activePage) && menuHistory != null) {
+            menuHistory.setSclass(menuHistory.getSclass() + " active");
+        } else if ("profile".equals(activePage) && menuProfile != null) {
+            menuProfile.setSclass(menuProfile.getSclass() + " active");
+        }
+    }
+
+    // --- Navigation Events ---
+    @Listen("onClick = #menuDashboard")
+    public void goDashboard() { Executions.sendRedirect("/user/dashboard.zul"); }
+
+    @Listen("onClick = #menuLoans")
+    public void goLoans() { Executions.sendRedirect("/user/my_loans.zul"); }
+    
+    @Listen("onClick = #menuApply")
+    public void goApply() { Executions.sendRedirect("/user/apply_loan.zul"); }
+
+    @Listen("onClick = #menuHistory")
+    public void goHistory() { Executions.sendRedirect("/user/history.zul"); }
+    
+    @Listen("onClick = #menuProfile")
+    public void goProfile() { Executions.sendRedirect("/user/profile.zul"); }
+
+    @Listen("onClick = #menuSupport")
+    public void goSupport() { Executions.sendRedirect("/user/support.zul"); }
+}

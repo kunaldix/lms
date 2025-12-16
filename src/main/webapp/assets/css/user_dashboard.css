@@ -1,186 +1,375 @@
-@charset "UTF-8";
-
-/* =========================================
-   1. GLOBAL RESETS
-   ========================================= */
-body, .z-window-embedded {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    margin: 0; padding: 0;
-    background-color: #f4f6f8;
-    overflow: hidden; 
-}
-
-/* =========================================
-   2. LAYOUT & SIDEBAR
-   ========================================= */
-.sidebar {
-    width: 250px;
-    background-color: #004a99;
-    color: #fff;
-    height: 100vh;
-    position: fixed;
-    top: 60px; /* Must match header height */
-    left: 0;
-    transition: width 0.3s ease;
-    z-index: 100;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-top: 20px;
-}
-
-.main-container {
-    margin-left: 250px;
-    margin-top: 60px; /* Must match header height */
-    padding: 25px;
-    width: calc(100% - 250px);
-    height: calc(100vh - 60px);
-    background-color: #f4f6f8;
-    transition: margin-left 0.3s ease, width 0.3s ease;
-    overflow-y: auto;
-}
-
-/* --- SIDEBAR COLLAPSED LOGIC --- */
-.sidebar.collapsed {
-    width: 80px;
-}
-
-.main-container.enlarge {
-    margin-left: 80px;
-    width: calc(100% - 80px);
-}
-
-.sidebar.collapsed .menu-text {
-    display: none;
-}
-
-.sidebar.collapsed .menu-item {
-    justify-content: center;
-    padding: 15px 0;
-}
-
-.sidebar.collapsed .menu-icon {
-    margin-right: 0;
-    font-size: 20px;
-}
-
-/* =========================================
-   3. HEADER (Blue Background with White Text)
-   ========================================= */
-.top-header { /* Fixed: Added the missing dot (.) */
-    background: #004a99; /* Brand Blue */
-    height: 60px;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 200;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-}
-
-.brand-title { 
-    font-size: 20px; 
-    font-weight: 800; 
-    color: #fff; /* Changed to White */
-    margin-right: 15px; 
-    text-transform: uppercase; 
-}
-
-.toggle-btn { 
-    font-size: 20px; 
-    cursor: pointer; 
-    color: #fff; /* Changed to White */
-    padding: 5px; 
-}
-
-.toggle-btn:hover { 
-    color: rgba(255,255,255,0.8); 
-}
-
-.header-actions { 
-    display: flex; 
-    justify-content: flex-end; 
-    align-items: center; 
-}
-
-.greeting-text { 
-    font-size: 14px; 
-    color: rgba(255,255,255,0.8); /* Light White/Grey */
-    margin-right: 15px; 
-}
-
-.login-name { 
-    font-weight: bold; 
-    color: #fff; /* Changed to White */
-    font-size: 14px; 
-}
-
-.avatar-box { 
-    width: 35px; 
-    height: 35px; 
-    background: #fff; /* White background */
-    color: #004a99;   /* Blue text */
-    border-radius: 50%; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    font-weight: bold; 
-}
-
-/* =========================================
-   4. MENU ITEMS
-   ========================================= */
-.menu-item {
-    display: flex; align-items: center; padding: 12px 25px;
-    cursor: pointer; color: rgba(255,255,255,0.8);
-    transition: background 0.2s; border-left: 4px solid transparent;
-    white-space: nowrap;
-}
-.menu-item:hover { background-color: rgba(255,255,255,0.1); color: #fff; }
-.menu-item.active { background-color: rgba(255,255,255,0.15); color: #fff; border-left: 4px solid #fff; }
-.menu-icon { font-size: 18px; width: 30px; text-align: center; margin-right: 10px; }
-
-/* =========================================
-   5. DASHBOARD CARDS
-   ========================================= */
-.card-container { display: flex; gap: 20px; margin-bottom: 25px; flex-wrap: wrap; }
-.dash-card {
-    flex: 1; min-width: 200px; background: #fff;
-    border-radius: 8px; padding: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    position: relative; overflow: hidden;
-    display: flex; flex-direction: column; justify-content: center;
-}
-.card-number { font-size: 24px; font-weight: 800; margin-bottom: 5px; display: block; }
-.card-label { font-size: 13px; color: #666; text-transform: uppercase; font-weight: 600; }
-.card-icon {
-    position: absolute; right: 15px; top: 50%;
-    transform: translateY(-50%);
-    font-size: 40px; 
-    opacity: 0.15; 
-}
-
-/* Colors */
-.card-blue { border-left: 4px solid #004a99; }
-.card-blue .card-number { color: #004a99; }
-
-.card-green { border-left: 4px solid #2e7d32; }
-.card-green .card-number { color: #2e7d32; }
-
-.card-orange { border-left: 4px solid #f57c00; }
-.card-orange .card-number { color: #f57c00; }
-
-.card-red { border-left: 4px solid #c62828; }
-.card-red .card-number { color: #c62828; }
-
-/* =========================================
-   6. CHARTS & LISTS
-   ========================================= */
-.charts-row { display: flex; gap: 20px; margin-bottom: 25px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-.section-title { font-size: 18px; font-weight: 700; color: #333; margin-bottom: 15px; display: block; padding-left: 5px; border-left: 4px solid #004a99; line-height: 1; }
-.z-listbox { border: none !important; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-.z-listheader-content { background: #f8f9fa !important; color: #555 !important; font-weight: 700 !important; padding: 12px !important; }
-.z-listcell-content { padding: 12px !important; color: #333; }
-.footer-bar { margin-top: 30px; padding: 15px; border-top: 1px solid #e0e0e0; color: #888; font-size: 12px; display: flex; justify-content: center; }
+	@charset "UTF-8";
+	
+	/* =========================================
+	   1. GLOBAL RESETS
+	   ========================================= */
+	body, .z-window-embedded {
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+			"Helvetica Neue", Arial, sans-serif;
+		margin: 0;
+		padding: 0;
+		background-color: #f4f6f8;
+		overflow: hidden;
+	}
+	
+	/* =========================================
+	   2. LAYOUT & SIDEBAR
+	   ========================================= */
+	.sidebar {
+		width: 250px;
+		background-color: #004a99;
+		color: #fff;
+		height: 100vh;
+		position: fixed;
+		top: 60px; /* Must match header height */
+		left: 0;
+		transition: width 0.3s ease;
+		z-index: 100;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding-top: 20px;
+	}
+	
+	.main-container {
+		margin-left: 250px;
+		margin-top: 60px; /* Must match header height */
+		padding: 25px;
+		width: calc(100% - 250px);
+		height: calc(100vh - 60px);
+		background-color: #f4f6f8;
+		transition: margin-left 0.3s ease, width 0.3s ease;
+		overflow-y: auto;
+	}
+	
+	/* --- SIDEBAR COLLAPSED LOGIC --- */
+	.sidebar.collapsed {
+		width: 80px;
+	}
+	
+	.main-container.enlarge {
+		margin-left: 80px;
+		width: calc(100% - 80px);
+	}
+	
+	.sidebar.collapsed .menu-text {
+		display: none;
+	}
+	
+	.sidebar.collapsed .menu-item {
+		justify-content: center;
+		padding: 15px 0;
+	}
+	
+	.sidebar.collapsed .menu-icon {
+		margin-right: 0;
+		font-size: 20px;
+	}
+	
+	/* =========================================
+	   3. HEADER (White Background with Blue Text)
+	   ========================================= */
+	.top-header {
+		background: #ffffff;
+		height: 60px;
+		width: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 200;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+		display: flex;
+		align-items: center;
+		padding: 0 20px;
+		border-bottom: 1px solid #e0e0e0;
+	}
+	
+	.brand-title {
+		font-size: 20px;
+		font-weight: 800;
+		color: #004a99;
+		margin-right: 15px;
+		text-transform: uppercase;
+	}
+	
+	.toggle-btn {
+		font-size: 24px;
+		cursor: pointer;
+		color: #004a99;
+		padding: 5px;
+		margin-left: 10px;
+	}
+	
+	.toggle-btn:hover {
+		color: #003377;
+	}
+	
+	.header-actions {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+	}
+	
+	.greeting-text {
+		font-size: 14px;
+		color: #666666;
+		margin-right: 15px;
+		font-weight: 500;
+	}
+	
+	.login-name {
+		font-weight: 700;
+		color: #004a99;
+		font-size: 15px;
+	}
+	
+	/* --- AVATAR UPDATES --- */
+	.avatar-box {
+		width: 40px;       /* Slightly larger for image */
+		height: 40px;
+		border-radius: 50%;
+		overflow: hidden;  /* Cuts the image into a circle */
+		border: 2px solid #004a99; 
+		background: #fff;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		box-shadow: 0 2px 5px rgba(0, 74, 153, 0.2);
+	}
+	
+	.avatar-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover; /* Prevents image stretching */
+		display: block;
+	}
+	
+	/* =========================================
+	   4. MENU ITEMS
+	   ========================================= */
+	.menu-item {
+		display: flex;
+		align-items: center;
+		padding: 12px 25px;
+		cursor: pointer;
+		color: rgba(255, 255, 255, 0.8);
+		transition: background 0.2s;
+		border-left: 4px solid transparent;
+		white-space: nowrap;
+	}
+	
+	.menu-item:hover {
+		background-color: rgba(255, 255, 255, 0.1);
+		color: #fff;
+	}
+	
+	.menu-item.active {
+		background-color: rgba(255, 255, 255, 0.15);
+		color: #fff;
+		border-left: 4px solid #fff;
+	}
+	
+	.menu-icon {
+		font-size: 18px;
+		width: 30px;
+		text-align: center;
+		margin-right: 10px;
+	}
+	
+	/* =========================================
+	   5. DASHBOARD CARDS
+	   ========================================= */
+	.card-container {
+		display: flex;
+		gap: 20px;
+		margin-bottom: 25px;
+		flex-wrap: wrap;
+	}
+	
+	.dash-card {
+		flex: 1;
+		min-width: 200px;
+		background: #fff;
+		border-radius: 8px;
+		padding: 20px;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+		position: relative;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+	
+	.card-number {
+		font-size: 24px;
+		font-weight: 800;
+		margin-bottom: 5px;
+		display: block;
+	}
+	
+	.card-label {
+		font-size: 13px;
+		color: #666;
+		text-transform: uppercase;
+		font-weight: 600;
+	}
+	
+	.card-icon {
+		position: absolute;
+		right: 15px;
+		top: 50%;
+		transform: translateY(-50%);
+		font-size: 40px;
+		opacity: 0.15;
+	}
+	
+	/* Colors */
+	.card-blue {
+		border-left: 4px solid #004a99;
+	}
+	
+	.card-blue .card-number {
+		color: #004a99;
+	}
+	
+	.card-green {
+		border-left: 4px solid #2e7d32;
+	}
+	
+	.card-green .card-number {
+		color: #2e7d32;
+	}
+	
+	.card-orange {
+		border-left: 4px solid #f57c00;
+	}
+	
+	.card-orange .card-number {
+		color: #f57c00;
+	}
+	
+	.card-red {
+		border-left: 4px solid #c62828;
+	}
+	
+	.card-red .card-number {
+		color: #c62828;
+	}
+	
+	/* =========================================
+	   6. CHARTS & LISTS
+	   ========================================= */
+	.charts-row {
+		display: flex;
+		gap: 20px;
+		margin-bottom: 25px;
+		background: #fff;
+		padding: 20px;
+		border-radius: 8px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+	}
+	
+	.section-title {
+		font-size: 18px;
+		font-weight: 700;
+		color: #333;
+		margin-bottom: 15px;
+		display: block;
+		padding-left: 5px;
+		border-left: 4px solid #004a99;
+		line-height: 1;
+	}
+	
+	.z-listbox {
+		border: none !important;
+		border-radius: 8px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+	}
+	
+	.z-listheader-content {
+		background: #f8f9fa !important;
+		color: #555 !important;
+		font-weight: 700 !important;
+		padding: 12px !important;
+	}
+	
+	.z-listcell-content {
+		padding: 12px !important;
+		color: #333;
+	}
+	
+	/* =========================================
+	   7. POPUP MENU STYLING
+	   ========================================= */
+	
+	/* The Main Popup Container */
+	.z-menupopup {
+	    background: #ffffff !important;
+	    border: 1px solid #e0e0e0 !important;
+	    border-radius: 8px !important;
+	    box-shadow: 0 5px 15px rgba(0,0,0,0.15) !important;
+	    padding: 5px 0 !important;
+	    min-width: 180px !important;
+	}
+	
+	/* Hide the ugly default sidebar/gutter in the menu */
+	.z-menupopup-content {
+	    background: transparent !important;
+	}
+	.z-menu-content, .z-menuitem-content {
+	    background: transparent !important;
+	}
+	
+	/* Individual Menu Items */
+	.z-menuitem {
+	    transition: background 0.2s;
+	}
+	
+	/* The Text inside the menu item */
+	.z-menuitem-text {
+	    color: #444 !important;
+	    font-size: 14px !important;
+	    font-weight: 500 !important;
+	    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+	}
+	
+	/* The Icons inside the menu item */
+	.z-menuitem-icon {
+	    color: #004a99 !important; /* Brand Blue */
+	    font-size: 16px !important;
+	    margin-right: 10px !important;
+	}
+	
+	/* HOVER STATE: When user moves mouse over an item */
+	.z-menuitem-hover {
+	    background: #f0f7ff !important; /* Very light blue background */
+	    border-radius: 4px;
+	}
+	
+	.z-menuitem-hover .z-menuitem-text {
+	    color: #004a99 !important; /* Text turns blue on hover */
+	}
+	
+	/* The Separator Line */
+	.z-menuseparator {
+	    background: #eee !important;
+	    border-top: 1px solid #eee !important;
+	    margin: 5px 10px !important;
+	    height: 1px !important;
+	    line-height: 1px !important;
+	}
+	
+	/* Fix for the internal image structure of ZK items to ensure alignment */
+	.z-menuitem-image {
+	    display: none; /* Hide default ZK icon placeholders if using FontAwesome classes directly on label/iconSclass */
+	}
+	
+	.footer-bar {
+		margin-top: 30px;
+		padding: 15px;
+		border-top: 1px solid #e0e0e0;
+		color: #888;
+		font-size: 12px;
+		display: flex;
+		justify-content: center;
+	}

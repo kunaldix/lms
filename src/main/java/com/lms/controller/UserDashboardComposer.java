@@ -9,10 +9,13 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Hlayout;
+import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Vlayout;
+
+import com.lms.model.User;
 
 public class UserDashboardComposer extends SelectorComposer<Vlayout> {
 
@@ -20,8 +23,6 @@ public class UserDashboardComposer extends SelectorComposer<Vlayout> {
 
 	@Wire
 	private Label lblTotalBorrowed, lblActiveLoans, lblNextEmi, lblOutstanding;
-	@Wire
-	private Label loginName, avatarLetter;
 	@Wire
 	private Hlayout menuMyLoans, menuApply;
 	@Wire
@@ -41,18 +42,11 @@ public class UserDashboardComposer extends SelectorComposer<Vlayout> {
 	public void doAfterCompose(Vlayout comp) throws Exception {
 		super.doAfterCompose(comp);
 
-		// 1. Get Logged in User 
-		String user = (String) Sessions.getCurrent().getAttribute("loggedUser");
-		if (user == null) user = "User"; // Fallback if session is empty
-
-		loginName.setValue(user);
-		avatarLetter.setValue(user.substring(0, 1).toUpperCase());
-
 		// 2. Navigation
-		menuMyLoans.addEventListener(Events.ON_CLICK, e -> Executions.sendRedirect("/user/my_loans.zul"));
-		menuApply.addEventListener(Events.ON_CLICK, e -> Executions.sendRedirect("/user/apply_loan.zul"));
-		
-		sidebarToggle.addEventListener(Events.ON_CLICK, evt -> toggleSidebar());
+//		menuMyLoans.addEventListener(Events.ON_CLICK, e -> Executions.sendRedirect("/user/my_loans.zul"));
+//		menuApply.addEventListener(Events.ON_CLICK, e -> Executions.sendRedirect("/user/apply_loan.zul"));
+//		
+		//sidebarToggle.addEventListener(Events.ON_CLICK, evt -> toggleSidebar());
 		
 		// 3. Setup Charts dimensions
 		repaymentChart.setWidth(500);

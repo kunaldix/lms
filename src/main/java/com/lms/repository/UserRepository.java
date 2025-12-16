@@ -168,6 +168,7 @@ public class UserRepository {
 			user.setPassword(rs.getString("password"));
 			user.setPhoneNumber(rs.getString("phone_number"));
 			user.setRole(rs.getString("role").equals("CUSTOMER") ? Role.CUSTOMER : Role.ADMIN);
+			user.setProfileImage(rs.getString("profile_image"));
 
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -35,7 +35,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 
 		// 3. Store the user in the Session
 		HttpSession session = request.getSession();
-		session.setAttribute("user", user);
+        session.setAttribute("user", user);
 
 		String targetUrl = request.getContextPath(); // Default to root
 
