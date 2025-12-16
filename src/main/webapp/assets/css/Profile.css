@@ -1,179 +1,40 @@
+@charset "UTF-8";
+
 /* ===========================================
-   GLOBAL
+   1. GLOBAL FONT & BACKGROUND (Keep this)
 =========================================== */
 body, .z-body {
     font-family: "Poppins", sans-serif;
     background: #f5f7fb;
-    margin: 0;
-    padding: 0;
 }
 
 /* ===========================================
-   TOP HEADER
+   2. REMOVED CONFLICTING SECTIONS
+   
+   I have REMOVED the following classes from here because 
+   they are already handled correctly in layout.css:
+   
+   - .top-header
+   - .sidebar
+   - .main-container
+   - .toggle-btn
+   - .menu-item
+   
+   Keeping them here was causing the broken layout.
 =========================================== */
-.top-header {
-	position:fixed;
-	z-index:5;
-    width: 100%;
-    background: #ffffff;
-    padding: 18px 28px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    display: flex;
-    align-items: center;
-}
-
-.brand-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #004c8f;
-}
-
-.toggle-btn {
-    font-size: 26px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 25px;
-    margin-right: 25px;
-    transition: 0.3s ease;
-}
-
-/* Rotate when sidebar collapsed */
-.sidebar.collapsed ~ .main-container .toggle-btn {
-    transform: rotate(180deg);
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 12px;
-    padding-right: 20px;
-    width: 100%;
-}
-
-.greeting-text {
-    font-size: 16px;
-    font-weight: 500;
-    color: #444;
-}
-
-.login-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: #222;
-}
-
-.avatar-box {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: #4A90E2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.avatar-box label {
-    color: #fff;
-    font-size: 18px;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-
 
 
 /* ===========================================
-   SIDEBAR
+   3. PROFILE PAGE SPECIFIC STYLES
+   (This is what you actually need in this file)
 =========================================== */
-.sidebar {
-	position: fixed; 
-	margin-top:5%;          
-    width: 20%;
-    z-index:4;
-    background: #004c8f;
-    height: 100vh;
-    transition: width 0.3s ease; 
-    padding: 20px 0;
-}
 
-.sidebar.collapsed {
-    width: 5%;
-}
-
-/* Menu item */
-.menu-item {
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    border-radius: 8px;
-    margin: 5px 12px;
-    transition: 0.25s;
-    color: white;
-    gap: 12px;
-}
-
-.menu-item:hover {
-    background: white;
-    color: black;
-    
-}
-
-.menu-item:hover .menu-icon {
-    color: black !important;
-}
-
-.menu-item.active {
-    background: white;
-    color: black;
-}
-.menu-item.active .menu-icon {
-    color: black !important;
-}
-
-/* Icons */
-.menu-icon {
-    font-size: 18px;
-    width: 28px;
-    text-align: center;
-    color: white !important;
-}
-
-/* Collapse → hide menu text */
-.sidebar.collapsed .menu-item label:not(.menu-icon) {
-    display: none;
-    
-}
-
-.sidebar.collapsed .menu-item.active {
-	background: #004c8f;
-}
-
-/* ===========================================
-   MAIN CONTENT
-=========================================== */
-.main-container {
-	margin-left: 20%;
-	transition: margin-left 0.3s ease;
-    width: calc(100% - 20%); 
-	height: 100%;
-    padding: 25px;
-    overflow-y: auto;
-}
-
-.main-container.enlarge {
-	margin-left: 5%;         
-    width: calc(100% - 5%); 
-}
-
-/* ============================
-   Cover Section
-============================ */
+/* --- Cover Section --- */
 .profile-cover {
     width: 100%;
     height: 260px;
     position: relative;
+    border-radius: 0 0 12px 12px;
 }
 
 .cover-img {
@@ -181,6 +42,7 @@ body, .z-body {
     height: 100%;
     object-fit: cover;
     filter: brightness(0.85);
+    border-radius: 8px;
 }
 
 .profile-avatar-box {
@@ -196,36 +58,34 @@ body, .z-body {
     border: 5px solid #ffffff;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     transition: 0.3s ease;
+    background: #fff;
 }
 
 .profile-avatar:hover {
     transform: scale(1.05);
 }
 
-/* Edit button */
+/* --- Edit Button --- */
 .edit-profile-btn {
     position: absolute;
     right: 40px;
     bottom: 20px;
-    background: #fff;
+    background: #004c8f;
     border-radius: 20px;
     padding: 8px 20px;
     border: none;
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    background: #004c8f;
     color: white;
 }
 
 .edit-profile-btn:hover {
     background: white;
-    color: black;
+    color: #004c8f;
 }
 
-/* ============================
-   Basic Header Info
-============================ */
+/* --- Basic Header Info --- */
 .profile-header {
     margin-top: 70px;
     padding-left: 40px;
@@ -241,14 +101,16 @@ body, .z-body {
     font-size: 16px;
     color: #666;
     margin-top: 5px;
+    display: block;
 }
 
 .profile-email {
     font-size: 13px;
     color: #999;
+    display: block;
 }
 
-/* Stats */
+/* --- Stats --- */
 .profile-stats {
     margin-top: 18px;
     gap: 35px;
@@ -258,15 +120,15 @@ body, .z-body {
     font-size: 22px;
     font-weight: 700;
     color: #004c8f;
+    display: block;
 }
 
 .stat-label {
     color: #777;
+    font-size: 13px;
 }
 
-/* ============================
-   Cards
-============================ */
+/* --- Cards Area --- */
 .profile-card-area {
     margin-top: 20px;
     gap: 25px;
@@ -279,32 +141,37 @@ body, .z-body {
 .card {
     background: #ffffff;
     padding: 25px;
-    border-radius: 18px;
+    border-radius: 12px;
     margin-bottom: 25px;
     transition: 0.3s ease;
-}
-
-.shadow {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
 .card-title {
     font-size: 18px;
     font-weight: 700;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
 }
 
+/* --- Info Grid --- */
+.info-grid tr td {
+    padding: 8px 0;
+}
 .info-grid label:first-child {
     font-weight: 600;
+    color: #555;
+    width: 120px;
+    display: inline-block;
 }
 
-/* ============================
-   Activity List
-============================ */
+/* --- Activity List --- */
 .time-badge {
     background: #edf3ff;
     padding: 3px 10px;
@@ -314,17 +181,24 @@ body, .z-body {
     font-weight: 600;
 }
 
-/* Status */
+/* --- Document Status --- */
 .verified-status {
     color: green;
     font-weight: 600;
+    background: #e8f5e9;
+    padding: 4px 8px;
+    border-radius: 4px;
 }
 
 .pending-status {
     color: #e67e22;
     font-weight: 600;
+    background: #fff3e0;
+    padding: 4px 8px;
+    border-radius: 4px;
 }
 
+/* --- Edit Window --- */
 .edit-profile-window {
     border-radius: 12px !important;
     padding: 15px;
@@ -353,16 +227,13 @@ body, .z-body {
 
 .save-btn {
     background: #00a35a;
-    color:white;
+    color: white;
     border-radius: 6px;
     padding: 8px 18px;
 }
 
 .cancel-btn {
-    background:#c9c9c9;
+    background: #c9c9c9;
     border-radius: 6px;
     padding: 8px 18px;
 }
-
-
-

@@ -1,28 +1,37 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/layout.css" ?>
 <zk>
     <vlayout id="sidebar" sclass="sidebar">
-        <hlayout sclass="menu-item ${arg.activePage == 'dashboard' ? 'active' : ''}" 
-                 onClick='Executions.sendRedirect("/user/dashboard.zul")'>
+        
+        <hlayout id="menuDashboard" sclass="menu-item">
             <label sclass="menu-icon fa fa-home" />
             <label value="My Dashboard" sclass="menu-text" />
         </hlayout>
 
-        <hlayout sclass="menu-item ${arg.activePage == 'loans' ? 'active' : ''}"
-                 onClick='Executions.sendRedirect("/user/my_loans.zul")'>
+        <hlayout id="menuLoans" sclass="menu-item">
             <label sclass="menu-icon fa fa-money-bill-wave" />
             <label value="My Loans" sclass="menu-text" />
         </hlayout>
 
-        <hlayout sclass="menu-item ${arg.activePage == 'apply' ? 'active' : ''}"
-                 onClick='Executions.sendRedirect("/user/apply_loan.zul")'>
+        <hlayout id="menuApply" sclass="menu-item">
             <label sclass="menu-icon fa fa-plus-circle" />
             <label value="Apply New Loan" sclass="menu-text" />
         </hlayout>
 
-        <hlayout sclass="menu-item ${arg.activePage == 'history' ? 'active' : ''}"
-                 onClick='Executions.sendRedirect("/user/history.zul")'>
+        <hlayout id="menuHistory" sclass="menu-item">
             <label sclass="menu-icon fa fa-history" />
             <label value="History" sclass="menu-text" />
         </hlayout>
+        
+        <hlayout id="menuProfile" sclass="menu-item">
+            <label sclass="menu-icon fa fa-user" />
+            <label value="My Profile" sclass="menu-text" />
+        </hlayout>
+
+        <hlayout id="menuSupport" sclass="menu-item">
+            <label sclass="menu-icon fa fa-headset" />
+            <label value="Support" sclass="menu-text" />
+        </hlayout>
+
     </vlayout>
 </zk>

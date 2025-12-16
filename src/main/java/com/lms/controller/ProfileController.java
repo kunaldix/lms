@@ -1,58 +1,72 @@
 package com.lms.controller;
 
-import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Component; // Correct Import
+import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Combobox;
-import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Vlayout;
+import com.lms.model.User;
 
-public class ProfileController extends SelectorComposer<Vlayout> {
+public class ProfileController extends SelectorComposer<Component> {
 
-	private static final long serialVersionUID = -3206917372193374003L;
-	
-	@Wire 
-	private Textbox txtFullName, txtEmail, txtMobile;
-	
-    @Wire 
-    private Datebox txtDob;
-    
-    @Wire 
-    private Combobox cmbGender;
-	
-    @Wire
-	private Listbox loanListbox;
+	private static final long serialVersionUID = 1L;
 
-	@Wire
-	private Vlayout sidebar;
-	
+	// Only Wire components that actually exist in profile.zul with IDs
 	@Wire
 	private Vlayout mainContainer;
 	
 	@Wire
-	private Label sidebarToggle;
+	private Label userName,role,email;
+	
+	@Wire
+	private Image userProfileImage;
 
 	@Override
-	public void doAfterCompose(Vlayout comp) throws Exception {
+	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
-
-		sidebarToggle.addEventListener(Events.ON_CLICK, evt -> toggleSidebar());
-	}
-
-	private void toggleSidebar() {
-		if (sidebar.getSclass().contains("collapsed")) {
-			sidebar.setSclass("sidebar");
-			mainContainer.setSclass("main-container");
-			
-		} else {
-			sidebar.setSclass("sidebar collapsed");
-			mainContainer.setSclass("main-container enlarge");
-			
-		}
+		
+		// 1. Subscribe to Sidebar Toggle
+		EventQueues.lookup("dashboardQueue", EventQueues.DESKTOP, true)
+        .subscribe(event -> {
+            if ("onSidebarToggle".equals(event.getName())) {
+                resizeContent();
+            }
+        });
+		
+		// 2. Get User
+		User currentUser = (User) Sessions.getCurrent().getAttribute("user");
+        if (currentUser == null) {
+            Executions.sendRedirect("/auth/login.zul");
+            return; 
+        }
+        
+        // 3. Null-Safe Data Loading
+        // We check if 'userName' is not null before setting value to prevent crashes
+        if (userName != null) {
+            userName.setValue(currentUser.getName());
+        }
+        
+        if (userProfileImage != null) {
+            String img = currentUser.getProfileImage();
+            if (img != null && !img.isEmpty()) {
+            	userProfileImage.setSrc("/img/" + img);
+            }
+        }
+        role.setValue(currentUser.getRole().name());
+        email.setValue(currentUser.getEmail());
 	}
 	
-	
+	private void resizeContent() {
+		if (mainContainer != null) {
+            if (mainContainer.getSclass().contains("enlarge")) {
+                mainContainer.setSclass("main-container");
+            } else {
+                mainContainer.setSclass("main-container enlarge");
+            }
+        }
+    }
 }

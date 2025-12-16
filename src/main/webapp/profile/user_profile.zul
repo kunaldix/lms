@@ -1,132 +1,49 @@
-<?page title="Admin_Dashboard" contentType="text/html;charset=UTF-8"?>
+<?page title="Profile | CreditHub" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/layout.css" ?>
 <?link rel="stylesheet" type="text/css" href="/assets/css/Profile.css" ?>
-<zk>
 
-	<!-- Font Awesome -->
+<zk>
 	<style>
 		@import
 		url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
 	</style>
 
-	<vlayout width="100%" height="100%" style="overflow-y:auto;"
+	<vlayout width="100%" height="100%"
 		apply="com.lms.controller.ProfileController">
-		<hlayout sclass="top-header" width="100%">
-			<div hflex="2">
-				<label value="CreditHuB" sclass="brand-title" />
-				<label id="sidebarToggle" value="☰" sclass="toggle-btn" />
-				<space />
-			</div>
 
-			<hlayout sclass="header-actions" hflex="3">
+		<navbar id="myNavbar" />
 
-				<!-- Greeting -->
-				<label id="greetingText" value="Hello, Admin"
-					sclass="greeting-text" />
-				<div
-					style="display:flex; align-items:center; gap:10px;">
-					<!-- Name -->
-					<label id="loginName" value="Aashish"
-						sclass="login-name" />
-
-					<!-- Avatar -->
-					<div id="avatarBox" sclass="avatar-box">
-						<label id="avatarLetter" value="A" />
-					</div>
-				</div>
-			</hlayout>
-		</hlayout>
 		<hlayout sclass="main-content" width="100%" height="100%">
 
-			<!-- SIDEBAR -->
-			<vlayout id="sidebar" sclass="sidebar">
-				<!-- Dashboard -->
-				<hlayout sclass="menu-item active">
-					<label sclass="menu-icon fa fa-gauge" />
-					<label value="Dashboard" />
-				</hlayout>
+			<sidebar id="sidebarMacro" activePage="profile" />
 
-				<!-- Loans -->
-				<hlayout sclass="menu-item" id="menuLoans">
-					<label sclass="menu-icon fa fa-coins" />
-					<label value="Loans" />
-				</hlayout>
 
-				<!-- Applications -->
-				<hlayout sclass="menu-item" id="menuApplications">
-					<label sclass="menu-icon fa fa-file-lines" />
-					<label value="Applications" />
-				</hlayout>
-
-				<!-- Users -->
-				<hlayout sclass="menu-item">
-					<label sclass="menu-icon fa fa-users" />
-					<label value="Users" />
-				</hlayout>
-
-				<!-- Reports -->
-				<hlayout sclass="menu-item" id="menuReports">
-					<label sclass="menu-icon fa fa-chart-line" />
-					<label value="Reports" />
-				</hlayout>
-
-				<!-- Payments -->
-				<hlayout sclass="menu-item">
-					<label sclass="menu-icon fa fa-wallet" />
-					<label value="Payments" />
-				</hlayout>
-
-				<!-- Settings -->
-				<hlayout sclass="menu-item">
-					<label sclass="menu-icon fa fa-gear" />
-					<label value="Settings" />
-				</hlayout>
-
-				<!-- Notifications -->
-				<hlayout sclass="menu-item">
-					<label sclass="menu-icon fa fa-bell" />
-					<label value="Notifications" />
-				</hlayout>
-
-				<!-- Support -->
-				<hlayout sclass="menu-item">
-					<label sclass="menu-icon fa fa-headset" />
-					<label value="Support" />
-				</hlayout>
-
-			</vlayout>
-
-			<!-- MAIN CONTENT -->
 			<vlayout id="mainContainer" sclass="main-container">
 
 				<vlayout sclass="profile-wrapper">
 
-					<!-- COVER SECTION -->
 					<div sclass="profile-cover">
 						<image src="/img/cover.jpg" sclass="cover-img" />
 
-						<!-- Avatar -->
 						<div sclass="profile-avatar-box">
-							<image src="/img/avatar.jpg"
+							<image id="userProfileImage"
 								sclass="profile-avatar" />
 						</div>
 
-						<!-- Edit Button -->
 						<button label="Edit Profile"
-							sclass="edit-profile-btn" onClick="profileWin.open()"/>
+							sclass="edit-profile-btn" onClick="profileWin.open()" />
 					</div>
 
-					<!-- BASIC INFO -->
 					<div sclass="profile-header">
-						<label value="Aashish Dixit"
+						<label id="userName"
 							sclass="profile-name" />
-							<separator height="2px"/>
-						<label value="Administrator • CreditHub"
+						<separator height="2px" />
+						<label id="role"
 							sclass="profile-role" />
-							<separator height="2px"/>
-						<label value="Aashish@example.com"
+						<separator height="2px" />
+						<label id="email"
 							sclass="profile-email" />
 
-						<!-- Stats -->
 						<hbox sclass="profile-stats">
 							<vlayout>
 								<label value="245" sclass="stat-number" />
@@ -146,13 +63,10 @@
 						</hbox>
 					</div>
 
-					<!-- CARD AREA -->
 					<hlayout sclass="profile-card-area">
 
-						<!-- LEFT PANEL -->
 						<vlayout sclass="left-card" hflex="1">
 
-							<!-- Personal Info -->
 							<div sclass="card shadow">
 								<label value="Personal Information"
 									sclass="card-title" />
@@ -187,7 +101,6 @@
 								</grid>
 							</div>
 
-							<!-- Address -->
 							<div sclass="card shadow">
 								<label value="Address"
 									sclass="card-title" />
@@ -217,10 +130,8 @@
 
 						</vlayout>
 
-						<!-- RIGHT PANEL -->
 						<vlayout sclass="right-card" hflex="1">
 
-							<!-- Activity -->
 							<div sclass="card shadow">
 								<label value="Recent Activity"
 									sclass="card-title" />
@@ -263,7 +174,6 @@
 								</listbox>
 							</div>
 
-							<!-- Documents -->
 							<div sclass="card shadow">
 								<label value="Documents"
 									sclass="card-title" />
@@ -295,12 +205,9 @@
 										</listcell>
 									</listitem>
 								</listbox>
-
 							</div>
 						</vlayout>
-
 					</hlayout>
-
 				</vlayout>
 			</vlayout>
 		</hlayout>

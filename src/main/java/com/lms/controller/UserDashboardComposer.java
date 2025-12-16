@@ -3,19 +3,14 @@ package com.lms.controller;
 import org.zkoss.chart.Charts;
 import org.zkoss.chart.model.DefaultCategoryModel;
 import org.zkoss.chart.model.DefaultPieModel;
-import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Hlayout;
-import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Vlayout;
-
-import com.lms.model.User;
 
 public class UserDashboardComposer extends SelectorComposer<Vlayout> {
 
@@ -32,21 +27,19 @@ public class UserDashboardComposer extends SelectorComposer<Vlayout> {
 	@Wire
 	private Listbox emiListbox;
 	
-	// Sidebar Logic
 	@Wire
-	private Vlayout sidebar, mainContainer;
-	@Wire
-	private Label sidebarToggle;
+	private Vlayout mainContainer;
 
 	@Override
 	public void doAfterCompose(Vlayout comp) throws Exception {
 		super.doAfterCompose(comp);
-
-		// 2. Navigation
-//		menuMyLoans.addEventListener(Events.ON_CLICK, e -> Executions.sendRedirect("/user/my_loans.zul"));
-//		menuApply.addEventListener(Events.ON_CLICK, e -> Executions.sendRedirect("/user/apply_loan.zul"));
-//		
-		//sidebarToggle.addEventListener(Events.ON_CLICK, evt -> toggleSidebar());
+		
+		EventQueues.lookup("dashboardQueue", EventQueues.DESKTOP, true)
+        .subscribe(event -> {
+            if ("onSidebarToggle".equals(event.getName())) {
+                resizeContent();
+            }
+        });
 		
 		// 3. Setup Charts dimensions
 		repaymentChart.setWidth(500);
@@ -60,22 +53,25 @@ public class UserDashboardComposer extends SelectorComposer<Vlayout> {
 		loadEmiHistoryChart();
 		loadUpcomingEmis();
 	}
-
-	private void toggleSidebar() {
-		if (sidebar.getSclass().contains("collapsed")) {
-			sidebar.setSclass("sidebar");
-			mainContainer.setSclass("main-container");
-			repaymentChart.setWidth(500);
-			emiHistoryChart.setWidth(500);
-		} else {
-			sidebar.setSclass("sidebar collapsed");
-			mainContainer.setSclass("main-container enlarge");
-			repaymentChart.setWidth(600);
-			emiHistoryChart.setWidth(600);
-		}
-		repaymentChart.invalidate();
-		emiHistoryChart.invalidate();
-	}
+	
+	private void resizeContent() {
+        // Toggle the Main Container Margin
+        if (mainContainer.getSclass().contains("enlarge")) {
+            // Sidebar is opening (Back to Normal)
+            mainContainer.setSclass("main-container");
+            repaymentChart.setWidth(500);
+            emiHistoryChart.setWidth(500);
+        } else {
+            // Sidebar is collapsing (Expand content)
+            mainContainer.setSclass("main-container enlarge");
+            repaymentChart.setWidth(600); // Make charts bigger
+            emiHistoryChart.setWidth(600);
+        }
+        
+        // Redraw charts to fit new width
+        repaymentChart.invalidate();
+        emiHistoryChart.invalidate();
+    }
 
 	private void loadUserStats() {
 		// Mock Data - In real app, fetch from userService.getUserStats(userId)

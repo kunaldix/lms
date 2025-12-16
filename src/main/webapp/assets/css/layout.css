@@ -1,0 +1,113 @@
+@charset "UTF-8";
+
+
+/* =========================================
+   1. GLOBAL RESETS & MAIN LAYOUT
+   ========================================= */
+body, .z-window-embedded {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0; padding: 0;
+    background-color: #f4f6f8;
+    overflow: hidden;
+}
+
+/* The wrapper for the right-side content */
+.main-container {
+    margin-left: 250px;
+    margin-top: 60px; /* Matches header height */
+    padding: 25px;
+    width: calc(100% - 250px);
+    height: calc(100vh - 60px);
+    background-color: #f4f6f8;
+    transition: margin-left 0.3s ease, width 0.3s ease;
+    overflow-y: auto;
+}
+
+.main-container.enlarge {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+}
+
+/* =========================================
+   2. SIDEBAR NAVIGATION
+   ========================================= */
+.sidebar {
+    width: 250px;
+    background-color: #004a99;
+    color: #fff;
+    height: 100vh;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    transition: width 0.3s ease;
+    z-index: 100;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidebar.collapsed { width: 80px; }
+.sidebar.collapsed .menu-text { display: none; }
+.sidebar.collapsed .menu-item { justify-content: center; padding: 15px 0; }
+.sidebar.collapsed .menu-icon { margin-right: 0; font-size: 20px; }
+
+/* Menu Items */
+.menu-item {
+    display: flex; align-items: center; padding: 12px 25px;
+    cursor: pointer; color: rgba(255, 255, 255, 0.8);
+    transition: background 0.2s; border-left: 4px solid transparent;
+    white-space: nowrap;
+}
+.menu-item:hover { background-color: rgba(255, 255, 255, 0.1); color: #fff; }
+.menu-item.active { background-color: rgba(255, 255, 255, 0.15); color: #fff; border-left: 4px solid #fff; }
+.menu-icon { font-size: 18px; width: 30px; text-align: center; margin-right: 10px; }
+
+/* =========================================
+   3. NAVBAR / HEADER
+   ========================================= */
+.top-header {
+    background: #ffffff;
+    height: 60px;
+    width: 100%;
+    position: fixed; top: 0; left: 0;
+    z-index: 200;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    display: flex; align-items: center; padding: 0 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.toggle-btn {
+    font-size: 24px; cursor: pointer; color: #004a99;
+    padding: 5px; margin-left: 10px;
+}
+.toggle-btn:hover { color: #003377; }
+
+.header-actions { display: flex; justify-content: flex-end; align-items: center; }
+.greeting-text { font-size: 14px; color: #666; margin-right: 15px; font-weight: 500; }
+.login-name { font-weight: 700; color: #004a99; font-size: 15px; }
+
+/* Avatar */
+.avatar-box {
+    width: 40px; height: 40px;
+    border-radius: 50%; overflow: hidden;
+    border: 2px solid #004a99; background: #fff;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; box-shadow: 0 2px 5px rgba(0, 74, 153, 0.2);
+}
+.avatar-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* =========================================
+   4. POPUP MENUS
+   ========================================= */
+.z-menupopup {
+    background: #ffffff !important; border: 1px solid #e0e0e0 !important;
+    border-radius: 8px !important; box-shadow: 0 5px 15px rgba(0,0,0,0.15) !important;
+    padding: 5px 0 !important; min-width: 180px !important;
+}
+.z-menupopup-content, .z-menu-content, .z-menuitem-content { background: transparent !important; }
+.z-menuitem-text { color: #444 !important; font-size: 14px !important; font-weight: 500 !important; }
+.z-menuitem-icon { color: #004a99 !important; font-size: 16px !important; margin-right: 10px !important; }
+.z-menuitem-hover { background: #f0f7ff !important; border-radius: 4px; }
+.z-menuitem-hover .z-menuitem-text { color: #004a99 !important; }
+.z-menuseparator { background: #eee !important; border-top: 1px solid #eee !important; margin: 5px 10px !important; }
+.z-menuitem-image { display: none; }
