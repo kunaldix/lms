@@ -110,7 +110,6 @@
 			<div sclass="navbar-right" visible="true">
 				<button sclass="btn" label="Sign Up" id="signBtn" />
 				<button sclass="btn" label="Log In" id="logBtn" />
-				<button label="Logout" href="/j_spring_security_logout" />
 			</div>
 		</div>
 

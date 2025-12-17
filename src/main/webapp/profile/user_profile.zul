@@ -17,7 +17,6 @@
 
 			<sidebar id="sidebarMacro" activePage="profile" />
 
-
 			<vlayout id="mainContainer" sclass="main-container">
 
 				<vlayout sclass="profile-wrapper">
@@ -31,7 +30,7 @@
 						</div>
 
 						<button label="Edit Profile"
-							sclass="edit-profile-btn" onClick="profileWin.open()" />
+							sclass="edit-profile-btn"  />
 					</div>
 
 					<div sclass="profile-header">
