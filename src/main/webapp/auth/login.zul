@@ -1,7 +1,7 @@
 <?page title="Login | CreditHub" contentType="text/html;charset=UTF-8"?>
 <zk xmlns:html="native">
-
-    <style>
+	
+	<style>
         @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
 
 *, *::before, *::after {
@@ -151,98 +151,125 @@ body, .z-window {
 
     </style>
 
-    <div class="main-container">
 
-        <div class="left-panel">
+	<div class="main-container">
 
-            <image src="../img/logo_login.png" sclass="brand-logo" />
+		<div class="left-panel">
 
-            <image src="../img/hands_trust.png" sclass="trust-image" />
+			<image src="../img/logo_login.png" sclass="brand-logo" />
 
-            <div
-                style="width: 100px; height: 3px; background: rgba(255,255,255,0.4); border-radius: 2px; margin-bottom: 15px;">
-            </div>
+			<image src="../img/hands_trust.png" sclass="trust-image" />
 
-            <vbox align="center" spacing="2px">
-                <label value="Your Trusted Platform for Loan Management"
-                    style="font-size: 20px; font-weight: bold; line-height: 1.3; max-width: 90%; margin-bottom: 10px;" />
+			<div
+				style="width: 100px; height: 3px; background: rgba(255,255,255,0.4); border-radius: 2px; margin-bottom: 15px;">
+			</div>
 
-                <label
-                    value="Building lasting relationships built on confidence."
-                    sclass="trust-text" />
-                <label value="Your secure partner for financial growth."
-                    sclass="trust-text" />
-                <label
-                    value="Transparent, reliable, and always here for you."
-                    sclass="trust-text" />
-            </vbox>
-        </div>
+			<vbox align="center" spacing="2px">
+				<label value="Your Trusted Platform for Loan Management"
+					style="font-size: 20px; font-weight: bold; line-height: 1.3; max-width: 90%; margin-bottom: 10px;" />
 
-        <div class="right-panel">
+				<label
+					value="Building lasting relationships built on confidence."
+					sclass="trust-text" />
+				<label value="Your secure partner for financial growth."
+					sclass="trust-text" />
+				<label
+					value="Transparent, reliable, and always here for you."
+					sclass="trust-text" />
+			</vbox>
+		</div>
 
-            <window border="none" sclass="login-container"
-                closable="false" apply="com.lms.controller.LoginPage">
+		<div class="right-panel">
 
-                <label value="Welcome Back" sclass="login-title" />
-                <separator height="10px" />
+			<window border="none" sclass="login-container"
+				closable="false" apply="com.lms.controller.LoginPage">
 
-                <div id="div1" visible="true" width="100%">
+				<label value="Welcome Back" sclass="login-title" />
+				<separator height="10px" />
 
-                    <div visible="${not empty param.login_error}"
-                        style="background-color: #ffebee; color: #c62828; padding: 10px; border-radius: 6px; margin-bottom: 15px; text-align: center; border: 1px solid #ef9a9a;">
-                        <span class="fa fa-circle-exclamation"
-                            style="margin-right: 5px;">
-                        </span>
-                        <label value="Invalid Username or Password"
-                            style="font-weight: 600;" />
-                    </div>
+				<div id="div1" visible="true" width="100%">
 
-                    <html:form id="securityForm"
-                        action="../j_spring_security_check" method="POST">
-                        <label value="User Name" sclass="form-label" />
-                        <html:input type="text" name="j_username"
-                            class="custom-input" placeholder="e.g. admin@credithub.com" />
+					<div visible="${not empty param.login_error}"
+						style="background-color: #ffebee; color: #c62828; padding: 10px; border-radius: 6px; margin-bottom: 15px; text-align: center; border: 1px solid #ef9a9a;">
+						<span class="fa fa-circle-exclamation"
+							style="margin-right: 5px;">
+						</span>
+						<label value="Invalid Username or Password"
+							style="font-weight: 600;" />
+					</div>
 
-                        <label value="Password" sclass="form-label" />
-                        <div style="position: relative;">
-                            <html:input type="password"
-                                name="j_password" id="passwordField" class="custom-input"
-                                placeholder="Enter your password" />
-                            <span id="eyeIcon" class="fa fa-eye"
-                                style="position: absolute; right: 15px; top: 13px; color: #aaa; cursor: pointer;">
-                            </span>
-                        </div>
+					<html:form id="securityForm"
+						action="../j_spring_security_check" method="POST">
+						<label value="User Name" sclass="form-label" />
+						<html:input type="text" name="j_username"
+							class="custom-input" placeholder="e.g. admin@credithub.com" />
 
-                        <html:button type="submit" class="btn-login">
-                            Login securely
-                        </html:button>
-                    </html:form>
-                </div>
+						<label value="Password" sclass="form-label" />
+						<div style="position: relative;">
+							<html:input type="password"
+								name="j_password" id="passwordField" class="custom-input"
+								placeholder="Enter your password" />
+						</div>
+
+						<html:button type="submit" class="btn-login">
+							Login securely
+						</html:button>
+					</html:form>
+				</div>
 
 
-                <div id="div3" visible="false" width="100%">
-                    <vlayout spacing="15px">
-                        <label value="Forgot Password"
-                            style="font-size: 1.2rem; font-weight: bold; color: #004a99;" />
-                        <label value="Enter registered email to reset."
-                            style="color: #666;" />
-                        <textbox id="emailBox" sclass="custom-input"
-                            placeholder="Enter Your Email" />
-                        <button id="sendOtpBtn" label="Send OTP "
-                            sclass="btn-otp" />
-                            
-                    </vlayout>
-                </div>
+				<div id="div2" visible="false" width="100%">
+					<vlayout spacing="15px">
+						<label value="Forgot Password"
+							style="font-size: 1.2rem; font-weight: bold; color: #004a99;" />
+						<label value="Enter registered email to reset."
+							style="color: #666;" />
+						<textbox id="emailBox" sclass="custom-input"
+							placeholder="Enter Your Email" />
+						<button id="sendOtpBtn" label="Send OTP "
+							sclass="btn-otp" />
+						<label id="otpLabel" value="OTP"
+							visible="false" />
+						<textbox id="otpBox" visible="false" />
+						<button id="validateOtpBtn" label="Validate OTP"
+							sclass="btn-otp" visible="false" />
+						<button label="Back to Login" sclass="btn-otp"
+							onClick='Executions.sendRedirect("login.zul")' />
+					</vlayout>
+				</div>
 
-                <hbox sclass="links" align="center" pack="center"
-                    width="100%">
-                    <a label="Forgot Password?" id="fpassword" />
-                    <label value="|"
-                        style="color: #ccc; margin: 0 5px;" />
-                    <a id="signup" label="New User? Sign Up" />
-                </hbox>
+				<div id="div3" visible="false" width="100%">
+					<vlayout spacing="15px">
 
-            </window>
-        </div>
-    </div>
+						<label value="Reset Password"
+							style="font-size:1.2rem;font-weight:bold;color:#004a99" />
+
+						<textbox id="newPwd" type="password"
+							sclass="custom-input" placeholder="New Password" />
+							
+						<label value="Confirm Password"
+							style="font-size:1.2rem;font-weight:bold;color:#004a99" />
+
+						<textbox id="confirmPwd" type="password"
+							sclass="custom-input" placeholder="Confirm Password" />
+
+						<button id="resetPwdBtn" label="Submit"
+							sclass="btn-otp" />
+
+						<button label="Back to Login" sclass="btn-otp"
+							onClick='div3.setVisible(false); div1.setVisible(true)' />
+
+					</vlayout>
+				</div>
+				<hbox sclass="links" align="center" pack="center"
+					width="100%">
+					<a label="Forgot Password?" id="fpassword" />
+					<label value="|"
+						style="color: #ccc; margin: 0 5px;" />
+					<a id="signup" label="New User? Sign Up" />
+				</hbox>
+
+			</window>
+		</div>
+	</div>
 </zk>
