@@ -1,0 +1,304 @@
+@charset "UTF-8";
+
+/* ===========================================
+   1. MAIN CONTAINER & PROGRESS HEADER
+=========================================== */
+.main-container {
+	background-color: #f5f7fb; /* Light gray background for contrast */
+}
+
+/* Override the inline style of the progress bar for a cleaner look */
+div[id$="mainContainer"]>.z-hlayout:first-child {
+	background: #fff !important;
+	padding: 15px 25px !important;
+	border-bottom: 1px solid #e0e0e0 !important;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+	margin-bottom: 20px;
+}
+
+#lblProgress {
+	color: #004a99;
+	font-weight: 800 !important;
+	font-size: 18px !important;
+	letter-spacing: 0.5px;
+}
+
+/* ===========================================
+   2. STEP CARD CONTAINER
+=========================================== */
+.step-container {
+	background: #ffffff;
+	border-radius: 8px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Soft shadow */
+	padding: 30px;
+	margin: 0 auto;
+	max-width: 95%;
+	border: 1px solid #f0f0f0;
+}
+
+.section-title {
+	font-size: 20px;
+	font-weight: 700;
+	color: #333;
+	margin-bottom: 25px;
+	padding-bottom: 10px;
+	border-bottom: 2px solid #f0f7ff;
+	display: block;
+}
+
+/* ===========================================
+   3. CLEANING UP ZK GRID (Removing Lines)
+=========================================== */
+/* Remove default ZK grid borders and grey backgrounds */
+.step-container .z-grid {
+	border: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.step-container .z-row-inner, .step-container .z-cell {
+	border: none !important;
+	background: white !important;
+	padding: 12px 5px !important; /* Spacing between rows */
+}
+
+/* Disable the hover effect on rows */
+.step-container .z-row:hover>.z-row-inner {
+	background: white !important;
+}
+
+/* ===========================================
+   4. FORM INPUTS & LABELS
+   =========================================== */
+.field-label {
+	font-weight: 600;
+	color: #555;
+	font-size: 14px;
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+
+/* Style all input types consistently */
+.z-textbox, .z-intbox, .z-decimalbox, .z-combobox-input {
+	width: 100%;
+	max-width: 350px; /* Prevent them from getting too wide */
+	padding: 8px 12px;
+	border: 1px solid #e0e0e0;
+	border-radius: 6px;
+	font-family: inherit;
+	font-size: 14px;
+	transition: all 0.3s ease;
+	background: #fafafa;
+}
+
+/* Focus State */
+.z-textbox:focus, .z-intbox:focus, .z-decimalbox:focus,
+	.z-combobox-input:focus {
+	border-color: #004a99;
+	background: #fff;
+	box-shadow: 0 0 0 3px rgba(0, 74, 153, 0.1);
+	outline: none;
+}
+
+/* Readonly Inputs */
+.z-textbox[readonly], .z-decimalbox[readonly] {
+	background-color: #f1f3f5 !important;
+	color: #777;
+	border-color: #eee;
+	cursor: not-allowed;
+}
+
+/* Combobox Button */
+.z-combobox-button {
+	background: #fafafa;
+	border: 1px solid #e0e0e0;
+	border-left: none;
+	border-radius: 0 6px 6px 0;
+}
+
+/* ===========================================
+   5. NAVIGATION BUTTONS (Centered & Brand Color)
+=========================================== */
+.nav-bar-container {
+	margin-top: 30px;
+	margin-bottom: 30px;
+	display: flex;
+	justify-content: center; /* Centers buttons horizontally */
+	gap: 20px; /* Space between buttons */
+}
+
+.nav-btn {
+	padding: 10px 40px; /* Wider buttons look better centered */
+	font-weight: 600;
+	border-radius: 15px; /* Rounded pill shape */
+	cursor: pointer;
+	transition: all 0.2s;
+	font-size: 15px;
+	letter-spacing: 0.5px;
+	border: 2px solid #004a99; /* Brand border */
+	height: 45px;
+}
+
+/* NEXT & SUBMIT BUTTONS (Solid Blue) */
+#btnNext, #btnSubmit {
+	background-color: #004a99 !important;
+	color: white !important;
+	box-shadow: 0 4px 15px rgba(0, 74, 153, 0.3);
+}
+
+#btnNext:hover, #btnSubmit:hover {
+	background-color: #003377 !important; /* Darker blue on hover */
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgba(0, 74, 153, 0.4);
+}
+
+/* BACK BUTTON (Outline Blue) */
+#btnBack {
+	background-color: white !important;
+	color: #004a99 !important;
+}
+
+#btnBack:hover:not([disabled]) {
+	background-color: #f0f7ff !important;
+}
+
+#btnBack[disabled] {
+	background-color: #e0e0e0 !important;
+	border-color: #ccc !important;
+	color: #999 !important;
+	cursor: default;
+	box-shadow: none;
+}
+
+/* ===========================================
+   6. DOCUMENT UPLOAD STYLING (Step 5)
+=========================================== */
+/* Style the upload buttons */
+/* ===========================================
+   6. DOCUMENT UPLOAD STYLING (Step 5)
+=========================================== */
+
+/* Specific Grid Styling for Uploads */
+.upload-grid .z-row-inner, .upload-grid .z-cell {
+	border-bottom: 1px solid #f0f0f0 !important; /* Light separator line */
+	padding: 15px 10px !important; /* More breathing room */
+	vertical-align: middle !important; /* Center items vertically */
+	background: transparent !important;
+}
+
+/* Remove border from the last row */
+.upload-grid .z-row:last-child .z-row-inner {
+	border-bottom: none !important;
+}
+
+/* Document Name Text */
+.doc-label {
+	font-weight: 600;
+	color: #444;
+	font-size: 14px;
+}
+
+/* Upload Button Styling */
+.upload-btn {
+	background: #fff !important;
+	border: 1px solid #004a99 !important;
+	color: #004a99 !important;
+	border-radius: 4px;
+	padding: 6px 20px;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s;
+	box-shadow: none !important;
+}
+
+.upload-btn:hover {
+	background: #f0f7ff !important; /* Light blue hover */
+	box-shadow: 0 2px 5px rgba(0, 74, 153, 0.15) !important;
+}
+
+/* Status Badges (Pills) */
+.status-badge {
+	padding: 5px 12px;
+	border-radius: 20px;
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	display: inline-block;
+	text-align: center;
+	min-width: 80px;
+}
+
+/* Pending State (Red/Orange) */
+.status-badge.pending {
+	background: #fff3e0;
+	color: #e67e22 !important;
+	border: 1px solid #ffe0b2;
+}
+
+/* Uploaded State (Green) - You can toggle this class in Java later */
+.status-badge.uploaded {
+	background: #e8f5e9;
+	color: #2e7d32 !important;
+	border: 1px solid #c8e6c9;
+}
+
+div[id$="step5"] .z-button {
+	background: #fff;
+	border: 1px solid #004a99;
+	color: #004a99;
+	border-radius: 4px;
+	padding: 5px 15px;
+	font-size: 13px;
+	transition: 0.2s;
+}
+
+div[id$="step5"] .z-button:hover {
+	background: #f0f7ff;
+}
+
+/* Style the 'Pending' text as a badge */
+div[id$="step5"] .z-label[style*="color:red"] {
+	background: #ffebee;
+	color: #c62828 !important;
+	padding: 4px 10px;
+	border-radius: 12px;
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+/* ===========================================
+   7. CHECKBOX & RADIOS
+=========================================== */
+.z-checkbox-content, .z-radio-content {
+	font-size: 14px;
+	color: #444;
+	margin-left: 5px;
+}
+
+.z-checkbox, .z-radio {
+	margin-bottom: 8px;
+	display: inline-block;
+}
+
+/* ===========================================
+   8. TERMS & AGREEMENTS (Step 6)
+=========================================== */
+.terms-centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* Centers items horizontally */
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Optional: Make the checkbox text slightly larger/clearer */
+.terms-centered .z-checkbox-content {
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+}

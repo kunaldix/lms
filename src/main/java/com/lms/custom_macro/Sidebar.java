@@ -85,7 +85,7 @@ public class Sidebar extends HtmlMacroComponent {
     public void goLoans() { Executions.sendRedirect("/user/my_loans.zul"); }
     
     @Listen("onClick = #menuApply")
-    public void goApply() { Executions.sendRedirect("/user/apply_loan.zul"); }
+    public void goApply() { Executions.sendRedirect("/applyloan/apply_loan.zul"); }
 
     @Listen("onClick = #menuHistory")
     public void goHistory() { Executions.sendRedirect("/user/history.zul"); }

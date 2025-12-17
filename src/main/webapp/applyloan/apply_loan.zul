@@ -1,0 +1,292 @@
+<?link rel="stylesheet" type="text/css" href="/assets/css/layout.css" ?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/applyloan.css" ?>
+<zk>
+	<style>
+		@import
+		url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+	</style>
+
+	<vlayout width="100%" height="100%"
+		apply="com.lms.controller.ApplyLoanComposer">
+
+		<navbar />
+
+		<hlayout sclass="main-content" width="100%" height="100%">
+
+			<sidebar id="sidebarMacro" activePage="apply" />
+
+			<vlayout id="mainContainer" sclass="main-container">
+				<hlayout
+					style="background:#f4f4f4; padding: 10px; border-bottom: 1px solid #ccc;">
+					<label id="lblProgress" value="Step 1 of 6"
+						style="font-weight:bold; font-size:16px;" />
+				</hlayout>
+
+				<!-- STEP 1 -->
+				<div id="step1" sclass="step-container">
+					<label value="Step 1: Loan Details"
+						sclass="section-title" />
+					<grid hflex="1" style="border:none;">
+						<columns>
+							<column width="180px" />
+							<column />
+						</columns>
+						<rows>
+							<row>
+								<label value="Loan Type:"
+									sclass="field-label" />
+								<combobox id="cmbLoanType"
+									placeholder="Select Type">
+									<comboitem label="Personal Loan"
+										value="Personal Loan" />
+									<comboitem label="Home Loan"
+										value="Home Loan" />
+									<comboitem label="Car Loan"
+										value="Car Loan" />
+								</combobox>
+							</row>
+							<row>
+								<label value="Loan Amount:"
+									sclass="field-label" />
+								<decimalbox id="decAmount"
+									format="#,##0.00" width="200px" />
+							</row>
+							<row>
+								<label value="Tenure (Months):"
+									sclass="field-label" />
+								<intbox id="intTenure" width="100px" />
+							</row>
+							<row>
+								<label value="Interest Rate (%):"
+									sclass="field-label" />
+								<decimalbox id="decInterest"
+									readonly="true" style="background:#eee;" />
+							</row>
+							<row>
+								<label value="Repayment Type:"
+									sclass="field-label" />
+								<textbox id="txtRepay" readonly="true"
+									style="background:#eee;" />
+							</row>
+
+							<row>
+								<label value="Preferred EMI Date:"
+									sclass="field-label" />
+								<!-- ONLY DATE NUMBER 1–31 -->
+								<intbox id="dateEmi"
+									placeholder="1 - 28" width="80px" />
+							</row>
+
+						</rows>
+					</grid>
+				</div>
+
+				<!-- STEP 2 -->
+				<div id="step2" visible="false"
+					sclass="step-container">
+					<label value="Step 2: Personal Information"
+						sclass="section-title" />
+					<label value="(Auto-filled)"
+						style="color:green; font-size:10px; margin-bottom:10px;" />
+					<grid hflex="1">
+						<columns>
+							<column width="180px" />
+							<column />
+						</columns>
+						<rows>
+							<row>
+								<label value="Full Name:"
+									sclass="field-label" />
+								<textbox value="John Doe"
+									readonly="true" width="250px" style="background:#f9f9f9;" />
+							</row>
+						</rows>
+					</grid>
+				</div>
+
+				<!-- STEP 3 -->
+				<div id="step3" visible="false"
+					sclass="step-container">
+					<label value="Step 3: Employment Details"
+						sclass="section-title" />
+					<grid hflex="1">
+						<columns>
+							<column width="180px" />
+							<column />
+						</columns>
+						<rows>
+							<row>
+								<label value="Employment Type:"
+									sclass="field-label" />
+								<radiogroup id="rgEmpType">
+									<radio label="Salaried"
+										value="Salaried" selected="true" />
+									<radio
+										label="Self-Employed/Business" value="Business"
+										style="margin-left:15px;" />
+								</radiogroup>
+							</row>
+
+							<row id="rowEmployer">
+								<label value="Employer Name:"
+									sclass="field-label" />
+								<textbox width="250px" />
+							</row>
+
+							<row id="rowWorkExperience">
+								<label value="Work Experience:"
+									sclass="field-label" />
+								<textbox width="250px" />
+							</row>
+
+
+
+							<row id="rowBusiness" visible="false">
+								<label value="Business Type:"
+									sclass="field-label" />
+								<combobox>
+									<comboitem label="Retail" />
+									<comboitem label="Services" />
+								</combobox>
+							</row>
+
+							<row id="rowGST" visible="false">
+								<label value="GST Number:"
+									sclass="field-label" />
+								<textbox width="200px" />
+							</row>
+
+							<row>
+								<label value="Monthly Income:"
+									sclass="field-label" />
+								<decimalbox format="#,##0.00" />
+							</row>
+						</rows>
+					</grid>
+				</div>
+
+				<!-- STEP 4 -->
+				<div id="step4" visible="false"
+					sclass="step-container">
+					<label value="Step 4: Bank Details"
+						sclass="section-title" />
+					<grid hflex="1">
+						<columns>
+							<column width="180px" />
+							<column />
+						</columns>
+						<rows>
+							<row>
+								<label value="Bank Name:"
+									sclass="field-label" />
+								<textbox width="150px" />
+							</row>
+							<row>
+								<label value="IFSC Code:"
+									sclass="field-label" />
+								<textbox width="150px" />
+							</row>
+							<row>
+								<label value="Account Number:"
+									sclass="field-label" />
+								<textbox width="250px" />
+							</row>
+						</rows>
+					</grid>
+				</div>
+
+				<!-- STEP 5 -->
+				<div id="step5" visible="false"
+					sclass="step-container">
+					<label value="Step 5: Document Upload"
+						sclass="section-title" />
+
+					<grid hflex="1" sclass="upload-grid">
+						<columns>
+							<column width="40%" />
+							<column width="30%" />
+							<column width="30%" align="right" />
+						</columns>
+
+						<rows>
+							<row>
+								<label value="Passport Size Photo"
+									sclass="doc-label" />
+								<button label="Upload" upload="true"
+									sclass="upload-btn" />
+								<label value="Pending"
+									sclass="status-badge pending" />
+							</row>
+
+							<row id="rowSalarySlip">
+								<label value="Salary Slip (3 Months)"
+									sclass="doc-label" />
+								<button label="Upload" upload="true"
+									sclass="upload-btn" />
+								<label value="Pending"
+									sclass="status-badge pending" />
+							</row>
+
+							<row id="rowITR">
+								<label value="Income Tax Returns"
+									sclass="doc-label" />
+								<button label="Upload" upload="true"
+									sclass="upload-btn" />
+								<label value="Pending"
+									sclass="status-badge pending" />
+							</row>
+
+							<row id="rowBankStatement">
+								<label
+									value="Bank Statement (Last 6 Months)" sclass="doc-label" />
+								<button label="Upload" upload="true"
+									sclass="upload-btn" />
+								<label value="Pending"
+									sclass="status-badge pending" />
+							</row>
+
+							<row id="rowAddressProof">
+								<label value="Address Proof"
+									sclass="doc-label" />
+								<button label="Upload" upload="true"
+									sclass="upload-btn" />
+								<label value="Pending"
+									sclass="status-badge pending" />
+							</row>
+						</rows>
+					</grid>
+				</div>
+
+				<!--Step -6-->
+				<div id="step6" visible="false"
+					sclass="step-container">
+					<label value="Step 6: Terms &amp; Agreements"
+						sclass="section-title" />
+					<separator width="20px" />
+
+					<vlayout spacing="15px" sclass="terms-centered">
+						<checkbox id="chkTerm1"
+							label="I have read and agree to the Terms." />
+						<checkbox id="chkTerm2"
+							label="I confirm that information is accurate." />
+					</vlayout>
+				</div>
+
+				<!-- Navigation -->
+				<separator height="20px" />
+
+				<div sclass="nav-bar-container">
+					<button id="btnBack" label="Back" disabled="true"
+						sclass="nav-btn" />
+
+					<button id="btnNext" label="Next" sclass="nav-btn" />
+
+					<button id="btnSubmit" label="Submit Application"
+						visible="false" sclass="nav-btn" />
+				</div>
+
+				<separator height="30px" />
+			</vlayout>
+		</hlayout>
+	</vlayout>
+</zk>

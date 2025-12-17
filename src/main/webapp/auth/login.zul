@@ -155,7 +155,7 @@ body, .z-window {
 
         <div class="left-panel">
 
-            <image src="../img/logo.png" sclass="brand-logo" />
+            <image src="../img/logo_login.png" sclass="brand-logo" />
 
             <image src="../img/hands_trust.png" sclass="trust-image" />
 
