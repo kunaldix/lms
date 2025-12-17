@@ -290,4 +290,20 @@ public class UserRepository {
 
 		return acc;
 	}
+
+	public void updatePassword(int id, String newPassword) {
+		
+		try (Connection conn = DBConnection.getConnection()){
+			
+			String query = "UPDATE users SET PASSWORD = ? WHERE id = ?";
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setString(1, newPassword);
+			stmt.setInt(2, id);
+
+			stmt.executeUpdate();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

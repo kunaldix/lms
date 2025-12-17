@@ -59,6 +59,14 @@ public class UserServiceImpl implements UserService {
 		return userRepository.getUserByEmail(email);
 	}
 
+	@Override
+	public void updatePassword(int id, String newPassword) {
+		// TODO Auto-generated method stub
+		userRepository.updatePassword(id, newPassword);
+	}
+
+	
+
 //	@Override
 //	public void createAccount(Account acc) {
 //		acc.setAccountNo(generateAccountNumber());

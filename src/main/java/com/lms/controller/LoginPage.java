@@ -1,21 +1,29 @@
 package com.lms.controller;
 
-
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zk.ui.util.Clients; // Import Clients
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 import org.zkoss.zul.A;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Span;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import com.lms.model.User;
+import com.lms.service.UserService;
+import com.lms.utils.EmailUtility;
+
+@VariableResolver(DelegatingVariableResolver.class)
 public class LoginPage extends SelectorComposer<Window> {
 
 	private static final long serialVersionUID = -6654346293830676291L;
@@ -26,13 +34,7 @@ public class LoginPage extends SelectorComposer<Window> {
 	@Wire private Textbox newPwd, confirmPwd;
 	
 	@Wire private Button resetPwdBtn;
-
-	@Wire
-	private Textbox password;
-
-	@Wire
-	private Button hidePwdBtn;
-
+	
 	@Wire
 	private A signup, fpassword;
 	
@@ -43,6 +45,15 @@ public class LoginPage extends SelectorComposer<Window> {
     @Wire private Label otpLabel;
 
     private String generatedOtp;
+    
+    private User user;
+    
+    @WireVariable("realUserService")
+    private UserService userService;
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 
 	@Override
 	public void doAfterCompose(Window comp) throws Exception {
@@ -52,16 +63,33 @@ public class LoginPage extends SelectorComposer<Window> {
 	@Listen("onClick = #sendOtpBtn")
     public void sendOtp() {
         String email = emailBox.getValue();
+        
+        user = userService.getUserByEmail(email);
+        
+        if(user == null) {
+        		Clients.showNotification("Account doesn't exists", "warning", emailBox, "end_center", 2000);
+            return;
+        }
 
         if (email == null || email.isBlank()) {
-            Messagebox.show("Please enter email");
+            // Show warning directly next to the email box
+            Clients.showNotification("Please enter email", "warning", emailBox, "end_center", 2000);
             return;
         }
 
         generatedOtp = String.valueOf(100000 + new Random().nextInt(900000));
 
-        // TODO: Send OTP via email
         System.out.println("OTP sent to email: " + generatedOtp);
+        
+         try {
+             EmailUtility.sendOtpEmail(email, generatedOtp);
+             // Show success message at top of screen
+             Clients.showNotification("OTP sent successfully", "info", null, "top_center", 3000);
+         } catch (Exception e) {
+             e.printStackTrace();
+             Clients.showNotification("Error sending email. Check logs.", "error", null, "top_center", 3000);
+             return;
+         }
 
         // UI changes
         sendOtpBtn.setVisible(false);
@@ -73,28 +101,14 @@ public class LoginPage extends SelectorComposer<Window> {
 	@Listen("onClick = #validateOtpBtn")
 	public void validateOtp() {
 	    if (otpBox.getValue().equals(generatedOtp)) {
-	        Messagebox.show("OTP Verified Successfully");
+	        Clients.showNotification("OTP Verified Successfully", "info", null, "top_center", 2000);
 
 	        div2.setVisible(false);
 	        div3.setVisible(true); 
 	    } else {
-	        Messagebox.show("Invalid OTP");
+            // Show error pointing to the OTP box
+	        Clients.showNotification("Invalid OTP", "error", otpBox, "end_center", 2000);
 	    }
-	}
-
-	
-	@Listen("onClick = #hidePwdBtn")
-	public void onToggleConfirmPasswordVisibility() {
-		if (password.getValue() == null)
-			return;
-
-		if ("password".equalsIgnoreCase(password.getType())) {
-			password.setType("text");
-			hidePwdBtn.setIconSclass("z-icon-eye");
-		} else {
-			password.setType("password");
-			hidePwdBtn.setIconSclass("z-icon-eye-slash");
-		}
 	}
 
 	@Listen("onClick = #fpassword")
@@ -107,17 +121,28 @@ public class LoginPage extends SelectorComposer<Window> {
 	public void resetPassword() {
 
 	    if (newPwd.getValue().isBlank() || confirmPwd.getValue().isBlank()) {
-	        Messagebox.show("All fields required");
+            // Warning on the new password field
+            Clients.showNotification("All fields required", "warning", newPwd, "end_center", 2000);
 	        return;
 	    }
 
 	    if (!newPwd.getValue().equals(confirmPwd.getValue())) {
-	        Messagebox.show("Passwords do not match");
+            // Error pointing to confirm password field
+            Clients.showNotification("Passwords do not match", "error", confirmPwd, "end_center", 2000);
 	        return;
 	    }
+	    
+	    String passdig = null;
+		try {
+			passdig = userService.passwordDigest(newPwd.getValue());
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-	    // TODO: update password in DB
-	    Messagebox.show("Password changed successfully");
+	    userService.updatePassword(user.getId(), passdig);
+		
+        Clients.showNotification("Password changed successfully", "info", null, "top_center", 3000);
 
 	    div3.setVisible(false);
 	    div1.setVisible(true);   
