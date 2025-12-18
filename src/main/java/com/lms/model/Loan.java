@@ -1,24 +1,25 @@
 package com.lms.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.lms.constant.LoanApplicationStatus;
+import com.lms.constant.LoanType;
+import com.lms.constant.RepaymentType;
 
 /**
  * LoanApplication POJO for CreditHub Loan Management System.
  * This class maps to the 6-step wizard fields.
  */
-public class Loan implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Loan{
     
     // STEP 1: Loan Details
     private String loanId;
-    private String loanType;         
+    private LoanType loanType;         
     private BigDecimal loanAmount;   
     private Integer tenureMonths;    
     private Double interestRate;     
-    private String repaymentType;    
+    private RepaymentType repaymentType;    
     private Integer preferredEmiDate; 
     
     // STEP 2: Personal Info
@@ -31,19 +32,36 @@ public class Loan implements Serializable {
     private AccountInfo accountInfo;    
 
     // STEP 5: Document Status (Tracking if uploaded)
-    private String isPhotoUploaded;
-    private String isSalarySlipUploaded;
-    private String isItrUploaded;
-    private String isBankStatementUploaded;
-    private String isAadharUploaded;
-    private String isPanUploaded;
+    private UserLoanDocuments userDoc;
 
     // SYSTEM FIELDS
-    private String applicationStatus; // e.g., "Pending Review"
+    private LoanApplicationStatus applicationStatus; 
     private Date submissionDate;
 
     // Default Constructor
     public Loan() {}
+
+	public Loan(String loanId, LoanType loanType, BigDecimal loanAmount, Integer tenureMonths, Double interestRate,
+			RepaymentType repaymentType, Integer preferredEmiDate, User user, EmploymentDetails employmentDetails,
+			AccountInfo accountInfo, UserLoanDocuments userDoc, LoanApplicationStatus applicationStatus,
+			Date submissionDate) {
+		super();
+		this.loanId = loanId;
+		this.loanType = loanType;
+		this.loanAmount = loanAmount;
+		this.tenureMonths = tenureMonths;
+		this.interestRate = interestRate;
+		this.repaymentType = repaymentType;
+		this.preferredEmiDate = preferredEmiDate;
+		this.user = user;
+		this.employmentDetails = employmentDetails;
+		this.accountInfo = accountInfo;
+		this.userDoc = userDoc;
+		this.applicationStatus = applicationStatus;
+		this.submissionDate = submissionDate;
+	}
+
+
 
 	public String getLoanId() {
 		return loanId;
@@ -53,11 +71,11 @@ public class Loan implements Serializable {
 		this.loanId = loanId;
 	}
 
-	public String getLoanType() {
+	public LoanType getLoanType() {
 		return loanType;
 	}
 
-	public void setLoanType(String loanType) {
+	public void setLoanType(LoanType loanType) {
 		this.loanType = loanType;
 	}
 
@@ -85,11 +103,11 @@ public class Loan implements Serializable {
 		this.interestRate = interestRate;
 	}
 
-	public String getRepaymentType() {
+	public RepaymentType getRepaymentType() {
 		return repaymentType;
 	}
 
-	public void setRepaymentType(String repaymentType) {
+	public void setRepaymentType(RepaymentType repaymentType) {
 		this.repaymentType = repaymentType;
 	}
 
@@ -125,59 +143,19 @@ public class Loan implements Serializable {
 		this.accountInfo = accountInfo;
 	}
 
-	public String getIsPhotoUploaded() {
-		return isPhotoUploaded;
+	public UserLoanDocuments getUserDoc() {
+		return userDoc;
 	}
 
-	public void setIsPhotoUploaded(String isPhotoUploaded) {
-		this.isPhotoUploaded = isPhotoUploaded;
+	public void setUserDoc(UserLoanDocuments userDoc) {
+		this.userDoc = userDoc;
 	}
 
-	public String getIsSalarySlipUploaded() {
-		return isSalarySlipUploaded;
-	}
-
-	public void setIsSalarySlipUploaded(String isSalarySlipUploaded) {
-		this.isSalarySlipUploaded = isSalarySlipUploaded;
-	}
-
-	public String getIsItrUploaded() {
-		return isItrUploaded;
-	}
-
-	public void setIsItrUploaded(String isItrUploaded) {
-		this.isItrUploaded = isItrUploaded;
-	}
-
-	public String getIsBankStatementUploaded() {
-		return isBankStatementUploaded;
-	}
-
-	public void setIsBankStatementUploaded(String isBankStatementUploaded) {
-		this.isBankStatementUploaded = isBankStatementUploaded;
-	}
-
-	public String getIsAadharUploaded() {
-		return isAadharUploaded;
-	}
-
-	public void setIsAadharUploaded(String isAadharUploaded) {
-		this.isAadharUploaded = isAadharUploaded;
-	}
-
-	public String getIsPanUploaded() {
-		return isPanUploaded;
-	}
-
-	public void setIsPanUploaded(String isPanUploaded) {
-		this.isPanUploaded = isPanUploaded;
-	}
-
-	public String getApplicationStatus() {
+	public LoanApplicationStatus getApplicationStatus() {
 		return applicationStatus;
 	}
 
-	public void setApplicationStatus(String applicationStatus) {
+	public void setApplicationStatus(LoanApplicationStatus applicationStatus) {
 		this.applicationStatus = applicationStatus;
 	}
 

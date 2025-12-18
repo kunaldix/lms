@@ -2,13 +2,33 @@ package com.lms.model;
 
 public class AccountInfo {
 	
+	private int id;
 	private String bankName;        
     private String branchCode;       
     private String ifscCode;         
     private String accountNumber;
     private User user;
     
-    
+	public AccountInfo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public AccountInfo(int id, String bankName, String branchCode, String ifscCode, String accountNumber, User user) {
+		super();
+		this.id = id;
+		this.bankName = bankName;
+		this.branchCode = branchCode;
+		this.ifscCode = ifscCode;
+		this.accountNumber = accountNumber;
+		this.user = user;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getBankName() {
 		return bankName;
 	}
