@@ -19,6 +19,7 @@ public class Sidebar extends HtmlMacroComponent {
     @Wire private Hlayout menuDashboard;
     @Wire private Hlayout menuLoans;
     @Wire private Hlayout menuApply;
+    @Wire private Hlayout menuEmi;
     @Wire private Hlayout menuHistory;
     @Wire private Hlayout menuProfile;
     @Wire private Hlayout menuSupport;	
@@ -75,6 +76,8 @@ public class Sidebar extends HtmlMacroComponent {
             menuHistory.setSclass(menuHistory.getSclass() + " active");
         } else if ("profile".equals(activePage) && menuProfile != null) {
             menuProfile.setSclass(menuProfile.getSclass() + " active");
+        } else if ("emi".equals(activePage) && menuEmi != null) {
+            menuEmi.setSclass(menuEmi.getSclass() + " active");
         }
     }
     
@@ -86,6 +89,9 @@ public class Sidebar extends HtmlMacroComponent {
     
     @Listen("onClick = #menuApply")
     public void goApply() { Executions.sendRedirect("/applyloan/apply_loan.zul"); }
+    
+    @Listen("onClick = #menuEmi")
+    public void goEmi() { Executions.sendRedirect("/emi/emi.zul"); }
 
     @Listen("onClick = #menuHistory")
     public void goHistory() { Executions.sendRedirect("/user/history.zul"); }

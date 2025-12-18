@@ -17,6 +17,11 @@
             <label sclass="menu-icon fa fa-plus-circle" />
             <label value="Apply New Loan" sclass="menu-text" />
         </hlayout>
+        
+        <hlayout id="menuEmi" sclass="menu-item">
+            <label sclass="menu-icon fa-solid fa-calendar-check" />
+            <label value="EMI / Repayment" sclass="menu-text" />
+        </hlayout>
 
         <hlayout id="menuHistory" sclass="menu-item">
             <label sclass="menu-icon fa fa-history" />

@@ -120,43 +120,46 @@ div[id$="mainContainer"]>.z-hlayout:first-child {
 /* ===========================================
    5. NAVIGATION BUTTONS (Centered & Brand Color)
 =========================================== */
+/* ===========================================
+   5. NAVIGATION BUTTONS (Centered & Brand Color)
+=========================================== */
 .nav-bar-container {
 	margin-top: 30px;
 	margin-bottom: 30px;
 	display: flex;
 	justify-content: center; /* Centers buttons horizontally */
-	gap: 20px; /* Space between buttons */
+	gap: 20px;               /* Space between buttons */
 }
 
 .nav-btn {
-	padding: 10px 40px; /* Wider buttons look better centered */
+	padding: 10px 40px;      /* Wider buttons look better centered */
 	font-weight: 600;
-	border-radius: 15px; /* Rounded pill shape */
+	border-radius: 15px;     /* Rounded pill shape */
 	cursor: pointer;
 	transition: all 0.2s;
 	font-size: 15px;
 	letter-spacing: 0.5px;
-	border: 2px solid #004a99; /* Brand border */
+	border: 2px solid #004b98; /* FIXED: Now uses exact brand color #004b98 */
 	height: 45px;
 }
 
 /* NEXT & SUBMIT BUTTONS (Solid Blue) */
 #btnNext, #btnSubmit {
-	background-color: #004a99 !important;
+	background-color: #004b98 !important; /* Brand Background */
 	color: white !important;
-	box-shadow: 0 4px 15px rgba(0, 74, 153, 0.3);
+	box-shadow: 0 4px 15px rgba(0, 75, 152, 0.3); /* Matching shadow color */
 }
 
 #btnNext:hover, #btnSubmit:hover {
 	background-color: #003377 !important; /* Darker blue on hover */
 	transform: translateY(-2px);
-	box-shadow: 0 6px 20px rgba(0, 74, 153, 0.4);
+	box-shadow: 0 6px 20px rgba(0, 75, 152, 0.4);
 }
 
 /* BACK BUTTON (Outline Blue) */
 #btnBack {
 	background-color: white !important;
-	color: #004a99 !important;
+	color: #004b98 !important; /* Brand Text Color */
 }
 
 #btnBack:hover:not([disabled]) {
