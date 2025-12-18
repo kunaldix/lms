@@ -59,7 +59,7 @@ public class DashboardComposer extends SelectorComposer<Vlayout> {
 		}
 
 		menuLoans.addEventListener(Events.ON_CLICK, e -> Executions.sendRedirect("/LoanManagementSystem/admin/loans.zul"));
-		menuApplications.addEventListener(Events.ON_CLICK, e -> Executions.sendRedirect("/LoanManagementSystem/admin/applications.zul"));
+		menuApplications.addEventListener(Events.ON_CLICK, e -> Executions.sendRedirect("/loanapplication/Manageloan.zul"));
 		menuReports.addEventListener(Events.ON_CLICK, e -> Executions.sendRedirect("/LoanManagementSystem/admin/reports.zul"));
 		
 		loanTrendChart.setWidth(500);

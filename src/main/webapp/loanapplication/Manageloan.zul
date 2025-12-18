@@ -1,0 +1,29 @@
+<?page title="Manage Loan Applications" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/Dashboard.css"?>
+
+<zk>
+    <window border="none" width="100%"
+        apply="com.lms.controller.ApplicationComposer">
+
+        <label value="Manage Loan Applications"
+            style="font-size:26px;font-weight:600;margin-bottom:20px;" />
+
+        <separator/>
+
+        <grid id="applicationGrid" width="100%" sclass="table-dark">
+            <columns>
+                <column label="First Name"/>
+                <column label="Last Name"/>
+                <column label="Phone"/>
+                <column label="Salary"/>
+                <column label="Purpose"/>
+                <column label="Amount"/>
+                <column label="Status"/>
+                <column label="Applied Date"/>
+                <column label="User Id"/>
+                <column label="Action"/>
+            </columns>
+        </grid>
+
+    </window>
+</zk>

@@ -30,7 +30,9 @@
 
 		<intercept-url pattern="/auth/signup.zul"
 			access="IS_AUTHENTICATED_ANONYMOUSLY" />
-
+		
+		<intercept-url pattern="/loanapplication/Manageloan.zul"
+			access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
 		<!-- secure pages -->
 		<intercept-url pattern="/**" access="ROLE_CUSTOMER" />
