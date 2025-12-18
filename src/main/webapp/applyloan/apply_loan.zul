@@ -7,29 +7,50 @@
 		url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
 	</style>
 
-	<vlayout width="100%" height="100%"
+	<navbar />
+
+	<sidebar id="sidebarMacro" activePage="apply" />
+
+	<div sclass="main-container"
 		apply="com.lms.controller.ApplyLoanComposer">
 
-		<navbar />
+		<div sclass="stepper">
+			<div id="step1Indicator" sclass="step-item active">
+				<div sclass="step-circle">1</div>
+				Loan Details
+			</div>
+			<div id="step2Indicator" sclass="step-item">
+				<div sclass="step-circle">2</div>
+				Personal
+			</div>
+			<div id="step3Indicator" sclass="step-item">
+				<div sclass="step-circle">3</div>
+				Employment
+			</div>
+			<div id="step4Indicator" sclass="step-item">
+				<div sclass="step-circle">4</div>
+				Bank Info
+			</div>
+			<div id="step5Indicator" sclass="step-item">
+				<div sclass="step-circle">5</div>
+				Uploads
+			</div>
+			<div id="step6Indicator" sclass="step-item">
+				<div sclass="step-circle">6</div>
+				Review
+			</div>
+		</div>
 
-		<hlayout sclass="main-content" width="100%" height="100%">
+		<div sclass="wizard-card">
 
-			<sidebar id="sidebarMacro" activePage="apply" />
+			<div id="stepContainer">
 
-			<vlayout id="mainContainer" sclass="main-container">
-				<hlayout
-					style="background:#f4f4f4; padding: 10px; border-bottom: 1px solid #ccc;">
-					<label id="lblProgress" value="Step 1 of 6"
-						style="font-weight:bold; font-size:16px;" />
-				</hlayout>
-
-				<!-- STEP 1 -->
-				<div id="step1" sclass="step-container">
+				<div id="step1">
 					<label value="Step 1: Loan Details"
 						sclass="section-title" />
-					<grid hflex="1" style="border:none;">
+					<grid sclass="clean-grid">
 						<columns>
-							<column width="180px" />
+							<column width="220px" />
 							<column />
 						</columns>
 						<rows>
@@ -37,7 +58,7 @@
 								<label value="Loan Type:"
 									sclass="field-label" />
 								<combobox id="cmbLoanType"
-									placeholder="Select Type">
+									placeholder="Select Type" readonly="true">
 									<comboitem label="Personal Loan"
 										value="Personal Loan" />
 									<comboitem label="Home Loan"
@@ -50,69 +71,66 @@
 								<label value="Loan Amount:"
 									sclass="field-label" />
 								<decimalbox id="decAmount"
-									format="#,##0.00" width="200px" />
+									format="#,##0.00" />
 							</row>
 							<row>
 								<label value="Tenure (Months):"
 									sclass="field-label" />
-								<intbox id="intTenure" width="100px" />
+								<intbox id="intTenure" />
 							</row>
 							<row>
 								<label value="Interest Rate (%):"
 									sclass="field-label" />
 								<decimalbox id="decInterest"
-									readonly="true" style="background:#eee;" />
+									readonly="true" value="12.5" />
 							</row>
 							<row>
 								<label value="Repayment Type:"
 									sclass="field-label" />
 								<textbox id="txtRepay" readonly="true"
-									style="background:#eee;" />
+									value="Monthly EMI" />
 							</row>
-
 							<row>
 								<label value="Preferred EMI Date:"
 									sclass="field-label" />
-								<!-- ONLY DATE NUMBER 1–31 -->
 								<intbox id="dateEmi"
-									placeholder="1 - 28" width="80px" />
+									placeholder="1 - 28" sclass="small-input" />
 							</row>
-
 						</rows>
 					</grid>
 				</div>
 
-				<!-- STEP 2 -->
-				<div id="step2" visible="false"
-					sclass="step-container">
+				<div id="step2" visible="false">
 					<label value="Step 2: Personal Information"
 						sclass="section-title" />
-					<label value="(Auto-filled)"
-						style="color:green; font-size:10px; margin-bottom:10px;" />
-					<grid hflex="1">
+					<grid sclass="clean-grid">
 						<columns>
-							<column width="180px" />
+							<column width="220px" />
 							<column />
 						</columns>
 						<rows>
 							<row>
 								<label value="Full Name:"
 									sclass="field-label" />
-								<textbox value="John Doe"
-									readonly="true" width="250px" style="background:#f9f9f9;" />
+								<textbox value="Kunal Dixit"
+									readonly="true" />
+							</row>
+							<row>
+								<label value="Email Address:"
+									sclass="field-label" />
+								<textbox value="kunal@example.com"
+									readonly="true" />
 							</row>
 						</rows>
 					</grid>
 				</div>
 
-				<!-- STEP 3 -->
-				<div id="step3" visible="false"
-					sclass="step-container">
+				<div id="step3" visible="false">
 					<label value="Step 3: Employment Details"
 						sclass="section-title" />
-					<grid hflex="1">
+					<grid sclass="clean-grid">
 						<columns>
-							<column width="180px" />
+							<column width="220px" />
 							<column />
 						</columns>
 						<rows>
@@ -122,26 +140,15 @@
 								<radiogroup id="rgEmpType">
 									<radio label="Salaried"
 										value="Salaried" selected="true" />
-									<radio
-										label="Self-Employed/Business" value="Business"
-										style="margin-left:15px;" />
+									<radio label="Business"
+										value="Business" style="margin-left:15px;" />
 								</radiogroup>
 							</row>
-
 							<row id="rowEmployer">
 								<label value="Employer Name:"
 									sclass="field-label" />
-								<textbox width="250px" />
+								<textbox />
 							</row>
-
-							<row id="rowWorkExperience">
-								<label value="Work Experience:"
-									sclass="field-label" />
-								<textbox width="250px" />
-							</row>
-
-
-
 							<row id="rowBusiness" visible="false">
 								<label value="Business Type:"
 									sclass="field-label" />
@@ -150,13 +157,6 @@
 									<comboitem label="Services" />
 								</combobox>
 							</row>
-
-							<row id="rowGST" visible="false">
-								<label value="GST Number:"
-									sclass="field-label" />
-								<textbox width="200px" />
-							</row>
-
 							<row>
 								<label value="Monthly Income:"
 									sclass="field-label" />
@@ -166,128 +166,135 @@
 					</grid>
 				</div>
 
-				<!-- STEP 4 -->
-				<div id="step4" visible="false"
-					sclass="step-container">
+				<div id="step4" visible="false">
 					<label value="Step 4: Bank Details"
 						sclass="section-title" />
-					<grid hflex="1">
+					<grid sclass="clean-grid">
 						<columns>
-							<column width="180px" />
+							<column width="220px" />
 							<column />
 						</columns>
 						<rows>
 							<row>
 								<label value="Bank Name:"
 									sclass="field-label" />
-								<textbox width="150px" />
+								<textbox id="txtBankName"
+									placeholder="Enter bank name" />
+							</row>
+							<row>
+								<label value="Branch Code:"
+									sclass="field-label" />
+								<textbox id="txtBranchCode"
+									placeholder="Enter branch code" />
 							</row>
 							<row>
 								<label value="IFSC Code:"
 									sclass="field-label" />
-								<textbox width="150px" />
+								<textbox id="txtIfscCode"
+									placeholder="e.g. SBIN0001234" />
 							</row>
 							<row>
 								<label value="Account Number:"
 									sclass="field-label" />
-								<textbox width="250px" />
+								<textbox id="txtAccountNo"
+									placeholder="Enter account number" />
 							</row>
 						</rows>
 					</grid>
 				</div>
+				<div id="step5" visible="false">
+                    <label value="Step 5: Document Upload" sclass="section-title" />
+                    <grid sclass="clean-grid upload-grid">
+                        <columns>
+                            <column label="Document Type" width="40%" />
+                            <column label="Action" width="30%" align="center" />
+                            <column label="Status" width="30%" align="right" />
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="Passport Size Photo" sclass="field-label" />
+                                <button label="Upload" upload="true" sclass="upload-btn" onUpload="@command('uploadDoc', docType='PHOTO')" />
+                                <label id="lblStatusPhoto" value="Pending" sclass="status-badge pending" />
+                            </row>
+                            <row>
+                                <label value="Salary Slips (3 Months)" sclass="field-label" />
+                                <button label="Upload" upload="true" sclass="upload-btn" onUpload="@command('uploadDoc', docType='SALARY')" />
+                                <label id="lblStatusSalary" value="Pending" sclass="status-badge pending" />
+                            </row>
+                            <row>
+                                <label value="Income Tax Returns (ITR)" sclass="field-label" />
+                                <button label="Upload" upload="true" sclass="upload-btn" onUpload="@command('uploadDoc', docType='ITR')" />
+                                <label id="lblStatusItr" value="Pending" sclass="status-badge pending" />
+                            </row>
+                            <row>
+                                <label value="Bank Statement (Last 6 Months)" sclass="field-label" />
+                                <button label="Upload" upload="true" sclass="upload-btn" onUpload="@command('uploadDoc', docType='BANK')" />
+                                <label id="lblStatusBank" value="Pending" sclass="status-badge pending" />
+                            </row>
+                            <row>
+                                <label value="Aadhar Card (Front &amp; Back)" sclass="field-label" />
+                                <button label="Upload" upload="true" sclass="upload-btn" onUpload="@command('uploadDoc', docType='AADHAR')" />
+                                <label id="lblStatusAadhar" value="Pending" sclass="status-badge pending" />
+                            </row>
+                            <row>
+                                <label value="PAN Card" sclass="field-label" />
+                                <button label="Upload" upload="true" sclass="upload-btn" onUpload="@command('uploadDoc', docType='PAN')" />
+                                <label id="lblStatusPan" value="Pending" sclass="status-badge pending" />
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+				<div id="step6" visible="false">
+					<label value="Step 6: Final Review" sclass="section-title" />
+					
+					<vlayout spacing="10px">
+						<label value="Loan Information" sclass="review-category-title" />
+						<grid sclass="clean-grid">
+							<columns><column width="200px"/><column/></columns>
+							<rows>
+								<row><label value="Type: "/><label id="revLoanType" sclass="review-value" value="-"/></row>
+								<row><label value="Amount: "/><label id="revAmount" sclass="review-value" value="-"/></row>
+								<row><label value="Tenure: "/><label id="revTenure" sclass="review-value" value="-"/></row>
+							</rows>
+						</grid>
 
-				<!-- STEP 5 -->
-				<div id="step5" visible="false"
-					sclass="step-container">
-					<label value="Step 5: Document Upload"
-						sclass="section-title" />
+						<label value="Personal &amp; Employment" sclass="review-category-title" />
+						<grid sclass="clean-grid">
+							<columns><column width="200px"/><column/></columns>
+							<rows>
+								<row><label value="Full Name: "/><label id="revName" sclass="review-value" value="Kunal Dixit"/></row>
+								<row><label value="Employer: "/><label id="revEmployer" sclass="review-value" value="-"/></row>
+								<row><label value="Monthly Income: "/><label id="revIncome" sclass="review-value" value="-"/></row>
+							</rows>
+						</grid>
 
-					<grid hflex="1" sclass="upload-grid">
-						<columns>
-							<column width="40%" />
-							<column width="30%" />
-							<column width="30%" align="right" />
-						</columns>
-
-						<rows>
-							<row>
-								<label value="Passport Size Photo"
-									sclass="doc-label" />
-								<button label="Upload" upload="true"
-									sclass="upload-btn" />
-								<label value="Pending"
-									sclass="status-badge pending" />
-							</row>
-
-							<row id="rowSalarySlip">
-								<label value="Salary Slip (3 Months)"
-									sclass="doc-label" />
-								<button label="Upload" upload="true"
-									sclass="upload-btn" />
-								<label value="Pending"
-									sclass="status-badge pending" />
-							</row>
-
-							<row id="rowITR">
-								<label value="Income Tax Returns"
-									sclass="doc-label" />
-								<button label="Upload" upload="true"
-									sclass="upload-btn" />
-								<label value="Pending"
-									sclass="status-badge pending" />
-							</row>
-
-							<row id="rowBankStatement">
-								<label
-									value="Bank Statement (Last 6 Months)" sclass="doc-label" />
-								<button label="Upload" upload="true"
-									sclass="upload-btn" />
-								<label value="Pending"
-									sclass="status-badge pending" />
-							</row>
-
-							<row id="rowAddressProof">
-								<label value="Address Proof"
-									sclass="doc-label" />
-								<button label="Upload" upload="true"
-									sclass="upload-btn" />
-								<label value="Pending"
-									sclass="status-badge pending" />
-							</row>
-						</rows>
-					</grid>
-				</div>
-
-				<!--Step -6-->
-				<div id="step6" visible="false"
-					sclass="step-container">
-					<label value="Step 6: Terms &amp; Agreements"
-						sclass="section-title" />
-					<separator width="20px" />
-
-					<vlayout spacing="15px" sclass="terms-centered">
-						<checkbox id="chkTerm1"
-							label="I have read and agree to the Terms." />
-						<checkbox id="chkTerm2"
-							label="I confirm that information is accurate." />
+						<label value="Banking Details" sclass="review-category-title" />
+						<grid sclass="clean-grid">
+							<columns><column width="200px"/><column/></columns>
+							<rows>
+								<row><label value="Bank Name: "/><label id="revBank" sclass="review-value" value="-"/></row>
+								<row><label value="Account No: "/><label id="revAccount" sclass="review-value" value="-"/></row>
+							</rows>
+						</grid>
+						
+						<separator height="15px" />
+						<checkbox id="chkConfirm" label="I certify that all provided information and documents are true and correct." style="font-weight:bold; color:#e74c3c;" />
 					</vlayout>
 				</div>
+			</div>
 
-				<!-- Navigation -->
-				<separator height="20px" />
-
-				<div sclass="nav-bar-container">
-					<button id="btnBack" label="Back" disabled="true"
-						sclass="nav-btn" />
-
-					<button id="btnNext" label="Next" sclass="nav-btn" />
-
-					<button id="btnSubmit" label="Submit Application"
-						visible="false" sclass="nav-btn" />
-				</div>
-
-				<separator height="30px" />
-			</vlayout>
-		</hlayout>
-	</vlayout>
+			<div sclass="nav-footer">
+				<button id="btnBack" label="Back" width="120px"
+					height="45px"
+					style="background:#95a5a6; color:white; border:none; font-weight:600; cursor:pointer; border-radius:6px;" />
+				<space hflex="1" />
+				<button id="btnNext" label="Next Step" width="140px"
+					height="45px"
+					style="background:#004a99; color:white; border:none; font-weight:600; cursor:pointer; border-radius:6px;" />
+				<button id="btnSubmit" label="Submit Application"
+					visible="false" width="180px" height="45px"
+					style="background:#2ecc71; color:white; border:none; font-weight:bold; cursor:pointer; border-radius:6px;" />
+			</div>
+		</div>
+	</div>
 </zk>

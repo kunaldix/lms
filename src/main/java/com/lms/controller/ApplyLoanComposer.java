@@ -1,124 +1,54 @@
 package com.lms.controller;
 
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.*;
 
-import java.math.BigDecimal;
-
 public class ApplyLoanComposer extends SelectorComposer<Component> {
 
-    private static final long serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5630649158860218775L;
 
-    // --- Wire Components ---
-    @Wire private Div step1;
-    @Wire private Div step2;
-    @Wire private Div step3;
-    @Wire private Div step4;
-    @Wire private Div step5;
-    @Wire private Div step6;
-
-    @Wire private Label lblProgress;
-    @Wire private Button btnBack, btnNext, btnSubmit;
-
-    @Wire private Combobox cmbLoanType;
-    @Wire private Decimalbox decInterest;
-    @Wire private Textbox txtRepay;
-
-    @Wire private Radiogroup rgEmpType;
-    @Wire private Row rowEmployer, rowSalarySlip, rowWorkExperience;
-    @Wire private Row rowBusiness, rowGST, rowITR;
-
-    @Wire private Checkbox chkTerm1, chkTerm2;
+	// Wire the Step Divs
+    @Wire Div step1, step2, step3, step4, step5, step6;
     
-    @Wire
-	private Vlayout mainContainer;
+    // Wire the Indicators
+    @Wire Div step1Indicator, step2Indicator, step3Indicator, step4Indicator, step5Indicator, step6Indicator;
     
+    // Wire the Buttons
+    @Wire Button btnBack, btnNext, btnSubmit;
+
     private int currentStep = 1;
+    private final int MAX_STEP = 6;
 
     @Override
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
-        
-        EventQueues.lookup("dashboardQueue", EventQueues.DESKTOP, true)
-        .subscribe(event -> {
-            if ("onSidebarToggle".equals(event.getName())) {
-                resizeContent();
-            }
-        });
-        
-        updateWizardVisibility();
+        updateUI();
     }
-    
-    private void resizeContent() {
-		if (mainContainer != null) {
-            if (mainContainer.getSclass().contains("enlarge")) {
-                mainContainer.setSclass("main-container");
-            } else {
-                mainContainer.setSclass("main-container enlarge");
-            }
+
+    @Listen("onClick = #btnNext")
+    public void nextStep() {
+        if (currentStep < MAX_STEP) {
+            currentStep++;
+            updateUI();
         }
     }
 
-    // NEXT BUTTON
-    @Listen("onClick = #btnNext")
-    public void onNext() {
-        currentStep++;
-        updateWizardVisibility();
-    }
-
-    // BACK BUTTON
     @Listen("onClick = #btnBack")
-    public void onBack() {
+    public void backStep() {
         if (currentStep > 1) {
             currentStep--;
-            updateWizardVisibility();
+            updateUI();
         }
     }
 
-    // LOAN TYPE CHANGE
-    @Listen("onSelect = #cmbLoanType")
-    public void onLoanTypeChange() {
-        String type = cmbLoanType.getValue();
-
-        if ("Personal Loan".equals(type)) {
-            decInterest.setValue(new BigDecimal("11.5"));
-            txtRepay.setValue("EMI (Standard)");
-        } else if ("Home Loan".equals(type)) {
-            decInterest.setValue(new BigDecimal("8.4"));
-            txtRepay.setValue("EMI (Reducing Balance)");
-        } else if ("Car Loan".equals(type)) {
-            decInterest.setValue(new BigDecimal("9.2"));
-            txtRepay.setValue("EMI (Fixed)");
-        }
-    }
-
-    // EMPLOYMENT CHANGE
-    @Listen("onCheck = #rgEmpType")
-    public void onEmploymentChange() {
-        Radio selected = rgEmpType.getSelectedItem();
-        boolean isSalaried = "Salaried".equals(selected.getValue());
-
-        rowEmployer.setVisible(isSalaried);
-        rowSalarySlip.setVisible(isSalaried);
-        rowWorkExperience.setVisible(isSalaried);
-        
-        rowBusiness.setVisible(!isSalaried);
-        rowGST.setVisible(!isSalaried);
-        rowITR.setVisible(!isSalaried);
-    }
-
-    // SUBMIT
-    @Listen("onClick = #btnSubmit")
-    public void onSubmit() {
-        Messagebox.show("Application Submitted Successfully via MVC!");
-    }
-
-    // STEP SWITCHING
-    private void updateWizardVisibility() {
+    private void updateUI() {
+        // Toggle Step Visibility
         step1.setVisible(currentStep == 1);
         step2.setVisible(currentStep == 2);
         step3.setVisible(currentStep == 3);
@@ -126,10 +56,25 @@ public class ApplyLoanComposer extends SelectorComposer<Component> {
         step5.setVisible(currentStep == 5);
         step6.setVisible(currentStep == 6);
 
-        lblProgress.setValue("Step " + currentStep + " of 6");
+        // Update Stepper Visuals
+        updateIndicator(step1Indicator, 1);
+        updateIndicator(step2Indicator, 2);
+        updateIndicator(step3Indicator, 3);
+        updateIndicator(step4Indicator, 4);
+        updateIndicator(step5Indicator, 5);
+        updateIndicator(step6Indicator, 6);
 
+        // Update Navigation Buttons
         btnBack.setDisabled(currentStep == 1);
-        btnNext.setVisible(currentStep != 6);
-        btnSubmit.setVisible(currentStep == 6);
+        btnNext.setVisible(currentStep < MAX_STEP);
+        btnSubmit.setVisible(currentStep == MAX_STEP);
+    }
+
+    private void updateIndicator(Div indicator, int stepNum) {
+        if (stepNum <= currentStep) {
+            indicator.setSclass("step-item active");
+        } else {
+            indicator.setSclass("step-item");
+        }
     }
 }

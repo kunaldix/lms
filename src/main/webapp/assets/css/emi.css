@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+/* --- Page Specific Styles --- */
+        .page-header-title {
+            font-size: 24px; font-weight: 700; color: #333; margin-bottom: 5px; display: block;
+        }
+        
+        /* Stats Cards */
+        .stats-card {
+            background: linear-gradient(135deg, #004b98 0%, #003377 100%);
+            color: white; border-radius: 12px; padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 75, 152, 0.2);
+            position: relative; overflow: hidden;
+        }
+        .stats-label { font-size: 13px; opacity: 0.8; font-weight: 500; display: block; }
+        .stats-value { font-size: 28px; font-weight: 800; display: block; margin-top: 5px; }
+        .stats-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 40px; opacity: 0.2; }
+
+        /* Loan Detail Cards */
+        .loan-card {
+            background: #ffffff; border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 0; border: 1px solid #eee; margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+        .loan-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+
+        /* Card Header */
+        .card-header {
+            padding: 15px 25px; border-bottom: 1px solid #f4f4f4;
+            display: flex; justify-content: space-between; align-items: center;
+            background: #fafbfc; border-radius: 10px 10px 0 0;
+        }
+        .loan-title { font-size: 16px; font-weight: 700; color: #004b98; }
+        .loan-id { font-size: 12px; color: #777; margin-left: 10px; background: #eee; padding: 2px 8px; border-radius: 4px; }
+        
+        /* Card Body */
+        .card-body { padding: 20px 25px; }
+        .info-label { font-size: 12px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .info-value { font-size: 16px; color: #333; font-weight: 600; margin-top: 4px; display: block; }
+        .highlight-value { color: #004b98; font-size: 22px; font-weight: 700; }
+        
+        /* Status Badges */
+        .status-badge { padding: 5px 15px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .status-due { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+        .status-paid { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+        .status-active { background: #e3f2fd; color: #004b98; border: 1px solid #bbdefb; }
+
+        /* Action Buttons */
+        .pay-btn {
+            background-color: #004b98; color: white; border: none; padding: 8px 20px;
+            border-radius: 6px; font-weight: 600; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 75, 152, 0.2);
+        }
+        .pay-btn:hover { background-color: #003377; }
+        
+        .history-btn {
+            background-color: #f5f7fb; color: #555; border: 1px solid #ddd;
+            padding: 8px 15px; border-radius: 6px; font-weight: 600; cursor: pointer;
+        }
+        .history-btn:hover { background-color: #e0e0e0; }
