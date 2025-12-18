@@ -6,12 +6,14 @@
         apply="com.lms.controller.ApplicationComposer">
 
         <label value="Manage Loan Applications"
-            style="font-size:26px;font-weight:600;margin-bottom:20px;" />
+               sclass="page-title"/>
 
         <separator/>
 
-        <grid id="applicationGrid" width="100%" sclass="table-dark">
-            <columns>
+        <grid id="applicationGrid"
+              width="100%"
+              sclass="table-dark">
+            <columns sizable="true">
                 <column label="First Name"/>
                 <column label="Last Name"/>
                 <column label="Phone"/>

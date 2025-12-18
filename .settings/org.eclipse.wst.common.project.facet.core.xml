@@ -5,8 +5,8 @@
   <fixed facet="java"/>
   <fixed facet="wst.jsdt.web"/>
   <fixed facet="jst.web"/>
-  <installed facet="java" version="21"/>
   <installed facet="jst.web" version="4.0"/>
   <installed facet="org.zkoss.eclipse.project.zksupports" version="1.0.2"/>
   <installed facet="wst.jsdt.web" version="1.0"/>
+  <installed facet="java" version="17"/>
 </faceted-project>

@@ -279,3 +279,47 @@ body, .z-body {
     background: #0dcaf0;
     color: white;
 }
+
+.page-title {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.table-dark .z-column-content {
+    background: #0d6efd;
+    color: white;
+    font-weight: 600;
+}
+
+.status-accept {
+    background: #28a745;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.status-reject {
+    background: #dc3545;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.status-pending {
+    background: #ffc107;
+    color: black;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.btn-accept {
+    background: #0d6efd;
+    color: white;
+}
+
+.btn-reject {
+    background: #dc3545;
+    color: white;
+}
+
