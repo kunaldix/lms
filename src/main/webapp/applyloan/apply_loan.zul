@@ -5,6 +5,12 @@
 	<style>
 		@import
 		url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+
+		/* Customizing the ZK Notification look */ .z-notification
+		.z-notification-content { font-family: 'Segoe UI', Tahoma,
+		Geneva, Verdana, sans-serif; font-size: 14px; font-weight: 600;
+		padding: 15px 25px; border-radius: 8px; box-shadow: 0 4px 15px
+		rgba(0,0,0,0.2); }
 	</style>
 
 	<navbar />
@@ -174,7 +180,8 @@
 							<row>
 								<label value="Monthly Income:"
 									sclass="field-label" />
-								<decimalbox id="decMonthlyIncome" format="#,##0.00" placeholder="e.g. 25,000.00" />
+								<decimalbox id="decMonthlyIncome"
+									format="#,##0.00" placeholder="e.g. 25,000.00" />
 							</row>
 						</rows>
 					</grid>

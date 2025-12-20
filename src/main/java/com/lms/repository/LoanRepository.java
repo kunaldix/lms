@@ -80,21 +80,29 @@ public class LoanRepository {
     }
 
     private void saveMasterLoan(Connection conn, Loan loan, int empId, int accId, int docId) throws SQLException {
-        String sql = "INSERT INTO loans (loan_id, loan_type, loan_amount, tenure_months, interest_rate, repayment_type, preferred_emi_date, user_id, employment_id, account_id, document_id, application_status, submission_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO loans (loan_id, loan_type, loan_amount, amount_paid, tenure_months, " +
+                     "interest_rate, repayment_type, preferred_emi_date, user_id, employment_id, " +
+                     "account_id, document_id, application_status, submission_date) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, loan.getLoanId());
             pstmt.setString(2, loan.getLoanType().toString());
             pstmt.setBigDecimal(3, loan.getLoanAmount());
-            pstmt.setInt(4, loan.getTenureMonths());
-            pstmt.setDouble(5, loan.getInterestRate());
-            pstmt.setString(6, loan.getRepaymentType().toString());
-            pstmt.setInt(7, loan.getPreferredEmiDate());
-            pstmt.setInt(8, loan.getUser().getId());
-            pstmt.setInt(9, empId);
-            pstmt.setInt(10, accId);
-            pstmt.setInt(11, docId);
-            pstmt.setString(12, loan.getApplicationStatus().toString());
-            pstmt.setTimestamp(13, new Timestamp(loan.getSubmissionDate().getTime()));
+
+            pstmt.setBigDecimal(4, java.math.BigDecimal.ZERO); 
+
+            pstmt.setInt(5, loan.getTenureMonths());
+            pstmt.setDouble(6, loan.getInterestRate());
+            pstmt.setString(7, loan.getRepaymentType().toString());
+            pstmt.setInt(8, loan.getPreferredEmiDate());
+            pstmt.setInt(9, loan.getUser().getId());
+            pstmt.setInt(10, empId);
+            pstmt.setInt(11, accId);
+            pstmt.setInt(12, docId);
+            pstmt.setString(13, loan.getApplicationStatus().toString());
+            pstmt.setTimestamp(14, new java.sql.Timestamp(loan.getSubmissionDate().getTime()));
+            
             pstmt.executeUpdate();
         }
     }

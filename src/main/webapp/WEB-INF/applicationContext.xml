@@ -10,6 +10,14 @@
 
 	<import resource="applicationContext-security.xml" />
 
+	<bean id="loanRepository"
+		class="com.lms.repository.LoanRepository" />
+
+	<bean id="loanService"
+		class="com.lms.service.impl.LoanServiceImpl">
+		<property name="loanRepo" ref="loanRepository" />
+	</bean>
+
 	<bean name="userRepository"
 		class="com.lms.repository.UserRepository" />
 
@@ -26,6 +34,7 @@
 	<bean id="loginSuccessHandler"
 		class="com.lms.security.LoginSuccessHandler">
 		<property name="userService" ref="realUserService" />
-		<property name="defaultTargetUrl" value="/contact/ContactUs.zul" />
+		<property name="defaultTargetUrl"
+			value="/contact/ContactUs.zul" />
 	</bean>
 </beans>

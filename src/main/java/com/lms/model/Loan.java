@@ -33,6 +33,8 @@ public class Loan{
     // SYSTEM FIELDS
     private LoanApplicationStatus applicationStatus; 
     private Date submissionDate;
+    
+    private BigDecimal amountPaid;
 
     // Default Constructor
     public Loan() {}
@@ -57,7 +59,13 @@ public class Loan{
 		this.submissionDate = submissionDate;
 	}
 
+	public BigDecimal getAmountPaid() {
+		return amountPaid;
+	}
 
+	public void setAmountPaid(BigDecimal amountPaid) {
+		this.amountPaid = amountPaid;
+	}
 
 	public String getLoanId() {
 		return loanId;
@@ -169,6 +177,6 @@ public class Loan{
 				+ tenureMonths + ", interestRate=" + interestRate + ", repaymentType=" + repaymentType
 				+ ", preferredEmiDate=" + preferredEmiDate + ", user=" + user + ", employmentDetails="
 				+ employmentDetails + ", accountInfo=" + accountInfo + ", userDoc=" + userDoc + ", applicationStatus="
-				+ applicationStatus + ", submissionDate=" + submissionDate + "]";
+				+ applicationStatus + ", submissionDate=" + submissionDate + ", amountPaid=" + amountPaid + "]";
 	}
 }
