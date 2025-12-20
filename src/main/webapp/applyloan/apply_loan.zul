@@ -158,13 +158,13 @@
 							<row id="rowEmployer">
 								<label value="Employer Name:"
 									sclass="field-label" />
-								<textbox
+								<textbox id="txtEmployerName"
 									placeholder="Enter Current Company Name" />
 							</row>
 							<row id="rowBusiness" visible="false">
 								<label value="Business Type:"
 									sclass="field-label" />
-								<combobox
+								<combobox id="cmbBusinessType"
 									placeholder="Select Nature of Business">
 									<comboitem label="Retail" />
 									<comboitem label="Services" />
@@ -174,8 +174,7 @@
 							<row>
 								<label value="Monthly Income:"
 									sclass="field-label" />
-								<decimalbox format="#,##0.00"
-									placeholder="e.g. 25,000.00" />
+								<decimalbox id="decMonthlyIncome" format="#,##0.00" placeholder="e.g. 25,000.00" />
 							</row>
 						</rows>
 					</grid>

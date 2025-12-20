@@ -7,22 +7,26 @@ public class AccountInfo {
     private String branchCode;       
     private String ifscCode;         
     private String accountNumber;
+    private String balance;
     private User user;
     
 	public AccountInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	public AccountInfo(int id, String bankName, String branchCode, String ifscCode, String accountNumber, User user) {
+
+	public AccountInfo(int id, String bankName, String branchCode, String ifscCode, String accountNumber,
+			String balance, User user) {
 		super();
 		this.id = id;
 		this.bankName = bankName;
 		this.branchCode = branchCode;
 		this.ifscCode = ifscCode;
 		this.accountNumber = accountNumber;
+		this.balance = balance;
 		this.user = user;
 	}
+
 	public int getId() {
 		return id;
 	}
@@ -53,10 +57,23 @@ public class AccountInfo {
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
 	}
+	public String getBalance() {
+		return balance;
+	}
+	public void setBalance(String balance) {
+		this.balance = balance;
+	}
+
 	public User getUser() {
 		return user;
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@Override
+	public String toString() {
+		return "AccountInfo [id=" + id + ", bankName=" + bankName + ", branchCode=" + branchCode + ", ifscCode="
+				+ ifscCode + ", accountNumber=" + accountNumber + ", balance=" + balance + ", user=" + user + "]";
 	}
 }

@@ -1,11 +1,23 @@
 package com.lms.controller;
 
+import java.util.Date;
+
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.*;
+
+import com.lms.constant.LoanApplicationStatus;
+import com.lms.constant.LoanType;
+import com.lms.constant.RepaymentType;
+import com.lms.model.AccountInfo;
+import com.lms.model.EmploymentDetails;
+import com.lms.model.Loan;
+import com.lms.model.User;
+import com.lms.model.UserLoanDocuments;
+import com.lms.repository.LoanRepository;
 
 public class ApplyLoanComposer extends SelectorComposer<Component> {
 
@@ -14,31 +26,32 @@ public class ApplyLoanComposer extends SelectorComposer<Component> {
 	 */
 	private static final long serialVersionUID = -5630649158860218775L;
 
-	@Wire
-	private Combobox cmbLoanType;
-	@Wire
-	private Decimalbox decInterest;
-	@Wire
-	private Radiogroup rgEmpType;
-	@Wire
-	private Row rowEmployer, rowBusiness;
-	@Wire
-	private Checkbox chkConfirm;
+    // STEP 1 Wiring
+    @Wire private Combobox cmbLoanType, cmbRepay;
+    @Wire private Decimalbox decAmount, decInterest;
+    @Wire private Intbox intTenure, dateEmi;
 
-	// Wire the Step Divs
-	@Wire
-	Div step1, step2, step3, step4, step5, step6;
+    // STEP 3 Wiring
+    @Wire private Radiogroup rgEmpType;
+    @Wire private Row rowEmployer, rowBusiness;
+    @Wire private Textbox txtEmployerName; // Add this ID in ZUL
+    @Wire private Combobox cmbBusinessType; // Add this ID in ZUL
+    @Wire private Decimalbox decMonthlyIncome; // Add this ID in ZUL
 
-	// Wire the Indicators
-	@Wire
-	Div step1Indicator, step2Indicator, step3Indicator, step4Indicator, step5Indicator, step6Indicator;
+    // STEP 4 Wiring
+    @Wire private Textbox txtBankName, txtBranchCode, txtIfscCode, txtAccountNo;
 
-	// Wire the Buttons
-	@Wire
-	Button btnBack, btnNext, btnSubmit;
+    // STEP 6 Wiring
+    @Wire private Checkbox chkConfirm;
 
-	private int currentStep = 1;
-	private final int MAX_STEP = 6;
+    // Navigation Wiring
+    @Wire Div step1, step2, step3, step4, step5, step6;
+    @Wire Div step1Indicator, step2Indicator, step3Indicator, step4Indicator, step5Indicator, step6Indicator;
+    @Wire Button btnBack, btnNext, btnSubmit;
+
+    private int currentStep = 1;
+    private final int MAX_STEP = 6;
+    private LoanRepository loanRepo = new LoanRepository();
 
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
@@ -131,35 +144,73 @@ public class ApplyLoanComposer extends SelectorComposer<Component> {
 	}
 	
 	@Listen("onClick = #btnSubmit")
-	public void submitApplication() {
-	    // 1. Check for Confirmation
-	    if (!chkConfirm.isChecked()) {
-	        Messagebox.show("Please check the confirmation box before submitting.", 
-	            "Final Review Required", Messagebox.OK, Messagebox.EXCLAMATION);
-	        return;
-	    }
+    public void submitApplication() {
+        if (!chkConfirm.isChecked()) {
+            Messagebox.show("Please check the confirmation box before submitting.", 
+                "Final Review Required", Messagebox.OK, Messagebox.EXCLAMATION);
+            return;
+        }
 
-	    // 2. Logic: Create a Loan Application Object
-	    // Replace with your actual Model class
-	    try {
-	        System.out.println("Submitting loan for: " + cmbLoanType.getValue());
-	        
-	        // Example of saving data (Your DB logic goes here)
-	        boolean success = saveLoanToDatabase(); 
+        try {
+            // 1. Create the Master Loan Object
+            Loan loan = new Loan();
+            
+            // Step 1 Data
+            loan.setLoanType(LoanType.valueOf(cmbLoanType.getSelectedItem().getValue().toString().replace(" ", "_").toUpperCase()));
+            loan.setLoanAmount(decAmount.getValue());
+            loan.setTenureMonths(intTenure.getValue());
+            loan.setInterestRate(decInterest.getValue().doubleValue());
+            loan.setRepaymentType(RepaymentType.valueOf(cmbRepay.getSelectedItem().getValue().toString().replace(" ", "_").toUpperCase()));
+            loan.setPreferredEmiDate(dateEmi.getValue());
 
-	        if (success) {
-	            // 3. Show Success and Redirect
-	            Messagebox.show("Your loan application has been submitted successfully!", 
-	                "Success", Messagebox.OK, Messagebox.INFORMATION, event -> {
-	                    // Redirect to another page (e.g., dashboard)
-	                    Executions.sendRedirect("/dashboard.zul");
-	                });
-	        }
-	    } catch (Exception e) {
-	        Messagebox.show("Error submitting application: " + e.getMessage(), 
-	            "System Error", Messagebox.OK, Messagebox.ERROR);
-	    }
-	}
+            // Step 2 Data (Assume User is in Session)
+            User currentUser = (User) Executions.getCurrent().getSession().getAttribute("user");
+            loan.setUser(currentUser);
+
+            // Step 3 Data: Employment Details
+            EmploymentDetails emp = new EmploymentDetails();
+            emp.setEmploymentType(rgEmpType.getSelectedItem().getValue());
+            emp.setEmployerName(txtEmployerName.getValue());
+            emp.setBusinessType(cmbBusinessType.getValue());
+            emp.setMonthlyIncome(decMonthlyIncome.getValue());
+            emp.setUser(currentUser);
+            loan.setEmploymentDetails(emp);
+
+            // Step 4 Data: Bank Account Info
+            AccountInfo acc = new AccountInfo();
+            acc.setBankName(txtBankName.getValue());
+            acc.setBranchCode(txtBranchCode.getValue());
+            acc.setIfscCode(txtIfscCode.getValue());
+            acc.setAccountNumber(txtAccountNo.getValue());
+            acc.setUser(currentUser);
+            loan.setAccountInfo(acc);
+
+            // Step 5 Data: Documents (Set paths/status as per your upload logic)
+            UserLoanDocuments docs = new UserLoanDocuments();
+            docs.setUser(currentUser);
+            // Example paths - populate these from your upload event handlers
+            docs.setPhotoUploaded("uploads/photo_" + currentUser.getId() + ".jpg"); 
+            loan.setUserDoc(docs);
+
+            // System Fields
+            loan.setApplicationStatus(LoanApplicationStatus.PENDING);
+            loan.setSubmissionDate(new Date());
+
+            // 2. Call Repository to persist
+            //loanRepo.applyLoan(loan);
+            System.out.println(loan);
+
+            // 3. Success Notification
+            Messagebox.show("Application Submitted Successfully! Your Loan ID is: " + loan.getLoanId(), 
+                "Success", Messagebox.OK, Messagebox.INFORMATION, event -> {
+                    Executions.sendRedirect("/dashboard.zul");
+                });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Messagebox.show("Error submitting application: " + e.getMessage(), "System Error", Messagebox.OK, Messagebox.ERROR);
+        }
+    }
 
 	private boolean saveLoanToDatabase() {
 	    

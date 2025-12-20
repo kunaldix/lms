@@ -75,7 +75,11 @@ public class UserLoanDocuments {
 	public void setPanUploaded(String panUploaded) {
 		PanUploaded = panUploaded;
 	}
-    
-    
-	
+	@Override
+	public String toString() {
+		return "UserLoanDocuments [id=" + id + ", user=" + user + ", PhotoUploaded=" + PhotoUploaded
+				+ ", SalarySlipUploaded=" + SalarySlipUploaded + ", ItrUploaded=" + ItrUploaded
+				+ ", BankStatementUploaded=" + BankStatementUploaded + ", AadharUploaded=" + AadharUploaded
+				+ ", PanUploaded=" + PanUploaded + "]";
+	}	
 }

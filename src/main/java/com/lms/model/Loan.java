@@ -7,10 +7,6 @@ import com.lms.constant.LoanApplicationStatus;
 import com.lms.constant.LoanType;
 import com.lms.constant.RepaymentType;
 
-/**
- * LoanApplication POJO for CreditHub Loan Management System.
- * This class maps to the 6-step wizard fields.
- */
 public class Loan{
     
     // STEP 1: Loan Details
@@ -165,5 +161,14 @@ public class Loan{
 
 	public void setSubmissionDate(Date submissionDate) {
 		this.submissionDate = submissionDate;
+	}
+
+	@Override
+	public String toString() {
+		return "Loan [loanId=" + loanId + ", loanType=" + loanType + ", loanAmount=" + loanAmount + ", tenureMonths="
+				+ tenureMonths + ", interestRate=" + interestRate + ", repaymentType=" + repaymentType
+				+ ", preferredEmiDate=" + preferredEmiDate + ", user=" + user + ", employmentDetails="
+				+ employmentDetails + ", accountInfo=" + accountInfo + ", userDoc=" + userDoc + ", applicationStatus="
+				+ applicationStatus + ", submissionDate=" + submissionDate + "]";
 	}
 }

@@ -47,4 +47,9 @@ public class EmploymentDetails {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	@Override
+	public String toString() {
+		return "EmploymentDetails [id=" + id + ", employmentType=" + employmentType + ", employerName=" + employerName
+				+ ", businessType=" + businessType + ", monthlyIncome=" + monthlyIncome + ", user=" + user + "]";
+	}
 }
