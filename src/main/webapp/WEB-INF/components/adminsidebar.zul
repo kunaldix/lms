@@ -1,0 +1,27 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/layout.css" ?>
+<zk>
+    <vlayout id="sidebar" sclass="sidebar">
+        
+        <hlayout id="menuDashboard" sclass="menu-item">
+            <label sclass="menu-icon fa fa-home" />
+            <label value="My Dashboard" sclass="menu-text" />
+        </hlayout>
+
+        <hlayout id="menuLoanApplications" sclass="menu-item">
+            <label sclass="menu-icon fa fa-file-text" />
+            <label value="Loan Applications" sclass="menu-text"/>
+        </hlayout>
+
+        <hlayout id="menuManageUsers" sclass="menu-item">
+            <label sclass="menu-icon fa fa-users" />
+            <label value="Manage Users" sclass="menu-text"/>
+        </hlayout>
+        
+        <hlayout id="menuProfile" sclass="menu-item">
+            <label sclass="menu-icon fa fa-user" />
+            <label value="My Profile" sclass="menu-text" />
+        </hlayout>
+
+    </vlayout>
+</zk>

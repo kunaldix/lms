@@ -1,40 +1,63 @@
 package com.lms.repository;
 
 import java.sql.*;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.lms.dbutils.DBConnection;
 import com.lms.model.Loan;
 
 public class LoanRepository {
+	
+	private static final Logger logger = LogManager.getLogger(LoanRepository.class);
 
     public void applyLoan(Loan loan) {
         Connection conn = null;
+        logger.info("Starting loan application process for User ID: {} and Loan ID: {}", 
+                    loan.getUser().getId(), loan.getLoanId());
+
         try {
             conn = DBConnection.getConnection();
-            conn.setAutoCommit(false); // Start transaction
+            logger.debug("Database connection established successfully.");
+            conn.setAutoCommit(false); 
 
             // 1. Save Employment Details
             int employmentId = saveEmployment(conn, loan);
+            logger.debug("Employment details saved with ID: {}", employmentId);
 
             // 2. Save Bank Account Info
             int accountId = saveAccount(conn, loan);
+            logger.debug("Account info saved with ID: {}", accountId);
 
             // 3. Save Document Status
             int documentId = saveDocuments(conn, loan);
+            logger.debug("Document records saved with ID: {}", documentId);
 
             // 4. Save Master Loan Record
             saveMasterLoan(conn, loan, employmentId, accountId, documentId);
 
-            conn.commit(); // Finalize transaction
-            System.out.println("Loan application persisted successfully.");
+            conn.commit(); 
+            logger.info("Loan application {} successfully persisted and committed.", loan.getLoanId());
 
         } catch (Exception e) {
+            logger.error("Error occurred while persisting loan application {}. Initiating rollback.", 
+                         loan.getLoanId(), e);
             if (conn != null) {
-                try { conn.rollback(); } catch (SQLException se) { se.printStackTrace(); }
+                try { 
+                    conn.rollback(); 
+                    logger.warn("Transaction rollback completed successfully.");
+                } catch (SQLException se) { 
+                    logger.error("Failed to rollback transaction.", se);
+                }
             }
-            e.printStackTrace();
         } finally {
-            try { if (conn != null) conn.close(); } catch (SQLException se) { se.printStackTrace(); }
+            try { 
+                if (conn != null) {
+                    conn.close();
+                    logger.debug("Database connection closed.");
+                }
+            } catch (SQLException se) { 
+                logger.error("Error while closing database connection.", se);
+            }
         }
     }
 
@@ -46,8 +69,11 @@ public class LoanRepository {
             pstmt.setString(3, loan.getEmploymentDetails().getBusinessType());
             pstmt.setBigDecimal(4, loan.getEmploymentDetails().getMonthlyIncome());
             pstmt.setInt(5, loan.getUser().getId());
+            
             pstmt.executeUpdate();
-            return getGeneratedId(pstmt);
+            int id = getGeneratedId(pstmt);
+            logger.trace("Employment record created: User ID {}", loan.getUser().getId());
+            return id;
         }
     }
 
@@ -59,6 +85,7 @@ public class LoanRepository {
             pstmt.setString(3, loan.getAccountInfo().getIfscCode());
             pstmt.setString(4, loan.getAccountInfo().getAccountNumber());
             pstmt.setInt(5, loan.getUser().getId());
+            
             pstmt.executeUpdate();
             return getGeneratedId(pstmt);
         }
@@ -74,6 +101,7 @@ public class LoanRepository {
             pstmt.setString(5, loan.getUserDoc().getBankStatementUploaded());
             pstmt.setString(6, loan.getUserDoc().getAadharUploaded());
             pstmt.setString(7, loan.getUserDoc().getPanUploaded());
+            
             pstmt.executeUpdate();
             return getGeneratedId(pstmt);
         }
@@ -89,9 +117,7 @@ public class LoanRepository {
             pstmt.setString(1, loan.getLoanId());
             pstmt.setString(2, loan.getLoanType().toString());
             pstmt.setBigDecimal(3, loan.getLoanAmount());
-
             pstmt.setBigDecimal(4, java.math.BigDecimal.ZERO); 
-
             pstmt.setInt(5, loan.getTenureMonths());
             pstmt.setDouble(6, loan.getInterestRate());
             pstmt.setString(7, loan.getRepaymentType().toString());
@@ -104,6 +130,7 @@ public class LoanRepository {
             pstmt.setTimestamp(14, new java.sql.Timestamp(loan.getSubmissionDate().getTime()));
             
             pstmt.executeUpdate();
+            logger.debug("Master loan record inserted: {}", loan.getLoanId());
         }
     }
 
@@ -111,6 +138,7 @@ public class LoanRepository {
         try (ResultSet rs = pstmt.getGeneratedKeys()) {
             if (rs.next()) return rs.getInt(1);
         }
+        logger.error("Database failed to return a generated key.");
         throw new SQLException("Failed to retrieve generated ID.");
     }
 }

@@ -1,0 +1,200 @@
+<?page title="Admin Profile | CreditHub" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/layout.css" ?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/Profile.css" ?>
+
+<zk>
+	<style>
+		@import
+		url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+	</style>
+
+	<vlayout width="100%" height="100%"
+		apply="com.lms.admin.controller.AdminProfileController">
+
+		<!-- ================= HEADER ================= -->
+		<navbar/>
+
+		<!-- ================= MAIN ================= -->
+		<hlayout sclass="main-content" width="100%" height="100%">
+
+			<!-- SIDEBAR -->
+			<adminsidebar id="sidebarMacro" activePage="profile" />
+
+			<!-- ========== CONTENT ========== -->
+			<vlayout id="mainContainer" sclass="main-container">
+
+				<vlayout sclass="profile-wrapper">
+
+					<!-- COVER -->
+					<div sclass="profile-cover">
+						<image src="/img/cover.jpg" sclass="cover-img" />
+						<div sclass="profile-avatar-box">
+							<image id="adminProfileImage"
+								sclass="profile-avatar" />
+						</div>
+						<button label="Edit Profile"
+							sclass="edit-profile-btn" />
+					</div>
+
+					<!-- HEADER INFO -->
+					<div sclass="profile-header">
+						<label id="adminName" value="Shivam Dixit" sclass="profile-name" />
+						<label id="adminRole" value="ADMIN" sclass="profile-role" />
+						<label id="adminEmail" value="sd@xyz.com" sclass="profile-email" />
+
+						<hbox sclass="profile-stats">
+							<vlayout>
+								<label id="totalUsers"
+									sclass="stat-number" value="15"/>
+								<label value="Total Users"
+									sclass="stat-label" />
+							</vlayout>
+							<vlayout>
+								<label id="totalLoans"
+									sclass="stat-number" value="25"/>
+								<label value="Loans Managed"
+									sclass="stat-label" />
+							</vlayout>
+							<vlayout>
+								<label id="pendingApprovals"
+									sclass="stat-number" value="15"/>
+								<label value="Pending Approvals"
+									sclass="stat-label" />
+							</vlayout>
+						</hbox>
+					</div>
+
+					<!-- CARDS -->
+					<hlayout sclass="profile-card-area">
+
+						<!-- LEFT : ADMIN INFO -->
+						<vlayout sclass="left-card" hflex="1">
+
+							<div sclass="card">
+								<label value="Admin Information"
+									sclass="card-title" />
+								<separator />
+
+								<grid sclass="info-grid">
+									<rows>
+										<row>
+											<label value="Full Name:" />
+											<label id="infoName" />
+										</row>
+										<row>
+											<label value="Email:" />
+											<label id="infoEmail" />
+										</row>
+										<row>
+											<label value="Phone:" />
+											<label id="infoPhone" />
+										</row>
+										<row>
+											<label value="Employee ID:" />
+											<label id="employeeId" />
+										</row>
+										<row>
+											<label value="Joined On:" />
+											<label id="joinedOn" />
+										</row>
+										<row>
+											<label value="Last Login:" />
+											<label id="lastLogin" />
+										</row>
+									</rows>
+								</grid>
+							</div>
+
+						</vlayout>
+
+						<!-- RIGHT : ACTIVITY + PERMISSIONS -->
+						<vlayout sclass="right-card" hflex="1">
+
+							<div sclass="card">
+								<label value="Recent Admin Activity"
+									sclass="card-title" />
+								<separator />
+
+								<listbox width="100%">
+									<listitem>
+										<listcell>
+											<label
+												value="Approved Loan #1045" />
+										</listcell>
+										<listcell>
+											<label value="Today"
+												sclass="time-badge" />
+										</listcell>
+									</listitem>
+									<listitem>
+										<listcell>
+											<label
+												value="Updated Interest Rates" />
+										</listcell>
+										<listcell>
+											<label value="Yesterday"
+												sclass="time-badge" />
+										</listcell>
+									</listitem>
+									<listitem>
+										<listcell>
+											<label
+												value="Created New User" />
+										</listcell>
+										<listcell>
+											<label value="2 days ago"
+												sclass="time-badge" />
+										</listcell>
+									</listitem>
+								</listbox>
+							</div>
+
+							<div sclass="card">
+								<label value="System Permissions"
+									sclass="card-title" />
+								<separator />
+
+								<listbox width="100%">
+									<listitem>
+										<listcell>
+											<label
+												value="User Management" />
+										</listcell>
+										<listcell>
+											<label value="Granted"
+												class="verified-status" />
+										</listcell>
+									</listitem>
+									<listitem>
+										<listcell>
+											<label
+												value="Loan Approval" />
+										</listcell>
+										<listcell>
+											<label value="Granted"
+												class="verified-status" />
+										</listcell>
+									</listitem>
+									<listitem>
+										<listcell>
+											<label
+												value="Reports Access" />
+										</listcell>
+										<listcell>
+											<label value="Granted"
+												class="verified-status" />
+										</listcell>
+									</listitem>
+								</listbox>
+							</div>
+
+						</vlayout>
+
+					</hlayout>
+
+				</vlayout>
+			</vlayout>
+
+		</hlayout>
+	</vlayout>
+</zk>

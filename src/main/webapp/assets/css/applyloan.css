@@ -4,6 +4,8 @@
    1. MAIN CONTAINER & PROGRESS HEADER
 =========================================== */
 /* Stepper Styling */
+ 
+
 .stepper {
 	display: flex;
 	justify-content: space-between;
@@ -164,3 +166,5 @@
 	font-weight: 600;
 	color: #333;
 }
+
+/* Final fix for Notification Icon and Text Alignment */

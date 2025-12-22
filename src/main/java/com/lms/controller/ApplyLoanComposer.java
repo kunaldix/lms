@@ -115,7 +115,7 @@ public class ApplyLoanComposer extends SelectorComposer<Component> {
         } else {
             // Show error notification to the user
             // Arguments: message, type (error/warning), target component, position, duration
-            Clients.showNotification(errorMessage, Clients.NOTIFICATION_TYPE_ERROR, btnNext, "middle_center", 3000);
+        	Clients.showNotification(errorMessage, Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 3000);
         }
     }
 	
@@ -250,7 +250,7 @@ public class ApplyLoanComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #btnSubmit")
     public void submitApplication() {
 		if (!validateStep(1) || !validateStep(3) || !validateStep(4)) {
-            Clients.showNotification("Some details are missing. Please go back and check.", "error", null, "middle_center", 3000);
+			Clients.showNotification("Some details are missing. Please go back and check.", "error", null, "middle_center", 3000);
             return;
         }
 		

@@ -12,5 +12,9 @@
 		<component-class>com.lms.custom_macro.Sidebar</component-class>
 		<widget-class>zul.wgt.Div</widget-class>
 	</component>
+	<component>
+		<component-name>adminsidebar</component-name>
+		<component-class>com.lms.custom_macro.AdminSidebar</component-class>
+	</component>
 </language-addon>
 
