@@ -1,0 +1,185 @@
+<?page title="Track Users | CreditHub" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/users.css" ?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/layout.css" ?>
+
+<zk>
+	<style>
+		@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+        
+	</style>
+
+	<div width="100%" height="100%" apply="com.lms.admin.controller.UsersComposer">
+		
+		<navbar />
+
+		<adminsidebar id="sidebarMacro" activePage="users" />
+
+		<vlayout id="mainContainer" sclass="main-container">
+			
+		<hlayout width="100%" spacing="15px"
+         style="margin-bottom:20px;align-items:stretch">
+		
+			<vlayout hflex="2">
+					<label value="User Management" sclass="page-header-title" />
+					<label value="Monitor user profiles and track loan health in real-time." style="color:#666;" />
+			</vlayout>
+		    <!-- Total Users -->
+		    <vlayout sclass="stat-card blue">
+		        <label value="TOTAL USERS" sclass="stat-title"/>
+		        <label value="4" sclass="stat-value"/>
+		    </vlayout>
+		
+		    <!-- Overdue / Defaulters -->
+		    <vlayout sclass="stat-card red">
+		        <label value="OVERDUE / DEFAULTERS" sclass="stat-title"/>
+		        <label value="2" sclass="stat-value"/>
+		    </vlayout>
+		
+		    <!-- Today's Collection -->
+		    <vlayout sclass="stat-card green">
+		        <label value="TODAY'S COLLECTION" sclass="stat-title"/>
+		        <label value="₹ 85,000" sclass="stat-value"/>
+		    </vlayout>
+		</hlayout>
+		<separator bar="true" style="background:#eee; margin-bottom:20px;" />
+		<div sclass="card-container">
+	        <hlayout style="margin-bottom: 20px;" valign="middle">
+	            <textbox placeholder="Search User..." width="200px"/>
+	            <button label="Search" sclass="z-button" style="background: #1a5a96; color: white;"/>
+	        </hlayout>
+
+        <grid style="border:none; background:transparent;">
+            <columns>
+                <column hflex="1" />
+                <column hflex="1" />
+            </columns>
+            <rows>
+                <row style="border:none; background:transparent;">
+                    <div sclass="user-card">
+                        <hlayout valign="top">
+                            <vlayout hflex="1">
+                            	<hlayout>
+                            	 <span sclass="z-icon-user" style="color:#1A5A96; font-size:16px;" />
+                                <label value="Amit Kumar" sclass="card-title"/>
+                                </hlayout>
+                                <label value="ID: #USR-101" style="font-size:10px; color:gray;"/>
+                            </vlayout>
+                            <label value="LOW RISK" sclass="risk-tag" style="background:#E6FFED; color:#22863A;"/>
+                        </hlayout>
+                        <separator bar="true" style="margin: 10px 0;"/>
+                        <hlayout spacing="30px">
+                            <vlayout>
+                                <label value="Total Debt" sclass="data-label"/>
+                                <label value="₹ 18,40,500" sclass="data-value"/>
+                            </vlayout>
+                            <vlayout>
+                                <label value="Active Loans" sclass="data-label"/>
+                                <label value="02" sclass="data-value"/>
+                            </vlayout>
+                            <vlayout>
+                                <label value="Last Seen" sclass="data-label"/>
+                                <label value="Today" sclass="data-value"/>
+                            </vlayout>
+                        </hlayout>
+                        <separator height="15px"/>
+                        <button id="amitbtn" label="User Details" hflex="1"/>
+                    </div>
+
+                    <div sclass="user-card" style="border-left-color: #DC3545;">
+                        <hlayout valign="top">
+                            <vlayout hflex="1">
+                            	<hlayout>
+                            	 <span sclass="z-icon-user" style="color:#1A5A96; font-size:16px;" />
+                                <label value="Rahul Kumar" sclass="card-title"/>
+                                </hlayout>
+                                <label value="ID: #USR-102" style="font-size:10px; color:gray;"/>
+                            </vlayout>
+                            <label value="HIGH RISK" sclass="risk-tag" style="background:#FFEBEB; color:#DC3545;"/>
+                        </hlayout>
+                        <separator bar="true" style="margin: 10px 0;"/>
+                        <hlayout spacing="30px">
+                            <vlayout>
+                                <label value="Total Debit" sclass="data-label"/>
+                                <label value="₹ 2,10,000" sclass="data-value" style="color:#DC3545;"/>
+                            </vlayout>
+                            <vlayout>
+                                <label value="Overdue" sclass="data-label"/>
+                                <label value="2 EMIs" sclass="data-value" style="color:#DC3545;"/>
+                            </vlayout>
+                            <vlayout>
+                                <label value="Last Seen" sclass="data-label"/>
+                                <label value="Yesterday" sclass="data-value"/>
+                            </vlayout>
+                        </hlayout>
+                        <separator height="15px"/>
+                        <button id="rahulbtn" label="User Details" hflex="1"/>
+                    </div>
+                </row>
+                
+                <row style="border:none; background:transparent;">
+				    <div sclass="user-card" style="border-left-color: #FFB020;">
+				        <hlayout valign="top">
+				            <vlayout hflex="1">
+				            	<hlayout>
+                            	 <span sclass="z-icon-user" style="color:#1A5A96; font-size:16px;" />
+				                <label value="Vikram Singh" sclass="card-title"/>
+				                </hlayout>
+				                <label value="ID: #USR-104" style="font-size:10px; color:gray;"/>
+				            </vlayout>
+				            <label value="MEDIUM RISK" sclass="risk-tag" style="background:#FFF4E5; color:#B58900;"/>
+				        </hlayout>
+				        <separator bar="true" style="margin: 10px 0;"/>
+				        <hlayout spacing="30px">
+				            <vlayout>
+				                <label value="Total Debt" sclass="data-label"/>
+				                <label value="₹ 5,20,000" sclass="data-value"/>
+				            </vlayout>
+				            <vlayout>
+				                <label value="Overdue" sclass="data-label"/>
+				                <label value="1 EMIs" sclass="data-value"/>
+				            </vlayout>
+				            <vlayout>
+				                <label value="Last Seen" sclass="data-label"/>
+				                <label value="05 Nev 2026" sclass="data-value"/>
+				            </vlayout>
+				        </hlayout>
+				        <separator height="15px"/>
+				        <button id="vikrambtn" label="User Details" hflex="1"/>
+				    </div>
+
+				    <div sclass="user-card" style="border-left-color: #1A5A96;">
+				        <hlayout valign="top">
+				            <vlayout hflex="1">
+				             <hlayout>
+                            	 <span sclass="z-icon-user" style="color:#1A5A96; font-size:16px;" />
+				                <label value="Sneha Patil" sclass="card-title"/>
+				                </hlayout>
+				                <label value="ID: #USR-105" style="font-size:10px; color:gray;"/>
+				            </vlayout>
+				            <label value="LOW RISK" sclass="risk-tag" style="background:#E6FFED; color:#22863A;"/>
+				        </hlayout>
+				        <separator bar="true" style="margin: 10px 0;"/>
+				        <hlayout spacing="30px">
+				            <vlayout>
+				                <label value="Total Debt" sclass="data-label"/>
+				                <label value="₹ 12,00,000" sclass="data-value"/>
+				            </vlayout>
+				            <vlayout>
+				                <label value="Status" sclass="data-label"/>
+				                <label value="Verified" sclass="data-value"/>
+				            </vlayout>
+				            <vlayout>
+				                <label value="Last Seen" sclass="data-label"/>
+				                <label value="1 Hour Ago" sclass="data-value"/>
+				            </vlayout>
+				        </hlayout>
+				        <separator height="15px"/>
+				        <button id="snehabtn" label="User Details" hflex="1" sclass="z-button-info"/>
+				    </div>
+				</row>
+              </rows>
+        </grid>
+    </div>			
+		</vlayout>
+	</div>
+</zk>

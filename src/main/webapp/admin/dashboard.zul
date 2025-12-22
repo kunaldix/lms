@@ -1,5 +1,6 @@
 <?page title="Admin_Dashboard" contentType="text/html;charset=UTF-8"?>
 <?link rel="stylesheet" type="text/css" href="/assets/css/Dashboard.css" ?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/layout.css" ?>
 <zk>
 
 	<!-- Font Awesome -->
@@ -8,95 +9,15 @@
 		url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
 	</style>
 
-	
 
-	<vlayout width="100%" height="100%" style="overflow-y:auto;"
+
+	<vlayout width="100%" height="100%"
 		apply="com.lms.admin.controller.DashboardComposer">
-		<hlayout sclass="top-header" width="100%">
-			<div hflex="2">
-				<label value="CreditHuB" sclass="brand-title"  />
-				<label id="sidebarToggle" value="☰" sclass="toggle-btn"
-					/>
-				<space />
-			</div>
-
-			<hlayout sclass="header-actions" hflex="3">
-
-				<!-- Greeting -->
-				<label id="greetingText" value="Hello, Admin"
-					sclass="greeting-text" />
-				<div
-					style="display:flex; align-items:center; gap:10px;">	
-					<!-- Name -->
-					<label id="loginName" value="Aashish"
-						sclass="login-name" />
-
-					<!-- Avatar -->
-					<div id="avatarBox" sclass="avatar-box">
-						<label id="avatarLetter" value="A" />
-					</div>
-				</div>
-			</hlayout>
-		</hlayout>
+		<navbar />
 		<hlayout sclass="main-content" width="100%" height="100%">
 
 			<!-- SIDEBAR -->
-			<vlayout id="sidebar" sclass="sidebar">
-				<!-- Dashboard -->
-				<hlayout sclass="menu-item active">
-					<label sclass="menu-icon fa fa-gauge" />
-					<label value="Dashboard" />
-				</hlayout>
-
-				<!-- Loans -->
-				<hlayout sclass="menu-item" id="menuLoans">
-					<label sclass="menu-icon fa fa-coins" />
-					<label value="Loans" />
-				</hlayout>
-
-				<!-- Applications -->
-				<hlayout sclass="menu-item" id="menuApplications">
-					<label sclass="menu-icon fa fa-file-lines" />
-					<label value="Applications" />
-				</hlayout>
-
-				<!-- Users -->
-				<hlayout sclass="menu-item">
-					<label sclass="menu-icon fa fa-users" />
-					<label value="Users" />
-				</hlayout>
-
-				<!-- Reports -->
-				<hlayout sclass="menu-item" id="menuReports">
-					<label sclass="menu-icon fa fa-chart-line" />
-					<label value="Reports" />
-				</hlayout>
-
-				<!-- Payments -->
-				<hlayout sclass="menu-item">
-					<label sclass="menu-icon fa fa-wallet" />
-					<label value="Payments" />
-				</hlayout>
-
-				<!-- Settings -->
-				<hlayout sclass="menu-item">
-					<label sclass="menu-icon fa fa-gear" />
-					<label value="Settings" />
-				</hlayout>
-
-				<!-- Notifications -->
-				<hlayout sclass="menu-item">
-					<label sclass="menu-icon fa fa-bell" />
-					<label value="Notifications" />
-				</hlayout>
-
-				<!-- Support -->
-				<hlayout sclass="menu-item">
-					<label sclass="menu-icon fa fa-headset" />
-					<label value="Support" />
-				</hlayout>
-
-			</vlayout>
+			<adminsidebar id="sidebarMacro" activePage="dashboard" />
 
 			<!-- MAIN CONTENT -->
 			<vlayout id="mainContainer" sclass="main-container">
@@ -131,8 +52,14 @@
 
 				<!-- Charts -->
 				<hlayout sclass="charts-row">
-					<charts id="loanTrendChart" type="line" />
-					<charts id="loanTypeChart" type="pie" />
+					<div sclass="chart-wrapper">
+						<charts id="loanTrendChart" type="line"
+							title="Loan Application Trend" />
+					</div>
+					<div sclass="chart-wrapper">
+						<charts id="loanTypeChart" type="pie"
+							title="Loan Distribution" />
+					</div>
 				</hlayout>
 
 				<!-- Recent Applications -->

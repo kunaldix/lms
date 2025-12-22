@@ -1,0 +1,389 @@
+<?page title="Track User Details | CreditHub" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/layout.css" ?>
+
+<zk>
+	<style>
+		@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+        
+        
+        .profile-container { background: #F4F7FA; padding: 20px; }
+        .detail-card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .section-title { font-size: 16px; font-weight: bold; color: #1A5A96; border-bottom: 2px solid #E2E8F0; padding-bottom: 5px; margin-bottom: 15px; }
+        .info-label { font-size: 12px; color: #64748B; font-weight: bold; }
+        .info-value { font-size: 14px; color: #1E293B; margin-bottom: 10px; display: block; }
+        .status-verified { color: #28A745; font-weight: bold; font-size: 12px; }
+	</style>
+
+	<div width="100%" height="100%" apply="com.lms.admin.controller.Userdetails">
+		
+		<navbar />
+
+		<sidebar id="sidebarMacro" activePage="users" />
+
+		<vlayout id="mainContainer" sclass="main-container">
+			
+		<vlayout sclass="profile-container" spacing="20px">
+        <hlayout valign="middle">
+            <button iconSclass="z-icon-arrow-left" label="Back to Management" 
+                    onClick='Executions.sendRedirect("users.zul")' 
+                    style="background:transparent; border:none; color:#1A5A96; cursor:pointer; font-weight:bold;"/>
+        </hlayout>
+
+        <hlayout spacing="20px" id="amithlayout" visible="false">
+            <div sclass="detail-card" width="350px" style="border-top: 4px solid #1A5A96;">
+                <vlayout spacing="10px">
+                    <div style="width:100px; height:100px; background:#E2E8F0; border-radius:50%; text-align:center; line-height:100px;">
+                        <span sclass="z-icon-user" style="font-size:50px; color:#1A5A96;"/>
+                    </div>
+                    <label value="Amit Kumar" style="font-size:20px; font-weight:bold;"/>
+                    <label value="ID: #USR-101" style="color:gray;"/>
+                    <label value="Verified Account" sclass="status-verified"/>
+                    
+                    <separator bar="true" hflex="1"/>
+                    
+                    <vlayout hflex="1">
+                        <label value="EMAIL ADDRESS" sclass="info-label"/>
+                        <label value="amit.kumar@example.com" sclass="info-value"/>
+                        
+                        <label value="PHONE NUMBER" sclass="info-label"/>
+                        <label value="+91 98765-43210" sclass="info-value"/>
+                        
+                        <label value="ADDRESS" sclass="info-label"/>
+                        <label value="Sector 15, Gurgaon, Haryana" sclass="info-value"/>
+                    </vlayout>
+                </vlayout>
+            </div>
+
+            <vlayout hflex="1" spacing="20px">
+                <div sclass="detail-card" style="border-top: 4px solid #1A5A96;">
+                    <label value="Loan Summary" sclass="section-title" />
+                    <grid style="border:none;">
+                        <columns>
+                            <column label="Parameter" />
+                            <column label="Value" />
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="Total Loan Amount" />
+                                <label value="₹ 20,00,000" style="font-weight:bold;"/>
+                            </row>
+                            <row>
+                                <label value="Current Outstanding" />
+                                <label value="₹ 18,40,500" style="font-weight:bold; color:#DC3545;"/>
+                            </row>
+                            <row>
+                                <label value="Active Loans" />
+                                <label value="02 (Home Loan, Personal Loan)" />
+                            </row>
+                            <row>
+                                <label value="Next EMI Date" />
+                                <label value="05 Jan 2026" style="color:#1A5A96; font-weight:bold;"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+
+                <div sclass="detail-card">
+                    <label value="Recent Repayment History" sclass="section-title" />
+                    <listbox mold="paging" pageSize="3">
+                        <listhead>
+                            <listheader label="Date" />
+                            <listheader label="Amount" />
+                            <listheader label="Status" />
+                        </listhead>
+                        <listitem>
+                            <listcell label="05 Dec 2025" />
+                            <listcell label="₹ 12,500" />
+                            <listcell><label value="SUCCESS" style="color:green; font-weight:bold;"/></listcell>
+                        </listitem>
+                        <listitem>
+                            <listcell label="05 Nov 2025" />
+                            <listcell label="₹ 12,500" />
+                            <listcell><label value="SUCCESS" style="color:green; font-weight:bold;"/></listcell>
+                        </listitem>
+                    </listbox>
+                </div>
+            </vlayout>
+        </hlayout>
+        
+        <hlayout spacing="20px" id="rahulhlayout" visible="false">
+        <div sclass="detail-card" width="350px" style="border-top: 4px solid #DC3545;">
+            <vlayout spacing="10px">
+                <div style="width:100px; height:100px; background:#FEE2E2; border-radius:50%; text-align:center; line-height:100px;">
+                    <span sclass="z-icon-user" style="font-size:50px; color:#DC3545;"/>
+                </div>
+                <label value="Rahul Verma" style="font-size:20px; font-weight:bold;"/>
+                <label value="ID: #USR-102" style="color:gray;"/>
+                
+                <hlayout valign="middle" style="background:#FFEBEB; padding:5px 10px; border-radius:5px;">
+                    <span sclass="z-icon-exclamation-triangle" style="color:#DC3545; font-size:12px;"/>
+                    <label value="High Risk Account" style="color:#DC3545; font-weight:bold; font-size:12px;"/>
+                </hlayout>
+                
+                <separator bar="true" hflex="1"/>
+                
+                <vlayout hflex="1">
+                    <label value="EMAIL ADDRESS" sclass="info-label"/>
+                    <label value="rahul.verma@email.com" sclass="info-value"/>
+                    
+                    <label value="PHONE NUMBER" sclass="info-label"/>
+                    <label value="+91 91234-56789" sclass="info-value"/>
+                    
+                    <label value="ADDRESS" sclass="info-label"/>
+                    <label value="Flat 402, Rohini, New Delhi" sclass="info-value"/>
+                </vlayout>
+            </vlayout>
+        </div>
+
+        <vlayout hflex="1" spacing="20px">
+            <div sclass="detail-card" style="border-top: 4px solid #DC3545;">
+                <label value="Loan Summary" sclass="section-title" style="color:#DC3545;" />
+                <grid style="border:none;">
+                    <columns>
+                        <column label="Parameter" />
+                        <column label="Status/Value" />
+                    </columns>
+                    <rows>
+                        <row>
+                            <label value="Total Loan Amount" />
+                            <label value="₹ 5,00,000" style="font-weight:bold;"/>
+                        </row>
+                        <row>
+                            <label value="Current Outstanding" />
+                            <label value="₹ 2,10,000" style="font-weight:bold; color:#DC3545;"/>
+                        </row>
+                        <row>
+                            <label value="Overdue Amount" />
+                            <label value="₹ 24,000 (2 EMIs)" style="font-weight:bold; color:#DC3545;"/>
+                        </row>
+                        <row>
+                            <label value="Last Payment Date" />
+                            <label value="15 Oct 2025" style="color:gray;"/>
+                        </row>
+                        <row>
+                            <label value="Recovery Status" />
+                            <label value="Follow-up Required" style="color:#DC3545; font-weight:bold;"/>
+                        </row>
+                    </rows>
+                </grid>
+            </div>
+
+            <div sclass="detail-card">
+                <label value="Recent Payment Attempts" sclass="section-title" />
+                <listbox mold="paging" pageSize="3">
+                    <listhead>
+                        <listheader label="Date" />
+                        <listheader label="Amount" />
+                        <listheader label="Status" />
+                    </listhead>
+                    <listitem>
+                        <listcell label="05 Dec 2025" />
+                        <listcell label="₹ 12,000" />
+                        <listcell><label value="FAILED" style="color:#DC3545; font-weight:bold;"/></listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="05 Nov 2025" />
+                        <listcell label="₹ 12,000" />
+                        <listcell><label value="BOUNCED" style="color:#DC3545; font-weight:bold;"/></listcell>
+                    </listitem>
+                    <listitem>
+                        <listcell label="05 Oct 2025" />
+                        <listcell label="₹ 12,000" />
+                        <listcell><label value="SUCCESS" style="color:green; font-weight:bold;"/></listcell>
+                    </listitem>
+                </listbox>
+            </div>
+        </vlayout>
+    </hlayout>
+    
+    <hlayout spacing="20px" id="vikramhlayout" visible="false">
+        <div sclass="detail-card" width="350px" style="border-top: 4px solid #FFB020;">
+            <vlayout spacing="10px">
+                <div style="width:100px; height:100px; background:#FFF9E6; border-radius:50%; text-align:center; line-height:100px;">
+                    <span sclass="z-icon-user" style="font-size:50px; color:#B58900;"/>
+                </div>
+                <label value="Vikram Singh" style="font-size:20px; font-weight:bold;"/>
+                <label value="ID: #USR-104" style="color:gray;"/>
+                
+                <hlayout valign="middle" style="background:#FFF4E5; padding:5px 10px; border-radius:5px;">
+                    <span sclass="z-icon-eye" style="color:#B58900; font-size:12px;"/>
+                    <label value="Moderate Risk / Watchlist" style="color:#B58900; font-weight:bold; font-size:12px;"/>
+                </hlayout>
+                
+                <separator bar="true" hflex="1"/>
+                
+                <vlayout hflex="1">
+                    <label value="EMAIL ADDRESS" sclass="info-label"/>
+                    <label value="vikram.singh@bizmail.com" sclass="info-value"/>
+                    
+                    <label value="PHONE NUMBER" sclass="info-label"/>
+                    <label value="+91 88776-65544" sclass="info-value"/>
+                    
+                    <label value="ADDRESS" sclass="info-label"/>
+                    <label value="H-Block, Sector 62, Noida, UP" sclass="info-value"/>
+                </vlayout>
+            </vlayout>
+        </div>
+
+        <vlayout hflex="1" spacing="20px">
+            <div sclass="detail-card" style="border-top: 4px solid #FFB020;">
+                <label value="Loan Summary" sclass="section-title" style="color:#B58900;" />
+                <grid style="border:none;">
+                    <columns>
+                        <column label="Metric" />
+                        <column label="Current Value" />
+                    </columns>
+                    <rows>
+                        <row>
+                            <label value="Total Loan Amount" />
+                            <label value="₹ 8,00,000" style="font-weight:bold;"/>
+                        </row>
+                        <row>
+                            <label value="Current Outstanding" />
+                            <label value="₹ 5,20,000" style="font-weight:bold; color:#1A5A96;"/>
+                        </row>
+                        <row>
+                            <label value="Recent Late Payments" />
+                            <label value="01 (Last Month)" style="font-weight:bold; color:#B58900;"/>
+                        </row>
+                        <row>
+                            <label value="Next Due Date" />
+                            <label value="05 Jan 2026" style="color:#1A5A96; font-weight:bold;"/>
+                        </row>
+                        <row>
+                            <label value="Admin Remark" />
+                            <label value="Send SMS Reminder" style="color:#B58900; font-style:italic;"/>
+                        </row>
+                    </rows>
+                </grid>
+            </div>
+
+            <div sclass="detail-card">
+                <label value="Payment Timeline" sclass="section-title" />
+                <listbox mold="paging" pageSize="3">
+                    <listhead>
+                        <listheader label="Date" />
+                        <listheader label="Amount" />
+                        <listheader label="Status" />
+                        <listheader label="Method" />
+                    </listhead>
+                    <listitem>
+                        <listcell label="12 Dec 2025" />
+                        <listcell label="₹ 15,400" />
+                        <listcell><label value="LATE PAID" style="color:#B58900; font-weight:bold;"/></listcell>
+                        <listcell label="UPI" />
+                    </listitem>
+                    <listitem>
+                        <listcell label="05 Nov 2025" />
+                        <listcell label="₹ 15,400" />
+                        <listcell><label value="SUCCESS" style="color:green; font-weight:bold;"/></listcell>
+                        <listcell label="Auto-Debit" />
+                    </listitem>
+                    <listitem>
+                        <listcell label="05 Oct 2025" />
+                        <listcell label="₹ 15,400" />
+                        <listcell><label value="SUCCESS" style="color:green; font-weight:bold;"/></listcell>
+                        <listcell label="Auto-Debit" />
+                    </listitem>
+                </listbox>
+            </div>
+        </vlayout>
+    </hlayout>
+    
+    <hlayout spacing="20px" id="snehahlayout" visible="false">
+        <div sclass="detail-card" width="350px" style="border-top: 4px solid #1A5A96;">
+            <vlayout spacing="10px">
+                <div style="width:100px; height:100px; background:#E0F2FE; border-radius:50%; text-align:center; line-height:100px;">
+                    <span sclass="z-icon-user" style="font-size:50px; color:#1A5A96;"/>
+                </div>
+                <label value="Sneha Patil" style="font-size:20px; font-weight:bold;"/>
+                <label value="ID: #USR-105" style="color:gray;"/>
+                
+                <hlayout valign="middle" style="background:#E6FFED; padding:5px 10px; border-radius:5px;">
+                    <span sclass="z-icon-shield" style="color:#22863A; font-size:12px;"/>
+                    <label value="Verified - Low Risk" style="color:#22863A; font-weight:bold; font-size:12px;"/>
+                </hlayout>
+                
+                <separator bar="true" hflex="1"/>
+                
+                <vlayout hflex="1">
+                    <label value="EMAIL ADDRESS" sclass="info-label"/>
+                    <label value="sneha.patil@outlook.com" sclass="info-value"/>
+                    
+                    <label value="PHONE NUMBER" sclass="info-label"/>
+                    <label value="+91 99887-76655" sclass="info-value"/>
+                    
+                    <label value="ADDRESS" sclass="info-label"/>
+                    <label value="A-102, Green Valley, Pune, MH" sclass="info-value"/>
+                </vlayout>
+            </vlayout>
+        </div>
+
+        <vlayout hflex="1" spacing="20px">
+            <div sclass="detail-card" style="border-top: 4px solid #1A5A96;">
+                <label value="Loan Summary" sclass="section-title" style="color:#1A5A96;" />
+                <grid style="border:none;">
+                    <columns>
+                        <column label="Parameter" />
+                        <column label="Value" />
+                    </columns>
+                    <rows>
+                        <row>
+                            <label value="Total Loan Amount" />
+                            <label value="₹ 15,00,000" style="font-weight:bold;"/>
+                        </row>
+                        <row>
+                            <label value="Current Outstanding" />
+                            <label value="₹ 12,00,000" style="font-weight:bold; color:#22863A;"/>
+                        </row>
+                        <row>
+                            <label value="Loan Type" />
+                            <label value="Personal Loan (Pre-Approved)" />
+                        </row>
+                        <row>
+                            <label value="Next EMI Date" />
+                            <label value="05 Jan 2026" style="color:#1A5A96; font-weight:bold;"/>
+                        </row>
+                        <row>
+                            <label value="Credit Score Impact" />
+                            <label value="Positive (+12 points)" style="color:#22863A; font-weight:bold;"/>
+                        </row>
+                    </rows>
+                </grid>
+            </div>
+
+            <div sclass="detail-card">
+                <label value="Perfect Payment History" sclass="section-title" />
+                <listbox mold="paging" pageSize="3">
+                    <listhead>
+                        <listheader label="Date" />
+                        <listheader label="Amount" />
+                        <listheader label="Status" />
+                        <listheader label="Early/On-time" />
+                    </listhead>
+                    <listitem>
+                        <listcell label="04 Dec 2025" />
+                        <listcell label="₹ 22,500" />
+                        <listcell><label value="SUCCESS" style="color:green; font-weight:bold;"/></listcell>
+                        <listcell label="1 Day Early" style="color:#22863A;"/>
+                    </listitem>
+                    <listitem>
+                        <listcell label="05 Nov 2025" />
+                        <listcell label="₹ 22,500" />
+                        <listcell><label value="SUCCESS" style="color:green; font-weight:bold;"/></listcell>
+                        <listcell label="On-time" />
+                    </listitem>
+                    <listitem>
+                        <listcell label="05 Oct 2025" />
+                        <listcell label="₹ 22,500" />
+                        <listcell><label value="SUCCESS" style="color:green; font-weight:bold;"/></listcell>
+                        <listcell label="On-time" />
+                    </listitem>
+                </listbox>
+            </div>
+        </vlayout>
+    </hlayout>
+    </vlayout>		
+		</vlayout>
+	</div>
+</zk>
