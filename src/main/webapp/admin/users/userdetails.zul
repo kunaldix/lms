@@ -18,7 +18,7 @@
 		
 		<navbar />
 
-		<sidebar id="sidebarMacro" activePage="users" />
+		<adminsidebar id="sidebarMacro" activePage="users" />
 
 		<vlayout id="mainContainer" sclass="main-container">
 			

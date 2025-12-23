@@ -50,18 +50,18 @@
 						<label sclass="card-icon fa fa-chart-pie"></label>
 					</div>
 				</hlayout>
-
+				
 				<hlayout sclass="charts-row">
-					<vlayout hflex="1">
+					<div sclass="chart-wrapper">
 						<label value="Repayment Progress"
 							sclass="section-title" />
 						<charts id="repaymentChart" type="pie" />
-					</vlayout>
-					<vlayout hflex="1">
+					</div>
+					<div sclass="chart-wrapper">
 						<label value="EMI Payment History"
 							sclass="section-title" />
 						<charts id="emiHistoryChart" type="column" />
-					</vlayout>
+					</div>
 				</hlayout>
 
 				<vlayout>

@@ -42,9 +42,9 @@ public class UserDashboardComposer extends SelectorComposer<Vlayout> {
         });
 		
 		// 3. Setup Charts dimensions
-		repaymentChart.setWidth(500);
+		repaymentChart.setWidth(450);
 		repaymentChart.setHeight(300);
-		emiHistoryChart.setWidth(500);
+		emiHistoryChart.setWidth(450);
 		emiHistoryChart.setHeight(300);
 
 		// 4. Load Data
@@ -59,13 +59,13 @@ public class UserDashboardComposer extends SelectorComposer<Vlayout> {
         if (mainContainer.getSclass().contains("enlarge")) {
             // Sidebar is opening (Back to Normal)
             mainContainer.setSclass("main-container");
-            repaymentChart.setWidth(500);
-            emiHistoryChart.setWidth(500);
+            repaymentChart.setWidth(450);
+            emiHistoryChart.setWidth(450);
         } else {
             // Sidebar is collapsing (Expand content)
             mainContainer.setSclass("main-container enlarge");
-            repaymentChart.setWidth(600); // Make charts bigger
-            emiHistoryChart.setWidth(600);
+            repaymentChart.setWidth(500); // Make charts bigger
+            emiHistoryChart.setWidth(500);
         }
         
         // Redraw charts to fit new width

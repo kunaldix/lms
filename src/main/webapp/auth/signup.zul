@@ -2,114 +2,102 @@
 <zk>
     <style>
         @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
-        
-        @import
-			url("https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css");
-			
-			@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&amp;display=swap");
+        @import url("https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css");
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;display=swap");
 
         *, *::before, *::after { box-sizing: border-box; }
 
         body, .z-window { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
             color: #333; margin: 0; padding: 0;
             background-color: #f4f6f8; 
         }
 
-        .main-container { display: flex; height: 100vh; width: 100%; }
+        .main-container { display: flex; height: 100vh; width: 100%; overflow: hidden; }
 
-        /* --- Left Panel Styling --- */ 
+        /* --- Left Panel --- */ 
         .left-panel { 
             background-color: #004a99; color: white; width: 70%; 
             display: flex; flex-direction: column; justify-content: center; 
             align-items: center; padding: 40px; position: relative; 
         }
+        .brand-logo { max-width: 300px; height: auto; margin-bottom: 5px; }
+        .trust-image { max-width: 280px; height: auto; margin-bottom: 15px; border-radius: 8px; }
 
-        .brand-logo { 
-            max-width: 300px; height: auto; margin-bottom: 5px; 
-            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2)); 
-        }
-
-        .trust-image { 
-            max-width: 280px; height: auto; margin-bottom: 15px; 
-            border-radius: 8px; opacity: 0.95; 
-        }
-
-        .trust-text { font-size: 16px; font-weight: 500; letter-spacing: 0.5px; opacity: 0.9; margin-bottom: 4px; }
-
-        /* --- Right Panel Styling --- */ 
+        /* --- Right Panel --- */ 
         .right-panel { 
             background-color: white; width: 30%; display: flex; 
             justify-content: center; align-items: center; position: relative; 
         }
 
-        /* Signup Card */ 
         .signup-container { 
-            background: #fff; padding: 2rem 2.5rem; 
-            width: 460px; height: auto; max-height: 90vh; 
-            border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 74, 153, 0.2);
-            position: absolute; left: -230px; display: flex; flex-direction: column; 
-        }
+    background: #fff; 
+    padding: 1.5rem 2rem; /* Reduced padding slightly to save vertical space */
+    width: 460px; 
+    height: auto; 
+    max-height: 95vh; /* Increased to allow more room for the button */
+    border-radius: 12px; 
+    box-shadow: 0 10px 30px rgba(0, 74, 153, 0.2);
+    position: absolute; 
+    left: -230px; 
+    display: flex; 
+    flex-direction: column; 
+    overflow: hidden; /* Important: prevents the card itself from growing a scrollbar */
+}
 
-        .form-title { 
-            margin-bottom: 1rem; font-size: 1.6rem; text-align: center; 
-            font-weight: 700; color: #004a99; display: block; 
-        }
+        .form-title { margin-bottom: 1rem; font-size: 1.6rem; text-align: center; font-weight: 700; color: #004a99; flex-shrink: 0; }
+        .form-label { margin-bottom: 0.3rem; font-weight: 600; display: block; color: #555; font-size: 0.9rem; }
 
-        .form-label { 
-            margin-bottom: 0.3rem; font-weight: 600; display: block; 
-            color: #555; font-size: 0.9rem; 
-        }
+        /* Scrollable Section */ 
+        .scrollable-form { 
+    overflow-y: auto; 
+    padding-right: 10px; 
+    flex: 1 1 auto; /* Allows the form to grow/shrink while remaining scrollable */
+    min-height: 0; /* Critical for flex scrollable areas */
+    margin-bottom: 10px; 
+}
+        .scrollable-form::-webkit-scrollbar { width: 6px; }
+        .scrollable-form::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
 
-       
-
-        /* Footer Section */ 
-        .form-footer { margin-top: 15px; padding-top: 15px; border-top: 1px solid #f0f0f0; }
+        /* Footer (Sticky) */ 
+      .form-footer { 
+    margin-top: auto; /* Pushes the footer to the bottom of the flex container */
+    padding-top: 15px; 
+    border-top: 1px solid #f0f0f0; 
+    flex-shrink: 0; /* Prevents the button from being compressed or hidden */
+    background: white; 
+    z-index: 10;
+}
 
         .btn-submit { 
             width: 100%; padding: 0.8rem; font-size: 1rem; border: none; 
             border-radius: 6px; background-color: #004a99; color: #fff; 
             font-weight: bold; cursor: pointer; transition: background 0.2s; 
         }
-
         .btn-submit:hover { background-color: #003377; }
 
-        .links { margin-top: 1.5rem; text-align: center; }
-        .links a { color: #004a99; text-decoration: none; margin: 0 0.5rem; font-size: 1rem; font-weight: 500;}
-        .links a:hover { text-decoration: underline; }
-
-        .eye-btn { 
-            background: transparent !important; border: none !important; 
-            box-shadow: none !important; color: #888 !important; cursor: pointer; 
-            position: absolute; right: 5px; top: 5px; font-size: 1.1rem; 
-        } 
-        .eye-btn:hover { color: #004a99 !important; }
-
-        /* Scrollable Form Area */ 
-        .scrollable-form { 
-            overflow-y: auto; padding-right: 5px; flex-grow: 1; 
-            min-height: 0; margin-bottom: 5px; 
-        }
-
-        .scrollable-form::-webkit-scrollbar { width: 6px; }
-        .scrollable-form::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; } 
-        .scrollable-form::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
-        .scrollable-form::-webkit-scrollbar-thumb:hover { background: #bbb; }
+        /* OTP Buttons */
+        .otp-btn { background: #004a99 !important; color: #fff !important; border: none !important; font-weight: 600 !important; border-radius: 6px !important; cursor: pointer; }
+        .verify-btn { background: #28a745 !important; color: #fff !important; border-radius: 6px !important; font-weight: 600 !important; cursor: pointer; }
         
+        .custom-input { border: 1px solid #d1d5db !important; padding: 10px 12px !important; border-radius: 6px !important; font-size: 14px; }
+        .custom-input[readonly] { background-color: #f3f4f6 !important; color: #6b7280 !important; }
+
+        .eye-btn { background: transparent !important; border: none !important; color: #888 !important; cursor: pointer; position: absolute; right: 5px; top: 5px; font-size: 1.1rem; }
+        .links { margin-top: 1rem; text-align: center; }
+        .links a { color: #004a99; text-decoration: none; font-weight: 600; }
+        
+        #rowEmailOtp { animation: slideDown 0.3s ease-out; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 
     <div class="main-container">
-
         <div class="left-panel">
             <image src="../img/logo_login.png" sclass="brand-logo"/>
             <image src="/img/hands_trust.png" sclass="trust-image" />
-            
             <div style="width: 100px; height: 3px; background: rgba(255,255,255,0.4); border-radius: 2px; margin-bottom: 15px;"></div>
-
             <vbox align="center" spacing="2px"> 
-                <label value="Your Trusted Platform for Loan Management" 
-                       style="font-size: 20px; font-weight: bold; line-height: 1.3; max-width: 90%; margin-bottom: 10px;" />
-
+                <label value="Your Trusted Platform for Loan Management" style="font-size: 20px; font-weight: bold; line-height: 1.3;" />
                 <label value="Building lasting relationships built on confidence." sclass="trust-text" />
                 <label value="Your secure partner for financial growth." sclass="trust-text" />
                 <label value="Transparent, reliable, and always here for you." sclass="trust-text" />
@@ -117,39 +105,38 @@
         </div>   
 
         <div class="right-panel">
-
-            <window border="none" sclass="signup-container"
-                closable="false" apply="com.lms.controller.SignupComposer"
-                contentStyle="display:flex; flex-direction:column; height:100%;">
-
+            <window border="none" sclass="signup-container" apply="com.lms.controller.SignupComposer">
                 <label value="Create Account" sclass="form-title" />
 
                 <div sclass="scrollable-form">
-
                     <vbox spacing="12px" width="100%">
-
                         <vlayout spacing="2px">
                             <label value="Full Name" sclass="form-label" />
-                            <textbox id="tname" sclass="custom-input" width="100%"
-                                placeholder="e.g. John Doe" />
+                            <textbox id="tname" sclass="custom-input" width="100%" placeholder="e.g. John Doe" />
                         </vlayout>
 
                         <vlayout spacing="2px">
                             <label value="Email Address" sclass="form-label" />
-                            <textbox id="temail" sclass="custom-input" width="100%"
-                                placeholder="name@example.com" />
+                            <hlayout spacing="5px" width="100%">
+                                <textbox id="temail" sclass="custom-input" hflex="1" 
+                                    placeholder="name@example.com" onChanging="" />
+                                <button id="btnVerifyEmail" label="Send OTP" 
+                                    sclass="otp-btn" width="100px" visible="false" />
+                            </hlayout>
+                            <hlayout id="rowEmailOtp" visible="false" spacing="5px" width="100%" style="margin-top:5px;">
+                                <textbox id="tEmailOtp" placeholder="6-digit Email OTP" hflex="1" sclass="custom-input" />
+                                <button id="btnConfirmEmail" label="Confirm" sclass="verify-btn" width="100px" />
+                            </hlayout>
                         </vlayout>
 
                         <vlayout spacing="2px">
                             <label value="Mobile Number" sclass="form-label" />
-                            <textbox id="tphone" sclass="custom-input" width="100%"
-                                maxlength="10" placeholder="10-digit number" />
+                            <textbox id="tphone" sclass="custom-input" width="100%" maxlength="10" placeholder="10-digit number" />
                         </vlayout>
 
                         <vlayout spacing="2px">
                             <label value="Account Type" sclass="form-label" />
-                            <combobox id="crole" sclass="custom-combo"
-                                width="100%" placeholder="Select Role" readonly="true">
+                            <combobox id="crole" sclass="custom-combo" width="100%" placeholder="Select Role" readonly="true">
                                 <comboitem label="Customer" value="CUSTOMER" />
                                 <comboitem label="Admin" value="ADMIN" />
                             </combobox>
@@ -158,39 +145,28 @@
                         <vlayout spacing="2px">
                             <label value="Password" sclass="form-label" />
                             <div style="position:relative; width:100%">
-                                <textbox id="tpassword" type="password"
-                                    sclass="custom-input" placeholder="Create password"
-                                    width="100%" />
-                                <button id="showPwd"
-                                    iconSclass="z-icon-eye-slash" sclass="eye-btn"
-                                    tooltiptext="Show Password" />
+                                <textbox id="tpassword" type="password" sclass="custom-input" placeholder="Create password" width="100%" />
+                                <button id="showPwd" iconSclass="z-icon-eye-slash" sclass="eye-btn" />
                             </div>
                         </vlayout>
 
                         <vlayout spacing="2px">
                             <label value="Confirm Password" sclass="form-label" />
                             <div style="position:relative; width:100%">
-                                <textbox id="tconfirmPwd"
-                                    type="password" sclass="custom-input"
-                                    placeholder="Confirm password" width="100%" />
-                                <button id="showCPwd"
-                                    iconSclass="z-icon-eye-slash" sclass="eye-btn"
-                                    tooltiptext="Show Password" />
+                                <textbox id="tconfirmPwd" type="password" sclass="custom-input" placeholder="Confirm password" width="100%" />
+                                <button id="showCPwd" iconSclass="z-icon-eye-slash" sclass="eye-btn" />
                             </div>
                         </vlayout>
-
                     </vbox>
                 </div>
 
                 <div sclass="form-footer">
                     <button id="signupBtn" label="Create Account" sclass="btn-submit" />
-
                     <hbox sclass="links" align="center" pack="center" width="100%">
                         <label value="Already have an account?" style="color:#666;" />
                         <a id="loginLink" label="Login here" href="login.zul" />
                     </hbox>
                 </div>
-
             </window>
         </div>
     </div>

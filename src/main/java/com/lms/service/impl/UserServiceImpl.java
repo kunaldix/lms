@@ -1,10 +1,9 @@
 package com.lms.service.impl;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.lms.model.User;
 import com.lms.repository.UserRepository;
@@ -13,20 +12,19 @@ import com.lms.service.UserService;
 public class UserServiceImpl implements UserService {
 
 	private UserRepository userRepository;
+	
+	private BCryptPasswordEncoder passwordEncoder;
+
+    public void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
 	public void setUserRepository(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
 	
-	public String passwordDigest(String input) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		MessageDigest md = MessageDigest.getInstance("md5");
-		byte[] digest = md.digest(input.getBytes("UTF-8"));
-		StringBuilder sb = new StringBuilder();
-		for (byte b : digest) {
-			sb.append(String.format("%02x", b));
-		}
-
-		return sb.toString();
+	public String passwordDigest(String input) {
+		return passwordEncoder.encode(input);
 	}
 
 	@Override
@@ -64,17 +62,4 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		userRepository.updatePassword(id, newPassword);
 	}
-
-	
-
-//	@Override
-//	public void createAccount(Account acc) {
-//		acc.setAccountNo(generateAccountNumber());
-//		userRepository.createAccount(acc);
-//	}
-
-//	public String generateAccountNumber() {
-//		long number = 1000000000L + (long) (random.nextDouble() * 9000000000L);
-//		return String.valueOf(number);
-//	}
 }

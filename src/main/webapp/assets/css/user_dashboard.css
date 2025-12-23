@@ -263,11 +263,18 @@
 		display: flex;
 		gap: 20px;
 		margin-bottom: 25px;
-		background: #fff;
 		padding: 20px;
 		border-radius: 8px;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 	}
+	
+	.chart-wrapper {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    flex: 1;
+    border: 1px solid #e2e8f0;
+}
 	
 	.section-title {
 		font-size: 18px;

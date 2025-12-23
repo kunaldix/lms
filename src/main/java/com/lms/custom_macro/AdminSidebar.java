@@ -78,10 +78,10 @@ public class AdminSidebar extends HtmlMacroComponent{
     public void goDashboard() { Executions.sendRedirect("/admin/dashboard.zul"); }
 
     @Listen("onClick = #menuLoanApplications")
-    public void goLoans() { Executions.sendRedirect("/admin/loan_application.zul"); }
+    public void goLoans() { Executions.sendRedirect("/admin/applications.zul"); }
     
     @Listen("onClick = #menuManageUsers")
-    public void goApply() { Executions.sendRedirect("/admin/users.zul"); }
+    public void goApply() { Executions.sendRedirect("/admin/users/users.zul"); }
     
     @Listen("onClick = #menuProfile")
     public void goProfile() { Executions.sendRedirect("/admin/profile.zul"); }

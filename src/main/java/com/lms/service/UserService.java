@@ -1,7 +1,5 @@
 package com.lms.service;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +7,7 @@ import com.lms.model.User;
 
 public interface UserService {
 	
-	public String passwordDigest(String input) throws NoSuchAlgorithmException, UnsupportedEncodingException;
+	public String passwordDigest(String input);
 	
 	public void saveUser(User user);
 	

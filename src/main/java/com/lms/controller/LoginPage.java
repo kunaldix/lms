@@ -1,7 +1,5 @@
 package com.lms.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 import org.zkoss.zk.ui.Executions;
@@ -82,7 +80,7 @@ public class LoginPage extends SelectorComposer<Window> {
         System.out.println("OTP sent to email: " + generatedOtp);
         
          try {
-             EmailUtility.sendOtpEmail(email, generatedOtp);
+             EmailUtility.sendPasswordResetEmail(email, generatedOtp);
              // Show success message at top of screen
              Clients.showNotification("OTP sent successfully", "info", null, "top_center", 3000);
          } catch (Exception e) {
@@ -133,12 +131,9 @@ public class LoginPage extends SelectorComposer<Window> {
 	    }
 	    
 	    String passdig = null;
-		try {
-			passdig = userService.passwordDigest(newPwd.getValue());
-		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	    
+	    passdig = userService.passwordDigest(newPwd.getValue());
+		
 
 	    userService.updatePassword(user.getId(), passdig);
 		

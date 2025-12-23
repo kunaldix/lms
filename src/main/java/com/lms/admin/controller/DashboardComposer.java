@@ -4,6 +4,7 @@ import org.zkoss.chart.Charts;
 import org.zkoss.chart.model.DefaultPieModel;
 import org.zkoss.chart.model.DefaultXYModel;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Label;
@@ -44,16 +45,23 @@ public class DashboardComposer extends SelectorComposer<Vlayout> {
 		super.doAfterCompose(comp);
 
 		String adminName = (String) Sessions.getCurrent().getAttribute("loggedAdmin");
-
+		
+		EventQueues.lookup("dashboardQueue", EventQueues.DESKTOP, true)
+        .subscribe(event -> {
+            if ("onSidebarToggle".equals(event.getName())) {
+                resizeContent();
+            }
+        });
+		
 		if (adminName != null) {
 			lblAdminName.setValue("Welcome Admin " + adminName);
 			lblAvatarText.setValue(adminName.substring(0, 1).toUpperCase());
 		}
 		
-		loanTrendChart.setWidth(500);
+		loanTrendChart.setWidth(450);
 		loanTrendChart.setHeight(300);
 
-		loanTypeChart.setWidth(500);
+		loanTypeChart.setWidth(450);
 		loanTypeChart.setHeight(300);
 		
 		loadStats();
@@ -61,6 +69,28 @@ public class DashboardComposer extends SelectorComposer<Vlayout> {
 		loadLoanTypeChart();
 		loadRecentApplications();
 	}
+	
+	private void resizeContent() {
+		if (mainContainer != null) {
+            if (mainContainer.getSclass().contains("enlarge")) {
+                mainContainer.setSclass("main-container");
+                loanTrendChart.setWidth(450);
+        		loanTrendChart.setHeight(300);
+
+        		loanTypeChart.setWidth(450);
+        		loanTypeChart.setHeight(300);
+            } else {
+                mainContainer.setSclass("main-container enlarge");
+                loanTrendChart.setWidth(550);
+        		loanTrendChart.setHeight(300);
+
+        		loanTypeChart.setWidth(550);
+        		loanTypeChart.setHeight(300);
+            }
+        }
+		loanTrendChart.invalidate();
+		loanTypeChart.invalidate();
+    }
 
 	private void loadStats() {
 		lblTotalLoans.setValue("152");
