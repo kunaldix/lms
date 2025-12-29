@@ -54,7 +54,7 @@ public class SignupComposer extends SelectorComposer<Window> {
 		EmailUtility.sendVerificationEmail(email, generatedEmailOtp);
 
 		rowEmailOtp.setVisible(true);
-		Clients.showNotification("OTP sent to " + email);
+		Clients.showNotification("OTP sent to " + email + " "+ generatedEmailOtp);
 	}
 
 	@Listen("onClick = #btnConfirmEmail")
@@ -72,10 +72,10 @@ public class SignupComposer extends SelectorComposer<Window> {
 
 	@Listen("onClick = #signupBtn")
 	public void signupAction() {
-//		if (!isEmailVerified) {
-//			Clients.showNotification("Please verify your email first.", "warning", null, null, 3000);
-//			return;
-//		}
+		if (!isEmailVerified) {
+			Clients.showNotification("Please verify your email first.", "warning", null, null, 3000);
+			return;
+		}
 		if (!tpassword.getValue().equals(tconfirmPwd.getValue())) {
 			alert("Passwords do not match");
 			return;

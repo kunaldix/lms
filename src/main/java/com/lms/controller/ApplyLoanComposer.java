@@ -1,10 +1,16 @@
 package com.lms.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Date;
 
+import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.WrongValueException;
+import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
@@ -57,11 +63,147 @@ public class ApplyLoanComposer extends SelectorComposer<Component> {
     
     @WireVariable
     private LoanService loanService;
+    
+    @Wire private Textbox username, useremail, userphone;
+    
+    @Wire private Label lblStatusPhoto, lblStatusSalary, lblStatusAadhar, lblStatusItr, lblStatusBank, lblStatusPan; 
+    @Wire private Button btnUploadPhoto, btnUploadSalary, btnUploadAadhar, btnUploadItr, btnUploadBank, btnUploadPan;
+    private String pathPhoto, pathSalary, pathAadhar, pathItr, pathBank, pathPan;
+    private final String UPLOAD_DIR = "/var/credithub/uploads/";
 
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
 		updateUI();
+		
+		User currUser = (User)Sessions.getCurrent().getAttribute("user");
+		
+		if(currUser != null) {
+			username.setValue(currUser.getName());
+			useremail.setValue(currUser.getEmail());
+			userphone.setValue(currUser.getPhoneNumber());
+		}
+	}
+	
+	@Listen("onUpload = #btnUploadPhoto")
+	public void onUploadPhoto(UploadEvent event) {
+	    processUpload(event.getMedia(), "photo", lblStatusPhoto, btnUploadPhoto);
+	}
+
+	@Listen("onUpload = #btnUploadSalary")
+	public void onUploadSalary(UploadEvent event) {
+	    processUpload(event.getMedia(), "salary", lblStatusSalary, btnUploadSalary);
+	}
+
+	@Listen("onUpload = #btnUploadAadhar")
+	public void onUploadAadhar(UploadEvent event) {
+	    processUpload(event.getMedia(), "aadhar", lblStatusAadhar, btnUploadAadhar);
+	}
+	
+	@Listen("onUpload = #btnUploadItr")
+	public void onUploadItr(UploadEvent event) {
+	    processUpload(event.getMedia(), "itr", lblStatusItr, btnUploadItr);
+	}
+
+	@Listen("onUpload = #btnUploadBank")
+	public void onUploadBank(UploadEvent event) {
+	    processUpload(event.getMedia(), "bank", lblStatusBank, btnUploadBank);
+	}
+
+	@Listen("onUpload = #btnUploadPan")
+	public void onUploadPan(UploadEvent event) {
+	    processUpload(event.getMedia(), "pan", lblStatusPan, btnUploadPan);
+	}
+	
+	private void processUpload(Media media, String docType, Label statusLabel, Button uploadBtn) {
+	    if (media == null) return;
+
+	    String format = media.getFormat().toLowerCase();
+	    
+	    if (docType.equals("photo")) {
+	        if (!"jpg".equals(format) && !"jpeg".equals(format) && !"png".equals(format)) {
+	            Clients.showNotification("Only JPG or PNG for Photo!", "error", uploadBtn, "end_center", 3000);
+	            return;
+	        }
+	    } 
+	    
+	    else if (docType.equals("salary") || docType.equals("aadhar") || 
+	             docType.equals("itr") || docType.equals("bank") || docType.equals("pan")) {
+	        if (!"pdf".equals(format)) {
+	            Clients.showNotification("Only PDF files allowed!", "error", uploadBtn, "end_center", 3000);
+	            return;
+	        }
+	    }
+
+	    try {
+	        User currentUser = (User) Executions.getCurrent().getSession().getAttribute("user");
+	        String fileName = currentUser.getId() + "_" + docType + "_" + System.currentTimeMillis() + "." + format;
+	        File file = new File(UPLOAD_DIR + fileName);
+
+	        try (InputStream in = media.getStreamData();
+	             FileOutputStream out = new FileOutputStream(file)) {
+	            byte[] buffer = new byte[1024];
+	            int length;
+	            while ((length = in.read(buffer)) > 0) {
+	                out.write(buffer, 0, length);
+	            }
+	        }
+
+	        // Store specific paths
+	        if (docType.equals("photo")) pathPhoto = file.getAbsolutePath();
+	        if (docType.equals("salary")) pathSalary = file.getAbsolutePath();
+	        if (docType.equals("aadhar")) pathAadhar = file.getAbsolutePath();
+	        if (docType.equals("itr")) pathItr = file.getAbsolutePath();
+	        if (docType.equals("bank")) pathBank = file.getAbsolutePath();
+	        if (docType.equals("pan")) pathPan = file.getAbsolutePath();
+
+	        statusLabel.setValue("Uploaded");
+	        statusLabel.setSclass("status-badge success");
+	        uploadBtn.setLabel("Remove");
+	        uploadBtn.setSclass("remove-btn");
+	        uploadBtn.setUpload("false");
+	        
+	        Clients.showNotification("File saved successfully.");
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        Clients.showNotification("Upload failed.", "error", null, "middle_center", 2000);
+	    }
+	}
+
+	@Listen("onClick = #btnUploadPhoto, #btnUploadSalary, #btnUploadAadhar, #btnUploadItr, #btnUploadBank, #btnUploadPan")
+	public void handleRemove(org.zkoss.zk.ui.event.Event event) {
+	    Button btn = (Button) event.getTarget();
+	    
+	    if ("Remove".equals(btn.getLabel())) {
+	        Label statusLabel = null;
+	        String uploadConfig = "true,maxsize=2048";
+
+	        if (btn == btnUploadPhoto) { 
+	            statusLabel = lblStatusPhoto; pathPhoto = null; uploadConfig += ",accept=image/*"; 
+	        } else if (btn == btnUploadSalary) { 
+	            statusLabel = lblStatusSalary; pathSalary = null; uploadConfig += ",accept=application/pdf"; 
+	        } else if (btn == btnUploadAadhar) { 
+	            statusLabel = lblStatusAadhar; pathAadhar = null; uploadConfig += ",accept=application/pdf"; 
+	        } else if (btn == btnUploadItr) { 
+	            statusLabel = lblStatusItr; pathItr = null; uploadConfig += ",accept=application/pdf"; 
+	        } else if (btn == btnUploadBank) { 
+	            statusLabel = lblStatusBank; pathBank = null; uploadConfig += ",accept=application/pdf"; 
+	        } else if (btn == btnUploadPan) { 
+	            statusLabel = lblStatusPan; pathPan = null; uploadConfig += ",accept=application/pdf"; 
+	        }
+
+	        if (statusLabel != null) {
+	            statusLabel.setValue("Pending");
+	            statusLabel.setSclass("status-badge pending");
+	        }
+	        
+	        btn.setLabel("Upload");
+	        btn.setSclass("upload-btn");
+	        btn.setUpload(uploadConfig); 
+	        
+	        Clients.showNotification("File removed", "warning", null, "middle_center", 1500);
+	    }
 	}
 	
 	@Listen("onCheck = #rgEmpType")
@@ -113,8 +255,6 @@ public class ApplyLoanComposer extends SelectorComposer<Component> {
                 if (currentStep == 6) prepareReviewStep();
             }
         } else {
-            // Show error notification to the user
-            // Arguments: message, type (error/warning), target component, position, duration
         	Clients.showNotification(errorMessage, Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 3000);
         }
     }
@@ -164,11 +304,15 @@ public class ApplyLoanComposer extends SelectorComposer<Component> {
                 break;
 
             case 5:
-                // If you haven't implemented file uploads yet, you can skip this 
-                // or check if labels are still "Pending"
+            	if (pathPhoto == null) return "Please upload your Passport Size Photo.";
+                if (pathSalary == null) return "Please upload your Salary Slips.";
+                if (pathAadhar == null) return "Please upload your Aadhar Card.";
+                if (pathItr == null) return "Please upload your ITR documents.";
+                if (pathBank == null) return "Please upload your Bank Statements.";
+                if (pathPan == null) return "Please upload your PAN Card.";
                 break;
         }
-        return null; // All valid
+        return null;
     }
 	
 	private boolean validateStep(int step) {
@@ -197,8 +341,12 @@ public class ApplyLoanComposer extends SelectorComposer<Component> {
                     break;
                 
                 case 5:
-                    // Example: check if labels still say "Pending"
-                    // In a real app, you'd check if the file object is null
+                	if (pathPhoto == null) throw new WrongValueException(btnUploadPhoto, "Photo required");
+                    if (pathSalary == null) throw new WrongValueException(btnUploadSalary, "Salary slips required");
+                    if (pathAadhar == null) throw new WrongValueException(btnUploadAadhar, "Aadhar card required");
+                    if (pathItr == null) throw new WrongValueException(btnUploadItr, "ITR required");
+                    if (pathBank == null) throw new WrongValueException(btnUploadBank, "Bank statements required");
+                    if (pathPan == null) throw new WrongValueException(btnUploadPan, "PAN card required");
                     break;
             }
             return true;
@@ -297,14 +445,12 @@ public class ApplyLoanComposer extends SelectorComposer<Component> {
             // Step 5 Data: Documents (Set paths/status as per your upload logic)
             UserLoanDocuments docs = new UserLoanDocuments();
             docs.setUser(currentUser);
-            docs.setAadharUploaded("aadhar");
-            docs.setBankStatementUploaded("yes");
-            docs.setItrUploaded("yes");
-            docs.setPanUploaded("yes");
-            docs.setPhotoUploaded("yes");
-            docs.setSalarySlipUploaded("yes");
-            // Example paths - populate these from your upload event handlers
-            //docs.setPhotoUploaded("uploads/photo_" + currentUser.getId() + ".jpg"); 
+            docs.setAadharUploaded(pathAadhar);
+            docs.setBankStatementUploaded(pathBank);
+            docs.setItrUploaded(pathItr);
+            docs.setPanUploaded(pathPan);
+            docs.setPhotoUploaded(pathPhoto);
+            docs.setSalarySlipUploaded(pathSalary);
             loan.setUserDoc(docs);
             
             loan.setLoanId(loanService.generateDisplayId(loan.getLoanType().name()));

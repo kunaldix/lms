@@ -122,6 +122,28 @@
 	border: 1px solid #ffd591;
 }
 
+/* Success Badge */
+.status-badge.success {
+    background: #e6ffed;
+    color: #2ecc71;
+    border: 1px solid #b7eb8f;
+}
+
+/* Remove Button Styling */
+.remove-btn {
+    background: #e74c3c !important; /* Red color */
+    color: white !important;
+    border: none !important;
+    border-radius: 4px;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.remove-btn:hover {
+    background: #c0392b !important;
+}
+
 .upload-btn {
 	background: #3498db;
 	color: white;

@@ -2,43 +2,29 @@
 <?link rel="stylesheet" type="text/css" href="/assets/css/layout.css" ?>
 <?link rel="stylesheet" type="text/css" href="/assets/css/applyloan.css" ?>
 <zk>
-<style>
-	@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+	<style>
+		@import
+		url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
 
-	.z-notification .z-notification-content {
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	font-size: 15px;
-	font-weight: 600;
-	padding: 18px 25px;
-	border-radius: 10px;
-	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-	/* Forces items to align in a row and centers them vertically */
-	display: flex !important;
-	flex-direction: row !important;
-	align-items: center !important;
-	justify-content: center !important;
-	gap: 15px; /* Creates fixed space between icon and text */
-	min-width: 320px;
-}
+		.z-notification .z-notification-content { font-family: 'Segoe
+		UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 15px;
+		font-weight: 600; padding: 18px 25px; border-radius: 10px;
+		box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2); /* Forces items to
+		align in a row and centers them vertically */ display: flex
+		!important; flex-direction: row !important; align-items: center
+		!important; justify-content: center !important; gap: 15px; /*
+		Creates fixed space between icon and text */ min-width: 320px; }
 
-/* Target the icon to prevent it from shifting or overlapping */
-.z-notification-icon {
-	display: inline-flex !important;
-	align-items: center;
-	justify-content: center;
-	margin: 0 !important; /* Removes ZK's default offset margin */
-	font-size: 22px;
-	min-width: 24px;
-}
+		/* Target the icon to prevent it from shifting or overlapping */
+		.z-notification-icon { display: inline-flex !important;
+		align-items: center; justify-content: center; margin: 0
+		!important; /* Removes ZK's default offset margin */ font-size:
+		22px; min-width: 24px; }
 
-/* Ensures text is vertically aligned with the icon */
-.z-notification-text {
-	display: inline-block;
-	line-height: normal;
-	margin: 0;
-	padding: 0;
-}
-</style>
+		/* Ensures text is vertically aligned with the icon */
+		.z-notification-text { display: inline-block; line-height:
+		normal; margin: 0; padding: 0; }
+	</style>
 
 	<navbar />
 
@@ -150,19 +136,19 @@
 							<row>
 								<label value="Full Name:"
 									sclass="field-label" />
-								<textbox value="Kunal Dixit"
+								<textbox id="username"
 									readonly="true" />
 							</row>
 							<row>
 								<label value="Email Address:"
 									sclass="field-label" />
-								<textbox value="kunal@example.com"
+								<textbox id="useremail"
 									readonly="true" />
 							</row>
 							<row>
 								<label value="Phone Number:"
 									sclass="field-label" />
-								<textbox value="9856741235"
+								<textbox id="userphone"
 									readonly="true" />
 							</row>
 						</rows>
@@ -266,7 +252,8 @@
 							<row>
 								<label value="Passport Size Photo"
 									sclass="field-label" />
-								<button label="Upload" upload="true"
+								<button id="btnUploadPhoto"
+									label="Upload" upload="true,maxsize=2048,accept=image/*"
 									sclass="upload-btn" />
 								<label id="lblStatusPhoto"
 									value="Pending" sclass="status-badge pending" />
@@ -274,15 +261,27 @@
 							<row>
 								<label value="Salary Slips (3 Months)"
 									sclass="field-label" />
-								<button label="Upload" upload="true"
+								<button id="btnUploadSalary"
+									label="Upload"
+									upload="true,maxsize=2048,accept=application/pdf"
 									sclass="upload-btn" />
 								<label id="lblStatusSalary"
 									value="Pending" sclass="status-badge pending" />
 							</row>
 							<row>
+								<label value="Aadhar Card"
+									sclass="field-label" />
+								<button id="btnUploadAadhar"
+									label="Upload"
+									upload="true,maxsize=2048,accept=application/pdf"
+									sclass="upload-btn" />
+								<label id="lblStatusAadhar"
+									value="Pending" sclass="status-badge pending" />
+							</row>
+							<row>
 								<label value="Income Tax Returns (ITR)"
 									sclass="field-label" />
-								<button label="Upload" upload="true"
+								<button id="btnUploadItr" label="Upload" upload="true,maxsize=2048,accept=application/pdf"
 									sclass="upload-btn" />
 								<label id="lblStatusItr" value="Pending"
 									sclass="status-badge pending" />
@@ -290,23 +289,16 @@
 							<row>
 								<label
 									value="Bank Statement (Last 6 Months)" sclass="field-label" />
-								<button label="Upload" upload="true"
+								<button id="btnUploadBank" label="Upload" upload="true,maxsize=2048,accept=application/pdf"
 									sclass="upload-btn" />
 								<label id="lblStatusBank"
 									value="Pending" sclass="status-badge pending" />
 							</row>
-							<row>
-								<label
-									value="Aadhar Card (Front &amp; Back)" sclass="field-label" />
-								<button label="Upload" upload="true"
-									sclass="upload-btn" />
-								<label id="lblStatusAadhar"
-									value="Pending" sclass="status-badge pending" />
-							</row>
+
 							<row>
 								<label value="PAN Card"
 									sclass="field-label" />
-								<button label="Upload" upload="true"
+								<button id="btnUploadPan" label="Upload" upload="true,maxsize=2048,accept=application/pdf"
 									sclass="upload-btn" />
 								<label id="lblStatusPan" value="Pending"
 									sclass="status-badge pending" />

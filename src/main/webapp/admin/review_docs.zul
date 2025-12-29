@@ -1,0 +1,75 @@
+<?page title="Review Application | CreditHub" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:h="native">
+    <window id="modalReview" title="Review Application Documents"
+        border="normal" width="750px" closable="true" 
+        sclass="review-modal modal-fade-in">
+
+        <vlayout sclass="modal-scroll-body">
+            
+            <div sclass="modal-user-header">
+                <span sclass="fa-solid fa-circle-user" style="font-size:48px; color:#004b98;" />
+                <vlayout spacing="2px">
+                    <label id="lblUserName" value="Rahul Sharma" style="font-size:20px; font-weight:bold; color:#333;" />
+                    <label id="lblLoanId" value="#HL-10029" style="color:#777; font-size:14px;" />
+                </vlayout>
+            </div>
+
+            <separator bar="true" style="margin: 15px 0;"/>
+
+            <div sclass="review-info-container">
+                <vlayout>
+                    <label value="1) LOAN INFORMATION" sclass="info-section-label" />
+                    <div sclass="review-data-group">
+                        <label value="Loan Type:" sclass="data-label" /><label id="lblLoanType" value="Home Loan" sclass="data-value" />
+                        <label value="Amount:" sclass="data-label" /><label id="lblLoanAmount" value="₹ 45,00,000" sclass="data-value" style="color:#004b98;" />
+                        <label value="Tenure:" sclass="data-label" /><label id="lblTenure" value="180 Months" sclass="data-value" />
+                        <label value="Interest Rate:" sclass="data-label" /><label value="8.5% p.a." sclass="data-value" />
+                        <label value="Repayment:" sclass="data-label" /><label value="Monthly EMI" sclass="data-value" />
+                        <label value="EMI Date:" sclass="data-label" /><label value="5th of month" sclass="data-value" />
+                    </div>
+                </vlayout>
+
+                <vlayout>
+                    <label value="2) PERSONAL INFO" sclass="info-section-label" />
+                    <div sclass="review-data-group">
+                        <label value="Email:" sclass="data-label" /><label id="lblEmail" value="rahul.s@example.com" sclass="data-value" />
+                        <label value="Phone:" sclass="data-label" /><label id="lblPhone" value="+91 98765 43210" sclass="data-value" />
+                    </div>
+                </vlayout>
+            </div>
+
+            <div sclass="review-info-container">
+                <vlayout>
+                    <label value="3) EMPLOYMENT DETAILS" sclass="info-section-label" />
+                    <div sclass="review-data-group">
+                        <label value="Type:" sclass="data-label" /><label id="lblEmpType" value="Salaried" sclass="data-value" />
+                        <label value="Employer:" sclass="data-label" /><label id="lblEmployer" value="TCS Ltd." sclass="data-value" />
+                        <label value="Income:" sclass="data-label" /><label id="lblIncome" value="₹ 1,20,000" sclass="data-value" />
+                    </div>
+                </vlayout>
+
+                <vlayout>
+                    <label value="4) BANK DETAILS" sclass="info-section-label" />
+                    <div sclass="review-data-group">
+                        <label value="Bank Name:" sclass="data-label" /><label value="HDFC Bank" sclass="data-value" />
+                        <label value="IFSC Code:" sclass="data-label" /><label value="HDFC0001234" sclass="data-value" />
+                        <label value="Account No:" sclass="data-label" /><label value="50100234455667" sclass="data-value" />
+                    </div>
+                </vlayout>
+            </div>
+
+            <vlayout spacing="10px">
+                <label value="5) UPLOADED DOCUMENTS" sclass="info-section-label" />
+                <div sclass="doc-row"><div sclass="doc-info"><span sclass="fa-solid fa-file-pdf" style="color:#e74c3c;" /><label value="Aadhar Card.pdf" /></div><button label="View" sclass="review-btn" /></div>
+                <div sclass="doc-row"><div sclass="doc-info"><span sclass="fa-solid fa-address-card" style="color:#f39c12;" /><label value="PAN_Card.pdf" /></div><button label="View" sclass="review-btn" /></div>
+                <div sclass="doc-row"><div sclass="doc-info"><span sclass="fa-solid fa-building-columns" style="color:#2c3e50;" /><label value="Bank_Statement.pdf" /></div><button label="View" sclass="review-btn" /></div>
+                <div sclass="doc-row"><div sclass="doc-info"><span sclass="fa-solid fa-money-check-dollar" style="color:#27ae60;" /><label value="Salary_Slip.pdf" /></div><button label="View" sclass="review-btn" /></div>
+            </vlayout>
+        </vlayout>
+
+        <div sclass="modal-footer-actions">
+            <button id="btnReject" label="Reject Application" hflex="1" sclass="btn-reject-outline" />
+            <button id="btnApprove" label="Approve Application" hflex="1" sclass="btn-approve-solid" />
+        </div>
+    </window>
+</zk>

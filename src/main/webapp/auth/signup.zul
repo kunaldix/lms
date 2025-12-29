@@ -120,7 +120,7 @@
                             <hlayout spacing="5px" width="100%">
                                 <textbox id="temail" sclass="custom-input" hflex="1" 
                                     placeholder="name@example.com" onChanging="" />
-                                <button id="btnVerifyEmail" label="Send OTP" 
+                                <button id="btnVerifyEmail" label="Verify" 
                                     sclass="otp-btn" width="100px" visible="false" />
                             </hlayout>
                             <hlayout id="rowEmailOtp" visible="false" spacing="5px" width="100%" style="margin-top:5px;">

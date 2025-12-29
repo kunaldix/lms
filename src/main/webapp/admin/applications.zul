@@ -1,191 +1,117 @@
-<?page title="Applications | CreditHub" contentType="text/html;charset=UTF-8"?>
+<?page title="Loan Applications | CreditHub Admin" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/applications.css" ?>
 <?link rel="stylesheet" type="text/css" href="/assets/css/layout.css" ?>
 
 <zk>
-
 	<style>
 		@import
 		url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
 	</style>
-	<vlayout width="100%" height="100%"
-		apply="com.lms.admin.controller.AdminApplicationComposer">
+	<div width="100%" height="100%" apply="com.lms.admin.controller.AdminApplicationComposer">
 
-		<!-- FIXED HEADER -->
 		<navbar />
+		<adminsidebar activePage="applications" />
 
-		<hlayout sclass="main-content" width="100%" height="100%">
+		<vlayout id="mainContainer" sclass="main-container"
+			style="padding: 20px;">
 
-			<!-- FIXED SIDEBAR -->
-			<adminsidebar activePage="applications" />
+			<hlayout spacing="20px" style="margin-bottom: 25px;"
+				valign="middle">
+				<vlayout hflex="2">
+					<label value="Application Management"
+						style="font-size:28px; font-weight:800; color:#004b98;" />
+					<label
+						value="Review and process incoming loan requests from customers."
+						style="color:#666;" />
+				</vlayout>
 
-			<!-- MAIN CONTENT -->
-			<vlayout id="mainContainer" sclass="main-container">
+				<div sclass="stats-card" hflex="1">
+					<label value="PENDING APPLICATIONS"
+						sclass="stats-label" />
+					<label value="12" sclass="stats-value" />
+					<span
+						sclass="stats-icon fa-solid fa-clock-rotate-left" />
+				</div>
 
-				<label value="Loan Applications"
-					style="font-size:22px;font-weight:700;margin-bottom:15px;" />
+				<div sclass="stats-card" hflex="1"
+					style="background: white; border: 1px solid #ddd; color: #333;">
+					<label value="TOTAL PROCESSED" sclass="stats-label"
+						style="color:#777;" />
+					<label value="158" sclass="stats-value"
+						style="color:#2ecc71;" />
+					<span class="stats-icon fa-solid fa-check-double"
+						style="color:#333;" />
+				</div>
+			</hlayout>
 
-				<!-- APPLICATIONS TABLE -->
-				<listbox id="applicationsList" mold="paging"
-					pageSize="5" width="100%">
+			<hlayout spacing="15px"
+				style="background:#f8fafd; padding:15px; border-radius:10px; border:1px solid #eef2f7; margin-bottom:20px;"
+				valign="middle">
+				<textbox placeholder="Search by Applicant Name or ID..."
+					hflex="1" sclass="z-textbox" height="40px" />
+				<combobox placeholder="Loan Type" width="150px"
+					height="40px" readonly="true">
+					<comboitem label="All Types" />
+					<comboitem label="Home Loan" />
+					<comboitem label="Personal Loan" />
+					<comboitem label="Car Loan" />
+				</combobox>
+				<button label="Filter" iconSclass="z-icon-filter"
+					style="background:#004b98; color:white; border-radius:6px; font-weight:600; padding:0 20px;"
+					height="40px" />
+			</hlayout>
 
-					<listhead>
-						<listheader label="Application ID"
-							width="150px" />
-						<listheader label="Applicant" />
-						<listheader label="Loan Type" />
-						<listheader label="Amount" />
-						<listheader label="Tenure" />
-						<listheader label="Status" />
-						<listheader label="Action" width="260px" />
-					</listhead>
-				</listbox>
+			<vlayout spacing="15px">
 
-				<!-- VIEW DETAILS WINDOW -->
-				<window id="detailsWin" title="Loan Application Details"
-					border="normal" width="800px" height="600px" mode="modal"
-					visible="false" sclass="card-window">
-
-					<div
-						style="overflow-y:auto;height:520px;padding:15px;">
-
-						<!-- LOAN DETAILS CARD -->
-						<div sclass="card">
-							<label value="Loan Details"
-								sclass="card-title" />
-
-							<grid sclass="card-grid">
-								<columns>
-									<column width="200px" />
-									<column />
-								</columns>
-								<rows>
-									<row>
-										<label value="Loan Type" />
-										<label id="dLoanType" />
-									</row>
-									<row>
-										<label value="Amount" />
-										<label id="dAmount" />
-									</row>
-									<row>
-										<label value="Tenure" />
-										<label id="dTenure" />
-									</row>
-									<row>
-										<label value="Interest Rate" />
-										<label id="dInterest" />
-									</row>
-									<row>
-										<label value="Repayment Type" />
-										<label id="dRepayment" />
-									</row>
-									<row>
-										<label value="EMI Date" />
-										<label id="dEmiDate" />
-									</row>
-								</rows>
-							</grid>
-						</div>
-
-						<!-- APPLICANT DETAILS CARD -->
-						<div sclass="card">
-							<label value="Applicant Details"
-								sclass="card-title" />
-
-							<grid sclass="card-grid">
-								<columns>
-									<column width="200px" />
-									<column />
-								</columns>
-								<rows>
-									<row>
-										<label value="Name" />
-										<label id="dName" />
-									</row>
-									<row>
-										<label value="Email" />
-										<label id="dEmail" />
-									</row>
-								</rows>
-							</grid>
-						</div>
-
-						<!-- EMPLOYMENT DETAILS CARD -->
-						<div sclass="card">
-							<label value="Employment Details"
-								sclass="card-title" />
-
-							<grid sclass="card-grid">
-								<columns>
-									<column width="200px" />
-									<column />
-								</columns>
-								<rows>
-									<row>
-										<label value="Employment Type" />
-										<label id="dEmployment" />
-									</row>
-									<row>
-										<label value="Employer" />
-										<label id="dEmployer" />
-									</row>
-									<row>
-										<label value="Monthly Income" />
-										<label id="dIncome" />
-									</row>
-								</rows>
-							</grid>
-						</div>
-
-						<!-- BANK DETAILS CARD -->
-						<div sclass="card">
-							<label value="Bank Details"
-								sclass="card-title" />
-
-							<grid sclass="card-grid">
-								<columns>
-									<column width="200px" />
-									<column />
-								</columns>
-								<rows>
-									<row>
-										<label value="Bank" />
-										<label id="dBank" />
-									</row>
-									<row>
-										<label value="IFSC" />
-										<label id="dIfsc" />
-									</row>
-									<row>
-										<label value="Account No" />
-										<label id="dAccount" />
-									</row>
-								</rows>
-							</grid>
-						</div>
-						<!-- DOCUMENTS CARD -->
-						<div sclass="card">
-							<label value="Uploaded Documents"
-								sclass="card-title" />
-
-							<listbox id="documentsList" width="100%"
-								height="180px">
-								<listhead>
-									<listheader label="Document Name" />
-									<listheader label="Type"
-										width="100px" />
-									<listheader label="Action"
-										width="140px" />
-								</listhead>
-							</listbox>
-						</div>
-						<hlayout style="margin-top:15px;">
-							<button label="Close" sclass="nav-btn"
-								onClick="detailsWin.setVisible(false)" />
+				<div sclass="loan-card">
+					<div sclass="card-header">
+						<hlayout valign="middle">
+							<span
+								class="fa-solid fa-file-invoice-dollar"
+								style="color:#004b98; font-size:18px; margin-right:10px;" />
+							<label value="#HL-10029"
+								sclass="loan-title" />
+							<label value="| Applicant: Rahul Sharma"
+								sclass="loan-id" style="font-weight:600; color:#333;" />
+						</hlayout>
+						<label value="PENDING"
+							sclass="status-badge status-pending" />
+					</div>
+					<div sclass="card-body">
+						<hlayout valign="middle">
+							<vlayout hflex="1">
+								<label value="Requested Amount"
+									sclass="info-label" />
+								<label value="₹ 45,00,000"
+									sclass="info-value highlight-value" />
+							</vlayout>
+							<vlayout hflex="1">
+								<label value="Loan Type"
+									sclass="info-label" />
+								<label value="Home Loan"
+									sclass="info-value" />
+							</vlayout>
+							<vlayout hflex="1">
+								<label value="Monthly Income"
+									sclass="info-label" />
+								<label value="₹ 1,20,000"
+									sclass="info-value" />
+							</vlayout>
+							<vlayout hflex="1">
+								<label value="Submission Date"
+									sclass="info-label" />
+								<label value="28 Dec 2025"
+									sclass="info-value" />
+							</vlayout>
+							<div hflex="1" style="text-align: right;">
+								<button id="btnReviewDocs" label="Review Docs"
+									sclass="review-btn" iconSclass="z-icon-folder-open" />
+							</div>
 						</hlayout>
 					</div>
-				</window>
+				</div>
+
 			</vlayout>
-		</hlayout>
-	</vlayout>
+		</vlayout>
+	</div>
 </zk>

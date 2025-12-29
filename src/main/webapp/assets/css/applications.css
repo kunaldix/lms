@@ -1,0 +1,370 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   CREDITHUB ADMIN DASHBOARD - application.css
+   ========================================================================== */
+
+:root {
+    --primary-blue: #004b98;
+    --secondary-blue: #003366;
+    --success-green: #2ecc71;
+    --danger-red: #e74c3c;
+    --bg-light: #f4f7fa;
+    --text-main: #2c3e50;
+    --text-muted: #7f8fa4;
+    --border-color: #eef2f7;
+}
+
+/* 1. Page Layout */
+.main-container {
+    padding: 30px;
+    background-color: var(--bg-light);
+    min-height: 100vh;
+}
+
+/* 2. Stats Header Cards (Top) */
+.stats-card {
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 75, 152, 0.15);
+    border: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.stats-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+
+.stats-value {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.stats-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 35px;
+    opacity: 0.2;
+}
+
+/* 3. The Loan Application Card */
+.loan-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    overflow: hidden;
+}
+
+.loan-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+/* Card Header (Light blue bar) */
+.card-header {
+    background: #f8fafd;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.loan-title {
+    font-weight: 800;
+    color: var(--text-main);
+    font-size: 15px;
+}
+
+.loan-id {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-left: 5px;
+}
+
+/* Card Body (Information content) */
+.card-body {
+    padding: 20px;
+}
+
+.info-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.info-value {
+    font-size: 14px;
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+.highlight-value {
+    color: var(--primary-blue);
+    font-size: 18px;
+    font-weight: 800;
+}
+
+/* 4. Status Badges */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.status-pending {
+    background: #fff1f0;
+    color: #cf1322;
+    border: 1px solid #ffa39e;
+}
+
+.status-approved {
+    background: #f6ffed;
+    color: #389e0d;
+    border: 1px solid #b7eb8f;
+}
+
+/* 5. Buttons */
+.review-btn {
+    background: white;
+    border: 1.5px solid var(--primary-blue);
+    color: var(--primary-blue);
+    padding: 6px 15px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.review-btn:hover {
+    background: var(--primary-blue);
+    color: white;
+}
+
+/* 6. ZK Overrides for Input alignment */
+.z-textbox {
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    padding: 5px 12px;
+}
+
+.z-textbox:focus {
+    border-color: var(--primary-blue);
+}
+
+/* Target the outer container */
+.z-combobox {
+    border: 1px solid #eef2f7 !important;
+    border-radius: 10px !important;
+    background: white !important;
+    height: 40px !important;
+    display: inline-flex !important;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Target the input area */
+.z-combobox-input {
+    border: none !important;
+    height: 38px !important;
+    padding: 0 15px !important;
+    font-size: 14px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Target the dropdown button/arrow */
+.z-combobox-button {
+    border: none !important;
+    background: #f8fafd !important;
+    color: #004b98 !important;
+    height: 40px !important;
+    width: 40px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #eef2f7 !important;
+}
+
+/* Fix focus state */
+.z-combobox-focus {
+    border-color: #004b98 !important;
+    box-shadow: 0 0 0 2px rgba(0, 75, 152, 0.1) !important;
+}
+
+/* Target the dropdown popup items */
+.z-comboitem-text {
+    font-size: 14px !important;
+    color: #2c3e50 !important;
+}
+
+
+/* ==========================================================================
+   CREDITHUB REVIEW MODAL STYLING
+   ========================================================================== */
+
+/* 1. Window & Container */
+.review-modal.z-window {
+    padding: 0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    border: 1px solid #eef2f7 !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+}
+
+.review-modal .z-window-header {
+    background: #004b98 !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 15px 20px !important;
+    font-size: 16px !important;
+}
+
+.review-modal .z-window-close {
+    color: white !important;
+    top: 15px !important;
+    right: 15px !important;
+}
+
+/* 2. Scrollable Body Area */
+.modal-scroll-body {
+    max-height: 520px;
+    overflow-y: auto !important;
+    padding: 20px !important;
+    scrollbar-width: thin;
+    scrollbar-color: #dcdfe6 transparent;
+}
+
+.modal-scroll-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-scroll-body::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+/* 3. Header Section (Icon & User Name) */
+.modal-user-header {
+    display: flex !important;
+    align-items: center !important; /* Perfect vertical alignment */
+    gap: 18px !important;
+    margin-bottom: 5px;
+}
+
+/* 4. Section Labels */
+.info-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #004b98;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #f0f2f5;
+    margin-bottom: 12px;
+    display: block;
+}
+
+/* 5. Data Grid (Prevents clumping) */
+.review-info-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two side-by-side columns */
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.review-data-group {
+    display: grid;
+    grid-template-columns: 115px 1fr; /* Fixed width for labels, flexible for values */
+    gap: 8px 10px;
+    align-items: baseline;
+}
+
+.data-label {
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+}
+
+.data-value {
+    font-size: 13px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* 6. Document Rows */
+.doc-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between;
+    padding: 10px 15px !important;
+    background: #f8fafd;
+    border: 1px solid #eef2f7;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.doc-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 7. Footer Actions with Wide Gap */
+.modal-footer-actions {
+    display: flex !important;
+    gap: 40px !important; /* Large separation between buttons */
+    padding: 20px;
+    background: #fff;
+    border-top: 1px solid #eef2f7;
+}
+
+.btn-reject-outline {
+    background: #fff !important;
+    color: #e74c3c !important;
+    border: 1.5px solid #e74c3c !important;
+    font-weight: 700 !important;
+    height: 48px !important;
+    border-radius: 8px !important;
+    cursor: pointer;
+}
+
+.btn-approve-solid {
+    background: #2ecc71 !important;
+    color: white !important;
+    border: none !important;
+    font-weight: 700 !important;
+    height: 48px !important;
+    border-radius: 8px !important;
+    cursor: pointer;
+}
+
+/* 8. Animations */
+.modal-fade-in {
+    animation: smoothPop 0.4s cubic-bezier(0.17, 0.88, 0.32, 1.28);
+}
+
+@keyframes smoothPop {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
