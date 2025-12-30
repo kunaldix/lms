@@ -18,7 +18,9 @@ public class Navbar extends HtmlMacroComponent {
 
     @Wire private Label loginName;
     @Wire private Image userProfileImage;
-    @Wire private Label sidebarToggle; // The button is actually here!
+    @Wire private Label sidebarToggle; 
+    
+    private String activeUser;
 
     public Navbar() {
         setMacroURI("/WEB-INF/components/navbar.zul");
@@ -40,7 +42,12 @@ public class Navbar extends HtmlMacroComponent {
             loginName.setValue(currentUser.getName());
         }
     }
-
+    
+    @Listen("onClick = #logo")
+    public void redirectToHome() {
+    	Executions.sendRedirect(activeUser == "admin" ? "/admin/dashboard.zul" : "/dashboard/dashboard.zul");
+    }
+    
     // --- NEW TOGGLE LOGIC ---
     @Listen("onClick = #sidebarToggle")
     public void onToggleClick() {

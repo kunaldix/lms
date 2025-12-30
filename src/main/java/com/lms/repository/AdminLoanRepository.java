@@ -9,7 +9,7 @@ import com.lms.dbutils.DBConnection;
 
 public class AdminLoanRepository {
 
-    public static List<Loan> getAllLoans() {
+    public List<Loan> getAllLoans() {
         List<Loan> loanList = new ArrayList<>();
         
         String sql = "SELECT l.*, u.name, u.email, u.phone_number, u.role, u.profile_image, " +
@@ -89,11 +89,4 @@ public class AdminLoanRepository {
         }
         return loanList;
     }
-    
-    public static void main(String[] args) {
-		List<Loan> allLoans = getAllLoans();
-		
-		for(Loan l : allLoans)
-			System.out.println(l);
-	}
 }

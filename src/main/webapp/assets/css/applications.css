@@ -235,13 +235,17 @@
     color: #2c3e50 !important;
 }
 
+@charset "UTF-8";
 
 /* ==========================================================================
-   CREDITHUB REVIEW MODAL STYLING
+   CREDITHUB REVIEW MODAL STYLING - review-modal.css
    ========================================================================== */
 
 /* 1. Window & Container */
 .review-modal.z-window {
+    max-height: 95vh !important; 
+    display: flex;
+    flex-direction: column;
     padding: 0 !important;
     border-radius: 12px !important;
     overflow: hidden !important;
@@ -265,13 +269,13 @@
 
 /* 2. Scrollable Body Area */
 .modal-scroll-body {
-    max-height: 520px;
+    max-height: 55vh !important; 
     overflow-y: auto !important;
-    padding: 20px !important;
-    scrollbar-width: thin;
-    scrollbar-color: #dcdfe6 transparent;
+    padding: 0 20px !important; 
+    flex: 1; 
 }
 
+/* Custom Scrollbar */
 .modal-scroll-body::-webkit-scrollbar {
     width: 6px;
 }
@@ -284,7 +288,7 @@
 /* 3. Header Section (Icon & User Name) */
 .modal-user-header {
     display: flex !important;
-    align-items: center !important; /* Perfect vertical alignment */
+    align-items: center !important;
     gap: 18px !important;
     margin-bottom: 5px;
 }
@@ -302,17 +306,17 @@
     display: block;
 }
 
-/* 5. Data Grid (Prevents clumping) */
+/* 5. Data Grid */
 .review-info-container {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two side-by-side columns */
+    grid-template-columns: 1fr 1fr; 
     gap: 25px;
     margin-bottom: 20px;
 }
 
 .review-data-group {
     display: grid;
-    grid-template-columns: 115px 1fr; /* Fixed width for labels, flexible for values */
+    grid-template-columns: 115px 1fr; 
     gap: 8px 10px;
     align-items: baseline;
 }
@@ -347,13 +351,14 @@
     gap: 12px;
 }
 
-/* 7. Footer Actions with Wide Gap */
+/* 7. Footer Actions */
 .modal-footer-actions {
     display: flex !important;
-    gap: 40px !important; /* Large separation between buttons */
+    gap: 40px !important;
     padding: 20px;
     background: #fff;
     border-top: 1px solid #eef2f7;
+    margin-top: auto; 
 }
 
 .btn-reject-outline {
@@ -375,6 +380,7 @@
     border-radius: 8px !important;
     cursor: pointer;
 }
+
 
 /* 8. Animations */
 .modal-fade-in {

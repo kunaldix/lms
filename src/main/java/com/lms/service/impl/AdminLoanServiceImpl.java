@@ -9,6 +9,10 @@ import com.lms.service.AdminLoanService;
 public class AdminLoanServiceImpl implements AdminLoanService{
 	
 	private AdminLoanRepository adminLoanRepo;
+	
+	public void setAdminLoanRepo(AdminLoanRepository adminLoanRepo) {
+        this.adminLoanRepo = adminLoanRepo;
+    }
 
 	@Override
 	public List<Loan> getAllLoans() {

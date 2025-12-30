@@ -1,0 +1,155 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   CREDITHUB REVIEW MODAL STYLING - review-modal.css
+   ========================================================================== */
+
+/* 1. Window & Container */
+.review-modal.z-window {
+    max-height: 95vh !important; 
+    display: flex;
+    flex-direction: column;
+    padding: 0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    border: 1px solid #eef2f7 !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+}
+
+.review-modal .z-window-header {
+    background: #004b98 !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 15px 20px !important;
+    font-size: 16px !important;
+}
+
+.review-modal .z-window-close {
+    color: white !important;
+    top: 15px !important;
+    right: 15px !important;
+}
+
+/* 2. Scrollable Body Area */
+.modal-scroll-body {
+    max-height: 55vh !important; 
+    overflow-y: auto !important;
+    padding: 0 20px !important; 
+    flex: 1; 
+}
+
+/* Custom Scrollbar */
+.modal-scroll-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-scroll-body::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+/* 3. Header Section (Icon & User Name) */
+.modal-user-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 18px !important;
+    margin-bottom: 5px;
+}
+
+/* 4. Section Labels */
+.info-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #004b98;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #f0f2f5;
+    margin-bottom: 12px;
+    display: block;
+}
+
+/* 5. Data Grid */
+.review-info-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.review-data-group {
+    display: grid;
+    grid-template-columns: 115px 1fr; 
+    gap: 8px 10px;
+    align-items: baseline;
+}
+
+.data-label {
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+}
+
+.data-value {
+    font-size: 13px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* 6. Document Rows */
+.doc-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between;
+    padding: 10px 15px !important;
+    background: #f8fafd;
+    border: 1px solid #eef2f7;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.doc-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 7. Footer Actions */
+.modal-footer-actions {
+    display: flex !important;
+    gap: 40px !important;
+    padding: 20px;
+    background: #fff;
+    border-top: 1px solid #eef2f7;
+    margin-top: auto; 
+}
+
+.btn-reject-outline {
+    background: #fff !important;
+    color: #e74c3c !important;
+    border: 1.5px solid #e74c3c !important;
+    font-weight: 700 !important;
+    height: 48px !important;
+    border-radius: 8px !important;
+    cursor: pointer;
+}
+
+.btn-approve-solid {
+    background: #2ecc71 !important;
+    color: white !important;
+    border: none !important;
+    font-weight: 700 !important;
+    height: 48px !important;
+    border-radius: 8px !important;
+    cursor: pointer;
+}
+
+/* 8. Animations */
+.modal-fade-in {
+    animation: smoothPop 0.4s cubic-bezier(0.17, 0.88, 0.32, 1.28);
+}
+
+@keyframes smoothPop {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}

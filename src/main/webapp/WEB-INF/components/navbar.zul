@@ -5,8 +5,8 @@
 
 			<div hflex="2" style="display:flex; align-items:center;">
 
-				<image src="/img/logo.png" height="85px"
-					style="margin-right: 15px; cursor:pointer;" onClick='Executions.sendRedirect("/dashboard/dashboard.zul")'/>
+				<image id="logo" src="/img/logo.png" height="85px"
+					style="margin-right: 15px; cursor:pointer;"/>
 
 				<label id="sidebarToggle" value="☰" sclass="toggle-btn" />
 			</div>

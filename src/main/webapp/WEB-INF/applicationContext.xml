@@ -10,6 +10,14 @@
 
 	<import resource="applicationContext-security.xml" />
 
+	<bean id="adminLoanRepository"
+		class="com.lms.repository.AdminLoanRepository" />
+
+	<bean id="adminLoanService"
+		class="com.lms.service.impl.AdminLoanServiceImpl">
+		<property name="adminLoanRepo" ref="adminLoanRepository" />
+	</bean>
+
 	<bean id="loanRepository"
 		class="com.lms.repository.LoanRepository" />
 

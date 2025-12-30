@@ -1,6 +1,5 @@
 package com.lms.admin.controller;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,15 +8,16 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 import org.zkoss.zul.*;
 
 import com.lms.model.Loan;
 import com.lms.service.AdminLoanService;
-import com.lms.service.impl.AdminLoanServiceImpl;
 
-
+@VariableResolver(DelegatingVariableResolver.class)
 public class AdminApplicationComposer extends SelectorComposer<Component> {
 
 	private static final long serialVersionUID = -4579866573238714329L;
@@ -26,7 +26,8 @@ public class AdminApplicationComposer extends SelectorComposer<Component> {
 	@Wire private Vlayout loanCardsContainer;
 	@Wire private Combobox loanType;
 	
-	private AdminLoanService loanService = new AdminLoanServiceImpl();
+	@WireVariable
+	private AdminLoanService adminLoanService;
 
     @Override
     public void doAfterCompose(Component comp) throws Exception {
@@ -58,7 +59,7 @@ public class AdminApplicationComposer extends SelectorComposer<Component> {
         // Clear previous cards
         loanCardsContainer.getChildren().clear();
         
-        List<Loan> loans = loanService.getAllLoans();
+        List<Loan> loans = adminLoanService.getAllLoans();
         
         for (Loan loan : loans) {
             Div card = new Div();
