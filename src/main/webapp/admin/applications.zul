@@ -49,9 +49,9 @@
 				valign="middle">
 				<textbox placeholder="Search by Applicant Name or ID..."
 					hflex="1" sclass="z-textbox" height="40px" />
-				<combobox placeholder="Loan Type" width="150px"
-					height="40px" readonly="true">
-					<comboitem label="All Types" />
+				<combobox id="loanType" placeholder="Loan Type" width="150px"
+					height="40px" readonly="true" >
+					<comboitem label="All Types"/>
 					<comboitem label="Home Loan" />
 					<comboitem label="Personal Loan" />
 					<comboitem label="Car Loan" />
@@ -61,57 +61,9 @@
 					height="40px" />
 			</hlayout>
 
-			<vlayout spacing="15px">
-
-				<div sclass="loan-card">
-					<div sclass="card-header">
-						<hlayout valign="middle">
-							<span
-								class="fa-solid fa-file-invoice-dollar"
-								style="color:#004b98; font-size:18px; margin-right:10px;" />
-							<label value="#HL-10029"
-								sclass="loan-title" />
-							<label value="| Applicant: Rahul Sharma"
-								sclass="loan-id" style="font-weight:600; color:#333;" />
-						</hlayout>
-						<label value="PENDING"
-							sclass="status-badge status-pending" />
-					</div>
-					<div sclass="card-body">
-						<hlayout valign="middle">
-							<vlayout hflex="1">
-								<label value="Requested Amount"
-									sclass="info-label" />
-								<label value="₹ 45,00,000"
-									sclass="info-value highlight-value" />
-							</vlayout>
-							<vlayout hflex="1">
-								<label value="Loan Type"
-									sclass="info-label" />
-								<label value="Home Loan"
-									sclass="info-value" />
-							</vlayout>
-							<vlayout hflex="1">
-								<label value="Monthly Income"
-									sclass="info-label" />
-								<label value="₹ 1,20,000"
-									sclass="info-value" />
-							</vlayout>
-							<vlayout hflex="1">
-								<label value="Submission Date"
-									sclass="info-label" />
-								<label value="28 Dec 2025"
-									sclass="info-value" />
-							</vlayout>
-							<div hflex="1" style="text-align: right;">
-								<button id="btnReviewDocs" label="Review Docs"
-									sclass="review-btn" iconSclass="z-icon-folder-open" />
-							</div>
-						</hlayout>
-					</div>
-				</div>
-
+			<vlayout id="loanCardsContainer" spacing="15px">
 			</vlayout>
+			<separator height="60px" sclass="list-footer-spacer" />
 		</vlayout>
 	</div>
 </zk>

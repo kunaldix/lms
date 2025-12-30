@@ -16,10 +16,27 @@
 }
 
 /* 1. Page Layout */
+/* Update these specific rules in application.css */
+
 .main-container {
     padding: 30px;
+    padding-bottom: 40px; /* Reduced from 80px to work with the separator */
     background-color: var(--bg-light);
+    /* Remove 'overflow-y: auto' here if it's already on the parent 'div' */
     min-height: 100vh;
+}
+
+/* Ensure the cards container doesn't have a height limit */
+#loanCardsContainer {
+    height: auto !important;
+    min-height: min-content;
+    padding-bottom: 20px;
+}
+
+/* Optional: Subtle fade at the bottom for better UX */
+.list-footer-spacer {
+    background: transparent;
+    display: block;
 }
 
 /* 2. Stats Header Cards (Top) */

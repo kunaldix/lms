@@ -37,7 +37,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		HttpSession session = request.getSession();
         session.setAttribute("user", user);
 
-		String targetUrl = request.getContextPath(); // Default to root
+		String targetUrl = request.getContextPath();
 
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
