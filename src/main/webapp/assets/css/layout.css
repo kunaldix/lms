@@ -111,3 +111,20 @@ body, .z-window-embedded {
 .z-menuitem-hover .z-menuitem-text { color: #004a99 !important; }
 .z-menuseparator { background: #eee !important; border-top: 1px solid #eee !important; margin: 5px 10px !important; }
 .z-menuitem-image { display: none; }
+/* Target the text and icon of the Logout item */
+.logout-item .z-menuitem-text, 
+.logout-item .z-menuitem-icon {
+    color: #e74c3c !important; /* Your --danger-red variable color */
+}
+
+/* Optional: Style the background on hover to show a light red tint */
+.logout-item:hover {
+    background-color: #fff1f0 !important;
+}
+
+/* Ensure the icon stays red even when hovered */
+.logout-item:hover .z-menuitem-text,
+.logout-item:hover .z-menuitem-icon {
+    color: #c0392b !important; /* A slightly darker red for hover */
+    font-weight: bold;
+}

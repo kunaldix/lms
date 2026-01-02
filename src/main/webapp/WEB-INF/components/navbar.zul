@@ -29,7 +29,7 @@
 						<menuitem id="popSupport" label="Support"
 							iconSclass="fa fa-headset" />
 						<menuseparator />
-						<menuitem label="Logout"
+						<menuitem label="Logout" sclass="logout-item"
 							iconSclass="fa fa-sign-out-alt" href="/j_spring_security_logout" />
 					</menupopup>
 				</div>

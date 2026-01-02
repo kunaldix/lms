@@ -47,14 +47,18 @@
 			<hlayout spacing="15px"
 				style="background:#f8fafd; padding:15px; border-radius:10px; border:1px solid #eef2f7; margin-bottom:20px;"
 				valign="middle">
-				<textbox placeholder="Search by Applicant Name or ID..."
+				<textbox placeholder="Search by Applicant Name..."
 					hflex="1" sclass="z-textbox" height="40px" />
 				<combobox id="loanType" placeholder="Loan Type" width="150px"
 					height="40px" readonly="true" >
-					<comboitem label="All Types"/>
 					<comboitem label="Home Loan" />
 					<comboitem label="Personal Loan" />
 					<comboitem label="Car Loan" />
+				</combobox>
+				<combobox id="loanStatus" placeholder="Loan Status" width="150px"
+					height="40px" readonly="true" >
+					<comboitem label="Pending" />
+					<comboitem label="Active" />
 				</combobox>
 				<button label="Filter" iconSclass="z-icon-filter"
 					style="background:#004b98; color:white; border-radius:6px; font-weight:600; padding:0 20px;"

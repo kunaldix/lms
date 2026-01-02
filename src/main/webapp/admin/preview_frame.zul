@@ -1,0 +1,8 @@
+<window title="Document Preview" border="normal" width="75%" height="90%" closable="true">
+    <iframe id="iframe" hflex="1" vflex="1" autohide="true" />
+    <zscript>
+        import org.zkoss.util.media.AMedia;
+        AMedia media = (AMedia) Executions.getCurrent().getAttribute("pdfContent");
+        iframe.setContent(media);
+    </zscript>
+</window>

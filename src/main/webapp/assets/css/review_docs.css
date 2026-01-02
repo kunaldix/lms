@@ -24,6 +24,12 @@
     font-size: 16px !important;
 }
 
+.review-modal.z-window-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Force the content to fill the 95vh window */
+}
+
 .review-modal .z-window-close {
     color: white !important;
     top: 15px !important;
@@ -121,7 +127,9 @@
     padding: 20px;
     background: #fff;
     border-top: 1px solid #eef2f7;
-    margin-top: auto; 
+    margin-top: auto; /* Pushes the footer to the bottom of the window */
+    background: white;
+    z-index: 10;
 }
 
 .btn-reject-outline {
