@@ -8,6 +8,24 @@ import com.lms.constant.*;
 import com.lms.dbutils.DBConnection;
 
 public class AdminLoanRepository {
+	
+	public boolean updateLoanStatus(String loanId, LoanApplicationStatus ls) {
+	    String sql = "UPDATE loans SET application_status = ? WHERE loan_id = ?";
+	    try (Connection conn = DBConnection.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        
+	        ps.setString(1, ls.name());
+	        ps.setString(2, loanId);
+	        
+	        int rowsAffected = ps.executeUpdate();
+	        
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	    	System.err.println("Error updating loan status: " + e.getMessage());
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
 
     public List<Loan> getAllLoans() {
         List<Loan> loanList = new ArrayList<>();

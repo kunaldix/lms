@@ -139,25 +139,35 @@
     font-weight: 800;
 }
 
-/* 4. Status Badges */
+/* Base style for all badges */
 .status-badge {
     padding: 4px 12px;
     border-radius: 6px;
     font-size: 11px;
     font-weight: 800;
     text-transform: uppercase;
+    display: inline-block;
 }
 
+/* Yellow/Red-ish for PENDING */
 .status-pending {
-    background: #fff1f0;
-    color: #cf1322;
-    border: 1px solid #ffa39e;
+    background: #fffbe6 !important; /* Very light yellow background */
+    color: #d4b106 !important;      /* Darker gold/yellow text for readability */
+    border: 1px solid #ffe58f !important;
 }
 
-.status-approved {
-    background: #f6ffed;
-    color: #389e0d;
-    border: 1px solid #b7eb8f;
+/* Green for ACCEPTED */
+.status-accepted {
+    background: #f6ffed !important;
+    color: #389e0d !important;
+    border: 1px solid #b7eb8f !important;
+}
+
+/* Solid Red for REJECTED */
+.status-rejected {
+    background: #fff1f0 !important;
+    color: #cf1322 !important;
+    border: 1px solid #ffa39e !important;
 }
 
 /* 5. Buttons */

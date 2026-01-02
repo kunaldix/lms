@@ -5,29 +5,40 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Filedownload;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
+import com.lms.constant.LoanApplicationStatus;
 import com.lms.model.Loan;
-import com.lms.model.UserLoanDocuments;
+import com.lms.service.AdminLoanService;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+@VariableResolver(DelegatingVariableResolver.class)
 public class AdminReviewComposer extends SelectorComposer<Component> {
 
     private static final long serialVersionUID = 992248780076033830L;
+    
+    @Wire private Button btnReject, btnApprove;
+    
+    @WireVariable
+	private AdminLoanService adminLoanService;
     
     // Wire labels from review_docs.zul
     @Wire private Label lblUserName, lblLoanId, lblLoanType, lblLoanAmount, lblTenure;
     @Wire private Label lblEmail, lblPhone, lblEmpType, lblEmployer, lblIncome;
     @Wire private Label lblBankName, lblIfsc, lblAccNo;
     @Wire private Label lblAadhar, lblPan, lblBank, lblSalary, lblItr, lblPhoto;
+    @Wire private Window modalReview;
     
     private Loan currentLoan;
 
@@ -40,12 +51,12 @@ public class AdminReviewComposer extends SelectorComposer<Component> {
 
         if (currentLoan != null) {
             populateData(currentLoan);
-            populateDocuments(currentLoan);
         }
     }
 
     private void populateData(Loan loan) {
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+        @SuppressWarnings("deprecation")
+		NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
 
         lblUserName.setValue(loan.getUser().getName());
         lblLoanId.setValue("#" + loan.getLoanId());
@@ -60,18 +71,6 @@ public class AdminReviewComposer extends SelectorComposer<Component> {
         lblBankName.setValue(loan.getAccountInfo().getBankName());
         lblIfsc.setValue(loan.getAccountInfo().getIfscCode());
         lblAccNo.setValue(loan.getAccountInfo().getAccountNumber());
-    }
-    
-    private void populateDocuments(Loan loan) {
-        UserLoanDocuments docs = loan.getUserDoc();
-        if (docs != null) {
-            lblAadhar.setValue(getFileName(docs.getAadharUploaded()));
-            lblPan.setValue(getFileName(docs.getPanUploaded()));
-            lblBank.setValue(getFileName(docs.getBankStatementUploaded()));
-            lblSalary.setValue(getFileName(docs.getSalarySlipUploaded()));
-            lblItr.setValue(getFileName(docs.getItrUploaded()));
-            lblPhoto.setValue(getFileName(docs.getPhotoUploaded()));
-        }
     }
 
 
@@ -93,15 +92,11 @@ public class AdminReviewComposer extends SelectorComposer<Component> {
     @Listen("onClick = #btnViewPhoto")
     public void viewPhoto() { streamFile(currentLoan.getUserDoc().getPhotoUploaded()); }
 
-    /**
-     * Helper to read file from Linux path and push to Browser preview
-     */
     private void streamFile(String fileName) {
         if (fileName == null || fileName.isEmpty()) {
             Messagebox.show("No file has been uploaded for this document.", "Error", Messagebox.OK, Messagebox.ERROR);
             return;
         }
-
         File file = new File(fileName);
 
         if (!file.exists()) {
@@ -110,10 +105,8 @@ public class AdminReviewComposer extends SelectorComposer<Component> {
         }
 
         try {
-            // AMedia identifies the content type (PDF/JPG/PNG) automatically
             AMedia media = new AMedia(file, null, null);
             
-            // Open the file in a new browser tab for preview
             Executions.getCurrent().setAttribute("pdfContent", media);
             Window win = (Window) Executions.createComponents("/admin/preview_frame.zul", null, null);
             win.doModal();
@@ -123,9 +116,55 @@ public class AdminReviewComposer extends SelectorComposer<Component> {
             Messagebox.show("Error opening file: " + e.getMessage());
         }
     }
-
-    private String getFileName(String path) {
-        if (path == null || path.isEmpty() || path.length() < 5) return "Not Uploaded";
-        return path.substring(path.lastIndexOf("/") + 1);
+    
+    @Listen("onClick = #btnApprove")
+    public void approveApplication() {
+    	if (isStatusFinal()) return;
+        Messagebox.show("Are you sure you want to approve this loan application?", 
+            "Confirm Approval", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, event -> {
+            
+            if (Messagebox.ON_YES.equals(event.getName())) {
+                boolean success = adminLoanService.approveLoan(currentLoan);
+                
+                if (success) {
+                    Clients.showNotification("Application Approved Successfully!", "info", null, "middle_center", 2000);
+                    modalReview.detach();
+                    Executions.sendRedirect(null);
+                } else {
+                    Messagebox.show("Database update failed. Please check server logs.", "Error", Messagebox.OK, Messagebox.ERROR);
+                }
+            }
+        });
+    }
+    
+    @Listen("onClick = #btnReject")
+    public void rejectApplication() {
+    	if (isStatusFinal()) return;
+        Messagebox.show("Are you sure you want to REJECT this loan application?", 
+            "Confirm Rejection", Messagebox.YES | Messagebox.NO, Messagebox.EXCLAMATION, event -> {
+            
+            if (Messagebox.ON_YES.equals(event.getName())) {
+                boolean success = adminLoanService.rejectLoan(currentLoan.getLoanId());
+                
+                if (success) {
+                    Clients.showNotification("Application Rejected", "error", null, "middle_center", 2000);
+                    // Close the modal
+                    modalReview.detach();
+                    Executions.sendRedirect(null);
+                } else {
+                    Messagebox.show("Error updating database.", "Error", Messagebox.OK, Messagebox.ERROR);
+                }
+            }
+        });
+    }
+    
+    private boolean isStatusFinal() {
+        if (currentLoan.getApplicationStatus() == LoanApplicationStatus.ACCEPTED || 
+            currentLoan.getApplicationStatus() == LoanApplicationStatus.REJECTED) {
+            Messagebox.show("This application has already been processed and cannot be modified.", 
+                            "Action Denied", Messagebox.OK, Messagebox.INFORMATION);
+            return true;
+        }
+        return false;
     }
 }

@@ -28,7 +28,7 @@
 				<div sclass="stats-card" hflex="1">
 					<label value="PENDING APPLICATIONS"
 						sclass="stats-label" />
-					<label value="12" sclass="stats-value" />
+					<label id="pending" sclass="stats-value" />
 					<span
 						sclass="stats-icon fa-solid fa-clock-rotate-left" />
 				</div>
@@ -37,7 +37,7 @@
 					style="background: white; border: 1px solid #ddd; color: #333;">
 					<label value="TOTAL PROCESSED" sclass="stats-label"
 						style="color:#777;" />
-					<label value="158" sclass="stats-value"
+					<label id="processed" sclass="stats-value"
 						style="color:#2ecc71;" />
 					<span class="stats-icon fa-solid fa-check-double"
 						style="color:#333;" />
@@ -47,20 +47,21 @@
 			<hlayout spacing="15px"
 				style="background:#f8fafd; padding:15px; border-radius:10px; border:1px solid #eef2f7; margin-bottom:20px;"
 				valign="middle">
-				<textbox placeholder="Search by Applicant Name..."
-					hflex="1" sclass="z-textbox" height="40px" />
-				<combobox id="loanType" placeholder="Loan Type" width="150px"
-					height="40px" readonly="true" >
-					<comboitem label="Home Loan" />
-					<comboitem label="Personal Loan" />
-					<comboitem label="Car Loan" />
-				</combobox>
-				<combobox id="loanStatus" placeholder="Loan Status" width="150px"
-					height="40px" readonly="true" >
-					<comboitem label="Pending" />
-					<comboitem label="Active" />
-				</combobox>
-				<button label="Filter" iconSclass="z-icon-filter"
+				<textbox id="tApplicant" placeholder="Search by Applicant Name..."
+                    hflex="1" sclass="z-textbox" height="40px" />
+                <combobox id="loanType" placeholder="Loan Type" width="150px"
+                    height="40px" readonly="true" >
+                    <comboitem label="Home Loan" value="HOME_LOAN" />
+                    <comboitem label="Personal Loan" value="PERSONAL_LOAN" />
+                    <comboitem label="Car Loan" value="CAR_LOAN" />
+                </combobox>
+                <combobox id="loanStatus" placeholder="Loan Status" width="150px"
+                    height="40px" readonly="true" >
+                    <comboitem label="Pending" value="PENDING"/>
+                    <comboitem label="Active" value="ACCEPTED"/>
+                    <comboitem label="Rejected" value="REJECTED"/>
+                </combobox>
+				<button id="search" label="Filter" iconSclass="z-icon-filter"
 					style="background:#004b98; color:white; border-radius:6px; font-weight:600; padding:0 20px;"
 					height="40px" />
 			</hlayout>
