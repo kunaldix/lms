@@ -6,12 +6,17 @@ import com.lms.constant.LoanApplicationStatus;
 import com.lms.model.Loan;
 import com.lms.repository.AdminLoanRepository;
 import com.lms.service.AdminLoanService;
+import com.lms.service.EmiService;
 
 public class AdminLoanServiceImpl implements AdminLoanService{
 	
 	private AdminLoanRepository adminLoanRepo;
 	
+	private EmiService emiService;
 	
+	public void setEmiService(EmiService emiService) {
+        this.emiService = emiService;
+    }
 	
 	public void setAdminLoanRepo(AdminLoanRepository adminLoanRepo) {
         this.adminLoanRepo = adminLoanRepo;
@@ -32,13 +37,12 @@ public class AdminLoanServiceImpl implements AdminLoanService{
 	        
 	        // 3. Conditional EMI Creation
 	        if ("MONTHLY_EMI".equalsIgnoreCase(loan.getRepaymentType().name())) {
-	           //generateEmiSchedule(loan);
+	           emiService.generateEmiSchedule(loan);
 	        }
 	    }
 	    return success;
 	}
 	
-	// In AdminLoanServiceImpl.java
 	@Override
 	public boolean rejectLoan(String loanId) {
 	    // Logic for rejection

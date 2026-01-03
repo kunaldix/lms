@@ -13,9 +13,16 @@
 	<bean id="adminLoanRepository"
 		class="com.lms.repository.AdminLoanRepository" />
 
+	<bean id="emiRepository" class="com.lms.repository.EmiRepository" />
+
+	<bean id="emiService" class="com.lms.service.impl.EmiServiceImpl">
+		<property name="emiRepo" ref="emiRepository" />
+	</bean>
+
 	<bean id="adminLoanService"
 		class="com.lms.service.impl.AdminLoanServiceImpl">
 		<property name="adminLoanRepo" ref="adminLoanRepository" />
+		<property name="emiService" ref="emiService" />
 	</bean>
 
 	<bean id="loanRepository"
