@@ -1,10 +1,11 @@
 package com.lms.controller;
 
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Component; // Correct Import
+import org.zkoss.zk.ui.Component; 
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
@@ -60,6 +61,15 @@ public class ProfileController extends SelectorComposer<Component> {
         email.setValue(currentUser.getEmail());
 	}
 	
+	@Listen("onClick = #btnEditProfile")
+	public void openEditProfile() {
+	    Executions.createComponents(
+	        "/profile/edit-profile.zul",
+	        null,
+	        null
+	    );
+	}
+
 	private void resizeContent() {
 		if (mainContainer != null) {
             if (mainContainer.getSclass().contains("enlarge")) {

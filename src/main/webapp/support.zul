@@ -1,0 +1,123 @@
+<?page title="Support | CreditHub" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/layout.css" ?>
+<zk>
+    <style>
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap");
+        
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden; /* Prevent body scroll */
+        }
+        
+        .main-container { 
+        transition: all 0.3s ease-in-out; 
+        overflow-y: auto;
+            overflow-x: hidden;
+            flex: 1;
+            padding: 30px 40px;
+            background-color: #f8fafc;
+        
+        }
+        
+
+        .support-grid { display: flex; gap: 20px; margin-bottom: 25px; }
+        .support-contact-card {
+            background: #ffffff; flex: 1; padding: 20px; border-radius: 12px;
+            text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-bottom: 4px solid #004a99; transition: transform 0.2s;
+        }
+        .support-contact-card:hover { transform: translateY(-5px); }
+        .support-icon { font-size: 28px; color: #004a99; margin-bottom: 10px; display: block; }
+
+        .section-subtitle { font-size: 18px; font-weight: 700; color: #004a99; margin-bottom: 15px; display: block; }
+        .faq-box { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        
+        /* Ensure the form card looks clean */
+        .history-card { background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        
+    </style>
+
+    <div apply="com.lms.controller.SupportComposer" height="100vh" sclass="main-wrapper">
+        <navbar />
+        <sidebar id="sidebarMacro" activePage="support" />
+
+        <div id="mainContainer" sclass="main-container">
+            <div sclass="page-header">
+                <label value="Help &amp; Support Center" sclass="section-title" />
+            </div>
+
+            <div sclass="support-grid">
+                <div sclass="support-contact-card">
+                    <span sclass="fa fa-phone support-icon"/>
+                    <label value="Customer Care" style="font-weight:700; display:block;" />
+                    <label value="1800-456-7890" style="color:#666;" />
+                </div>
+                <div sclass="support-contact-card">
+                    <span sclass="fa fa-envelope support-icon"/>
+                    <label value="Email Support" style="font-weight:700; display:block;" />
+                    <label value="help@credithub.com" style="color:#666;" />
+                </div>
+                <div sclass="support-contact-card">
+                    <span sclass="fa-brands fa-whatsapp support-icon" style="color:#25D366;"/>
+                    <label value="WhatsApp Us" style="font-weight:700; display:block;" />
+                    <label value="+91 98765 43210" style="color:#666;" />
+                </div>
+            </div>
+
+            <hlayout spacing="25px" vflex="1">
+                <vlayout hflex="2" spacing="25px" vflex="1">
+                    <div sclass="history-card" style="margin-top:0;" vflex="1">
+                        <label value="Raise a New Support Ticket" sclass="section-subtitle" />
+                        <grid sclass="clean-grid" oddRowSclass="none" style="border:none;">
+                            <columns><column width="130px"/><column/></columns>
+                            <rows>
+                                <row>
+                                    <label value="Category" />
+                                    <combobox id="cmbCategory" placeholder="Select Issue Type" width="100%">
+                                        <comboitem label="EMI Payment Issue" />
+                                        <comboitem label="Document Rejection" />
+                                        <comboitem label="Technical Bug" />
+                                        <comboitem label="General Inquiry" />
+                                    </combobox>
+                                </row>
+                                <row>
+                                    <label value="Subject" />
+                                    <textbox id="txtSubject" placeholder="Brief title" width="100%" />
+                                </row>
+                                <row>
+                                    <label value="Description" />
+                                    <textbox id="txtDesc" multiline="true" rows="8" width="100%" />
+                                </row>
+                            </rows>
+                        </grid>
+                        <separator height="20px" />
+                        <button id="btnSubmitTicket" label="Submit Ticket" sclass="btn-view-style" width="180px" height="40px" />
+                    </div>
+                </vlayout>
+
+                <vlayout hflex="1">
+                    <div sclass="faq-box">
+                        <label value="Quick FAQs" sclass="section-subtitle" />
+                        <vlayout spacing="10px">
+                            <groupbox mold="3d" open="false">
+                                <caption label="How long for loan approval?" />
+                                <label value="Verification usually takes 24-48 hours." />
+                            </groupbox>
+                            <groupbox mold="3d" open="false">
+                                <caption label="Can I prepay my loan?" />
+                                <label value="Yes, prepayments are allowed after 6 EMIs." />
+                            </groupbox>
+                            <groupbox mold="3d" open="false">
+                                <caption label="Data Security?" />
+                                <label value="We use bank-grade AES-256 encryption." />
+                            </groupbox>
+                        </vlayout>
+                    </div>
+                </vlayout>
+            </hlayout>
+        </div>
+    </div>
+</zk>

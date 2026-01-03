@@ -94,11 +94,11 @@ public class Sidebar extends HtmlMacroComponent {
     public void goEmi() { Executions.sendRedirect("/emi/emi.zul"); }
 
     @Listen("onClick = #menuHistory")
-    public void goHistory() { Executions.sendRedirect("/user/history.zul"); }
+    public void goHistory() { Executions.sendRedirect("/history.zul"); }
     
     @Listen("onClick = #menuProfile")
     public void goProfile() { Executions.sendRedirect("/profile/user_profile.zul"); }
 
     @Listen("onClick = #menuSupport")
-    public void goSupport() { Executions.sendRedirect("/user/support.zul"); }
+    public void goSupport() { Executions.sendRedirect("/support.zul"); }
 }

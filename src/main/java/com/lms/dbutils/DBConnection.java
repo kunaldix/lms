@@ -11,7 +11,7 @@ public class DBConnection {
 	
 	private static final String USERNAME = "root";
 	
-	private static final String PASSWORD = "root";
+	private static final String PASSWORD = "root123";
 	
 	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	

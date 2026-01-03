@@ -24,6 +24,7 @@
 		/* Ensures text is vertically aligned with the icon */
 		.z-notification-text { display: inline-block; line-height:
 		normal; margin: 0; padding: 0; }
+
 	</style>
 
 	<navbar />
