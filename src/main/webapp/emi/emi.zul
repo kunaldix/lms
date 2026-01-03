@@ -4,144 +4,81 @@
 
 <zk>
 	<style>
-		@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
-        
+		@import
+		url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+		@import
+		url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;display=swap');
 	</style>
 
-	<div width="100%" height="100%" apply="com.lms.controller.EmiComposer">
-		
+	<div width="100%" height="100%"
+		apply="com.lms.controller.EmiComposer">
 		<navbar />
-
 		<sidebar id="sidebarMacro" activePage="emi" />
 
 		<vlayout id="mainContainer" sclass="main-container">
-			
 			<hlayout spacing="20px" style="margin-bottom: 25px;">
 				<vlayout hflex="2">
-					<label value="My EMI Dashboard" sclass="page-header-title" />
-					<label value="Track and manage all your loan repayments in one place." style="color:#666;" />
+					<label value="My EMI Dashboard"
+						sclass="page-header-title" />
+					<label
+						value="Track and manage all your loan repayments in one place."
+						style="color:#666;" />
 				</vlayout>
-				
+
 				<div sclass="stats-card" hflex="1">
-					<label value="TOTAL MONTHLY PAYABLE" sclass="stats-label" />
-					<label value="₹ 45,200" sclass="stats-value" />
+					<label value="TOTAL MONTHLY PAYABLE"
+						sclass="stats-label" />
+					<label id="lblTotalPayable" sclass="stats-value" />
 					<span class="stats-icon fa-solid fa-wallet" />
 				</div>
-				
-				<div sclass="stats-card" hflex="1" style="background: white; border: 1px solid #ddd; color: #333;">
-					<label value="NEXT DUE DATE" sclass="stats-label" style="color:#777;" />
-					<label value="05 Jan 2026" sclass="stats-value" style="color:#e65100; font-size:22px;"/>
-					<span class="stats-icon fa-regular fa-calendar" style="color:#333;"/>
+
+				<div sclass="stats-card" hflex="1"
+					style="background: #ffffff; border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+					<label value="NEXT DUE DATE" sclass="stats-label"
+						style="color: #6b7280;" />
+					<label id="lblNextDueDate" sclass="stats-value"
+						style="color: #e65100; font-size: 22px;" />
+					<span class="stats-icon fa-regular fa-calendar"
+						style="color: #111827; opacity: 0.08;" />
 				</div>
 			</hlayout>
 
-			<separator bar="true" style="background:#eee; margin-bottom:20px;" />
-
-			<vlayout spacing="20px">
-
-				<div sclass="loan-card">
-					<div sclass="card-header">
-						<hlayout>
-							<span class="fa-solid fa-house-chimney" style="color:#004b98; font-size:18px; margin-right:10px;" />
-							<label value="Home Loan" sclass="loan-title" />
-							<label value="#HL-8892" sclass="loan-id" />
-						</hlayout>
-						<label value="Upcoming Due" sclass="status-badge status-due" />
-					</div>
-					<div sclass="card-body">
-						<hlayout>
-							<vlayout hflex="1">
-								<label value="EMI Amount" sclass="info-label" />
-								<label value="₹ 25,000" sclass="info-value highlight-value" />
-							</vlayout>
-							<vlayout hflex="1">
-								<label value="Next Due Date" sclass="info-label" />
-								<label value="05 Jan 2026" sclass="info-value" style="color:#c62828;" />
-							</vlayout>
-							<vlayout hflex="1">
-								<label value="Outstanding Principal" sclass="info-label" />
-								<label value="₹ 18,40,500" sclass="info-value" />
-							</vlayout>
-							<vlayout hflex="1">
-								<label value="Remaining Tenure" sclass="info-label" />
-								<label value="142 Months" sclass="info-value" />
-							</vlayout>
-							<div hflex="1" style="text-align: right;">
-								<button label="Pay Now" sclass="pay-btn" />
-							</div>
-						</hlayout>
-					</div>
-				</div>
-
-				<div sclass="loan-card">
-					<div sclass="card-header">
-						<hlayout>
-							<span class="fa-solid fa-car" style="color:#004b98; font-size:18px; margin-right:10px;" />
-							<label value="Car Loan" sclass="loan-title" />
-							<label value="#CL-2201" sclass="loan-id" />
-						</hlayout>
-						<label value="Paid for Dec" sclass="status-badge status-paid" />
-					</div>
-					<div sclass="card-body">
-						<hlayout>
-							<vlayout hflex="1">
-								<label value="EMI Amount" sclass="info-label" />
-								<label value="₹ 12,500" sclass="info-value" style="color:#555;" />
-							</vlayout>
-							<vlayout hflex="1">
-								<label value="Next Due Date" sclass="info-label" />
-								<label value="10 Feb 2026" sclass="info-value" />
-							</vlayout>
-							<vlayout hflex="1">
-								<label value="Outstanding Principal" sclass="info-label" />
-								<label value="₹ 2,10,000" sclass="info-value" />
-							</vlayout>
-							<vlayout hflex="1">
-								<label value="Remaining Tenure" sclass="info-label" />
-								<label value="18 Months" sclass="info-value" />
-							</vlayout>
-							<div hflex="1" style="text-align: right;">
-								<button label="View History" sclass="history-btn" />
-							</div>
-						</hlayout>
-					</div>
-				</div>
-
-				<div sclass="loan-card">
-					<div sclass="card-header">
-						<hlayout>
-							<span class="fa-solid fa-user-tag" style="color:#004b98; font-size:18px; margin-right:10px;" />
-							<label value="Personal Loan" sclass="loan-title" />
-							<label value="#PL-9931" sclass="loan-id" />
-						</hlayout>
-						<label value="Auto-Debit Active" sclass="status-badge status-active" />
-					</div>
-					<div sclass="card-body">
-						<hlayout>
-							<vlayout hflex="1">
-								<label value="EMI Amount" sclass="info-label" />
-								<label value="₹ 7,700" sclass="info-value" style="color:#555;" />
-							</vlayout>
-							<vlayout hflex="1">
-								<label value="Next Due Date" sclass="info-label" />
-								<label value="02 Jan 2026" sclass="info-value" />
-							</vlayout>
-							<vlayout hflex="1">
-								<label value="Outstanding Principal" sclass="info-label" />
-								<label value="₹ 85,000" sclass="info-value" />
-							</vlayout>
-							<vlayout hflex="1">
-								<label value="Remaining Tenure" sclass="info-label" />
-								<label value="11 Months" sclass="info-value" />
-							</vlayout>
-							<div hflex="1" style="text-align: right;">
-								<button label="View Details" sclass="history-btn" />
-							</div>
-						</hlayout>
-					</div>
-				</div>
-
-			</vlayout>
+			<separator bar="true"
+				style="background:#eee; margin-bottom:20px;" />
+			<vlayout id="loanListContainer" spacing="20px" />
 		</vlayout>
+
+		<html>
+			<![CDATA[ <form id="payuForm" method="post"
+			action="https://test.payu.in/_payment"
+			style="display:none;"> <input type="hidden" name="key"
+			id="payu_key" /> <input type="hidden" name="hash"
+			id="payu_hash" /> <input type="hidden" name="txnid"
+			id="payu_txnid" /> <input type="hidden" name="amount"
+			id="payu_amount" /> <input type="hidden" name="firstname"
+			id="payu_firstname" /> <input type="hidden" name="email"
+			id="payu_email" /> <input type="hidden" name="phone"
+			id="payu_phone" /> <input type="hidden" name="productinfo"
+			id="payu_productinfo" /> <input type="hidden" name="surl"
+			id="payu_surl" /> <input type="hidden" name="furl"
+			id="payu_furl" /> </form> ]]>
+		</html>
 	</div>
+
+	<script>
+		<![CDATA[ function launchPayU(data) { var json =
+		JSON.parse(data); document.getElementById('payu_key').value =
+		json.key; document.getElementById('payu_hash').value =
+		json.hash; document.getElementById('payu_txnid').value =
+		json.txnid; document.getElementById('payu_amount').value =
+		json.amount; document.getElementById('payu_firstname').value =
+		json.firstname; document.getElementById('payu_email').value =
+		json.email; document.getElementById('payu_phone').value =
+		json.phone; document.getElementById('payu_productinfo').value =
+		json.productinfo; document.getElementById('payu_surl').value =
+		json.surl; document.getElementById('payu_furl').value =
+		json.furl;
+
+		document.getElementById('payuForm').submit(); } ]]>
+	</script>
 </zk>

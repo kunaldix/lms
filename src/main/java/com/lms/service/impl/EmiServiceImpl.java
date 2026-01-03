@@ -67,4 +67,16 @@ public class EmiServiceImpl implements EmiService {
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
     }
+
+	@Override
+	public List<Emi> getEmisForCurrentUser(int userId) {
+		// TODO Auto-generated method stub
+		return emiRepo.getUpcomingEmisForUser(userId);
+	}
+
+	@Override
+	public boolean processPayment(Emi selectedEmi, String paymentId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
