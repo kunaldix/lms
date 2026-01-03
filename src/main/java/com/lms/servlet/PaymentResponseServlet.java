@@ -12,7 +12,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.lms.service.EmiService;
 
-@WebServlet("/paymentResponse")
 public class PaymentResponseServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     

@@ -21,7 +21,15 @@
     <filter-name>springSecurityFilterChain</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  
+  <servlet>
+    <servlet-name>PaymentResponseServlet</servlet-name>
+    <servlet-class>com.lms.servlet.PaymentResponseServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>PaymentResponseServlet</servlet-name>
+    <url-pattern>/paymentResponse</url-pattern>
+</servlet-mapping>
   <servlet>
     <description>
 		The ZK loader for ZUML pages</description>
