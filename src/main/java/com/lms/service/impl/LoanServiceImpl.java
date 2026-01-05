@@ -63,7 +63,7 @@ public class LoanServiceImpl implements LoanService{
     }
 
     @Override
-    public String getTotalLoan(int id) {
+    public String getTotalLoanOfUser(int id) {
         // TODO Auto-generated method stub
         return loanRepo.getTotalLoan(id);
     }

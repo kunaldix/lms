@@ -3,104 +3,122 @@
 <?link rel="stylesheet" type="text/css" href="/assets/css/Profile.css" ?>
 
 <zk>
-    <style>
-        @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
-    </style>
-    
-    <window id="editProfileWin"
-            title="Account Settings"
-            border="normal"
-            closable="true"
-            width="550px"
-            mode="modal"
-            sclass="edit-profile-window"
-            apply="com.lms.controller.EditProfileController">
+	<style>
+		@import
+		url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+	</style>
 
-        <vlayout spacing="15px" style="padding:15px; max-height:500px; overflow-y:auto;">
+	<window id="editProfileWin" title="Account Settings" border="normal"
+		closable="true" width="550px" mode="modal"
+		sclass="edit-profile-window"
+		apply="com.lms.controller.EditProfileController">
 
-            <div sclass="card">
-                <hlayout spacing="20px" valign="middle">
-                    <div style="text-align:center; width:120px; flex-shrink:0;">
-                        <div sclass="image-container">
-                            <image id="imgPreview" sclass="profile-avatar-edit" src="/img/default-user.png"/>
-                        </div>
-                        <button id="uploadImage"
-                                label="Upload"
-                                upload="true"
-                                sclass="edit-btn-mini" 
-                                iconSclass="z-icon-camera"/>
-                    </div>
+		<vlayout spacing="15px"
+			style="padding:15px; max-height:500px; overflow-y:auto;">
 
-                    <vlayout hflex="1">
-                        <label value="Profile Information" sclass="card-title-header"/>
-                        <label value="Update your photo and personal details to keep your account current."
-                               sclass="stat-label-small" multiline="true"/>
-                    </vlayout>
-                </hlayout>
-            </div>
+			<div sclass="card">
+				<hlayout spacing="20px" valign="middle">
+					<div
+						style="text-align:center; width:120px; flex-shrink:0;">
+						<div sclass="image-container">
+							<image id="imgPreview"
+								sclass="profile-avatar-edit" src="/img/default-user.png" />
+						</div>
+						<button id="uploadImage" label="Upload"
+							upload="true" sclass="edit-btn-mini" iconSclass="z-icon-camera" />
+					</div>
 
-            <div sclass="card">
-                <label value="General Information" sclass="card-title"/>
-                <grid sclass="info-grid" oddRowSclass="none" style="border:none">
-                    <columns>
-                        <column width="140px"/>
-                        <column/>
-                    </columns>
-                    <rows>
-                        <row>
-                            <label value="Full Name" sclass="field-label"/>
-                            <textbox id="txtName" readonly="true" hflex="1" sclass="locked-input"/>
-                        </row>
-                        <row>
-                            <label value="Email Address" sclass="field-label"/>
-                            <textbox id="txtEmail" readonly="true" hflex="1" sclass="locked-input"/>
-                        </row>
-                        <row>
-                            <label value="Role" sclass="field-label"/>
-                            <textbox id="txtRole" readonly="true" hflex="1" sclass="locked-input"/>
-                        </row>
-                        <row>
-                            <label value="Phone Number" sclass="field-label"/>
-                            <textbox id="txtPhone" hflex="1" placeholder="Enter phone number"/>
-                        </row>
-                        <row>
-                            <label value="Address" sclass="field-label"/>
-                            <textbox id="txtAddress" multiline="true" rows="2" hflex="1"/>
-                        </row>
-                    </rows>
-                </grid>
-            </div>
+					<vlayout hflex="1">
+						<label value="Profile Information"
+							sclass="card-title-header" />
+						<label
+							value="Update your photo and personal details to keep your account current."
+							sclass="stat-label-small" multiline="true" />
+					</vlayout>
+				</hlayout>
+			</div>
 
-            <groupbox closable="true" open="false" sclass="card security-group-box">
-                <caption>
-                    <label value="Change Password" sclass="card-title" style="cursor:pointer; color:#3b82f6;"/>
-                </caption>
-                <grid sclass="info-grid" oddRowSclass="none" style="border:none">
-                    <columns>
-                        <column width="140px"/>
-                        <column/>
-                    </columns>
-                    <rows>
-                        <row>
-                            <label value="Current Password" sclass="field-label"/>
-                            <textbox id="txtOldPass" type="password" hflex="1"/>
-                        </row>
-                        <row>
-                            <label value="New Password" sclass="field-label"/>
-                            <textbox id="txtNewPass" type="password" hflex="1"/>
-                        </row>
-                        <row>
-                            <label value="Confirm Password" sclass="field-label"/>
-                            <textbox id="txtCnfNewPass" type="password" hflex="1"/>
-                        </row>
-                    </rows>
-                </grid>
-            </groupbox>
-        </vlayout>
+			<div sclass="card">
+				<label value="General Information" sclass="card-title" />
+				<grid sclass="info-grid" oddRowSclass="none"
+					style="border:none">
+					<columns>
+						<column width="140px" />
+						<column />
+					</columns>
+					<rows>
+						<row>
+							<label value="Full Name"
+								sclass="field-label" />
+							<textbox id="txtName" readonly="true"
+								hflex="1" sclass="locked-input" />
+						</row>
+						<row>
+							<label value="Email Address"
+								sclass="field-label" />
+							<textbox id="txtEmail" readonly="true"
+								hflex="1" sclass="locked-input" />
+						</row>
+						<row>
+							<label value="Role" sclass="field-label" />
+							<textbox id="txtRole" readonly="true"
+								hflex="1" sclass="locked-input" />
+						</row>
+						<row>
+							<label value="Phone Number"
+								sclass="field-label" />
+							<textbox id="txtPhone" hflex="1"
+								placeholder="Enter phone number" />
+						</row>
+						<row>
+							<label value="Address" sclass="field-label" />
+							<textbox id="txtAddress" multiline="true"
+								rows="2" hflex="1" />
+						</row>
+					</rows>
+				</grid>
+			</div>
 
-        <div sclass="modal-footer">
-            <button label="Cancel" id="btnCancel" sclass="cancel-btn" />
-            <button label="Save Changes" id="btnSave" sclass="save-btn" iconSclass="z-icon-check"/>
-        </div>
-    </window>
+			<groupbox closable="true" open="false"
+				sclass="card security-group-box">
+				<caption>
+					<label value="Change Password" sclass="card-title"
+						style="cursor:pointer; color:#3b82f6;" />
+				</caption>
+				<grid sclass="info-grid" oddRowSclass="none"
+					style="border:none">
+					<columns>
+						<column width="140px" />
+						<column />
+					</columns>
+					<rows>
+						<row>
+							<label value="Current Password"
+								sclass="field-label" />
+							<textbox id="txtOldPass" type="password"
+								hflex="1" />
+						</row>
+						<row>
+							<label value="New Password"
+								sclass="field-label" />
+							<textbox id="txtNewPass" type="password"
+								hflex="1" />
+						</row>
+						<row>
+							<label value="Confirm Password"
+								sclass="field-label" />
+							<textbox id="txtCnfNewPass" type="password"
+								hflex="1" />
+						</row>
+					</rows>
+				</grid>
+			</groupbox>
+		</vlayout>
+
+		<div sclass="modal-footer">
+			<button label="Cancel" id="btnCancel" sclass="cancel-btn" />
+			<button label="Save Changes" id="btnSave" sclass="save-btn"
+				iconSclass="z-icon-check" />
+		</div>
+	</window>
 </zk>

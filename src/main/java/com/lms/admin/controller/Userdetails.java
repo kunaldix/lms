@@ -90,7 +90,7 @@ public class Userdetails extends SelectorComposer<Div> {
 //        lblAddress.setValue(user.getAddress());
 
         // Loan summary
-        lblTotalLoan.setValue("₹ " + loanService.getTotalLoan(user.getId()));
+        lblTotalLoan.setValue("₹ " + loanService.getTotalLoanOfUser(user.getId()));
         lblOutstanding.setValue("₹ " + loanService.getTotalDebt(user.getId()));
         lblActiveLoans.setValue(
             String.valueOf(loanService.getActiveLoans(user.getId()))

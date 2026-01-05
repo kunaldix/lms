@@ -14,32 +14,32 @@ import com.lms.model.User;
 
 public class ProfileController extends SelectorComposer<Component> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	// Only Wire components that actually exist in profile.zul with IDs
-	@Wire
-	private Vlayout mainContainer;
-	
-	@Wire
-	private Label userName,role,email;
-	
-	@Wire
-	private Image userProfileImage;
+    
+    @Wire
+    private Vlayout mainContainer;
+    
+    @Wire
+    private Label userName,role,email,lblFullName,lblEmail,lblPhone,lblRole;
+    
+    @Wire
+    private Image userProfileImage;
 
-	@Override
-	public void doAfterCompose(Component comp) throws Exception {
-		super.doAfterCompose(comp);
-		
-		// 1. Subscribe to Sidebar Toggle
-		EventQueues.lookup("dashboardQueue", EventQueues.DESKTOP, true)
+    @Override
+    public void doAfterCompose(Component comp) throws Exception {
+        super.doAfterCompose(comp);
+        
+        // 1. Subscribe to Sidebar Toggle
+        EventQueues.lookup("dashboardQueue", EventQueues.DESKTOP, true)
         .subscribe(event -> {
             if ("onSidebarToggle".equals(event.getName())) {
                 resizeContent();
             }
         });
-		
-		// 2. Get User
-		User currentUser = (User) Sessions.getCurrent().getAttribute("user");
+        
+        // 2. Get User
+        User currentUser = (User) Sessions.getCurrent().getAttribute("user");
         if (currentUser == null) {
             Executions.sendRedirect("/auth/login.zul");
             return; 
@@ -49,29 +49,34 @@ public class ProfileController extends SelectorComposer<Component> {
         // We check if 'userName' is not null before setting value to prevent crashes
         if (userName != null) {
             userName.setValue(currentUser.getName());
+            lblFullName.setValue(currentUser.getName());
         }
         
         if (userProfileImage != null) {
             String img = currentUser.getProfileImage();
             if (img != null && !img.isEmpty()) {
-            	userProfileImage.setSrc("/img/" + img);
+                userProfileImage.setSrc("/img/" + img);
             }
         }
         role.setValue(currentUser.getRole().name());
         email.setValue(currentUser.getEmail());
-	}
-	
-	@Listen("onClick = #btnEditProfile")
-	public void openEditProfile() {
-	    Executions.createComponents(
-	        "/profile/edit-profile.zul",
-	        null,
-	        null
-	    );
-	}
+        
+        lblPhone.setValue(currentUser.getPhoneNumber());
+        lblRole.setValue(currentUser.getRole().name());
+        lblEmail.setValue(currentUser.getEmail());
+    }
+    
+    @Listen("onClick = #btnEditProfile")
+    public void openEditProfile() {
+        Executions.createComponents(
+            "/profile/edit-profile.zul",
+            null,
+            null
+        );
+    }
 
-	private void resizeContent() {
-		if (mainContainer != null) {
+    private void resizeContent() {
+        if (mainContainer != null) {
             if (mainContainer.getSclass().contains("enlarge")) {
                 mainContainer.setSclass("main-container");
             } else {

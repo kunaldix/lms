@@ -7,6 +7,6 @@ public interface LoanService {
     public String generateDisplayId(String loanType);
     public String getTotalDebt(int id);
     public int getActiveLoans(int id);
-    public String getTotalLoan(int id);
+    public String getTotalLoanOfUser(int id);
 	
 }
