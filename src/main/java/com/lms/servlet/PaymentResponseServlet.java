@@ -3,7 +3,6 @@ package com.lms.servlet;
 import java.io.IOException;
 import java.security.MessageDigest;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +18,6 @@ public class PaymentResponseServlet extends HttpServlet {
     private final String MERCHANT_SALT = "scblTubDlAM2aZf4S0TvocI4ux4AjmRq"; 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
         String status = request.getParameter("status");
         String txnid = request.getParameter("txnid");
         String amount = request.getParameter("amount");
@@ -28,33 +26,36 @@ public class PaymentResponseServlet extends HttpServlet {
         String productinfo = request.getParameter("productinfo");
         String firstname = request.getParameter("firstname");
         String email = request.getParameter("email");
-        String mihpayid = request.getParameter("mihpayid"); // PayU's internal ID
+        String mihpayid = request.getParameter("mihpayid");
+        String additionalCharges = request.getParameter("additional_charges");
+        String modeFromPayU = request.getParameter("mode");
 
-        // 1. Verify Reverse Hash: sha512(SALT|status||||||udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key)
-        // Note: The empty pipes |||||| are for UDF (User Defined Fields) which we aren't using.
-        String hashSeq = MERCHANT_SALT + "|" + status + "||||||||||" + email + "|" + firstname + "|" + productinfo + "|" + amount + "|" + txnid + "|" + key;
+        // PayU expects 10 UDF placeholders. Even if empty, they need 11 pipes to reach email from status.
+        // Logic: SALT|status|||||||||||email|firstname|productinfo|amount|txnid|key
+        String hashSeq = MERCHANT_SALT + "|" + status + "|||||||||||" 
+                       + email + "|" + firstname + "|" + productinfo + "|" + amount + "|" + txnid + "|" + key;
+
+        // If additional_charges are present, PayU prepends them to the hash string
+        if (additionalCharges != null && !additionalCharges.isEmpty()) {
+            hashSeq = additionalCharges + "|" + hashSeq;
+        }
+
         String calculatedHash = generateHash(hashSeq);
 
         if (calculatedHash.equalsIgnoreCase(hashReceived) && "success".equals(status)) {
-            // 2. Success Path: Update Database
-            // Get the Spring Service manually since Servlets aren't Spring-managed by default
             WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
             EmiService emiService = ctx.getBean(EmiService.class);
             
-            // Logic: productinfo contains "EMI_PAY_LOANID", parse or use txnid to find the EMI
-//            boolean isUpdated = emiService.processPayment(txnid, mihpayid); 
-//
-//            if (isUpdated) {
-//                response.sendRedirect("emi.zul?status=success");
-//            } else {
-//                response.sendRedirect("emi.zul?status=error");
-//            }
+            if (emiService.processPayment(txnid, mihpayid, modeFromPayU)) {
+                response.sendRedirect(request.getContextPath() + "/emi/emi.zul?status=success");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/emi/emi.zul?status=error");
+            }
         } else {
-            // 3. Failure Path
-            response.sendRedirect("emi.zul?status=failed");
+            response.sendRedirect(request.getContextPath() + "/emi/emi.zul?status=failed");
         }
     }
-
+    
     private String generateHash(String str) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");

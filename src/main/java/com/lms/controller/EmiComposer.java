@@ -83,16 +83,16 @@ public class EmiComposer extends SelectorComposer<Div> {
         
         // Generate unique transaction ID
         String txnid = "TXN" + System.currentTimeMillis() + emi.getEmiId();
-        String amount = String.valueOf(emi.getEmiAmount());
+        String amount = String.format("%.2f", emi.getEmiAmount());
         String productInfo = "EMI_PAY_" + emi.getLoan().getLoanId();
         
         // Success and Failure URLs (Point to your Response Servlet)
-        String surl = "http://localhost:8080/CreditHub/paymentResponse"; 
-        String furl = "http://localhost:8080/CreditHub/paymentResponse";
+        String surl = "http://localhost:8080/lms/paymentResponse"; 
+        String furl = "http://localhost:8080/lms/paymentResponse";
 
         // PayU Hash Sequence: key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||SALT
         String hashSequence = MERCHANT_KEY + "|" + txnid + "|" + amount + "|" + productInfo + "|" 
-                            + user.getName() + "|" + user.getEmail() + "|||||||||||" + MERCHANT_SALT;
+                + user.getName() + "|" + user.getEmail() + "|||||||||||" + MERCHANT_SALT;
         
         String hash = generateHash(hashSequence);
 
@@ -103,7 +103,7 @@ public class EmiComposer extends SelectorComposer<Div> {
         payuParams.put("amount", amount);
         payuParams.put("firstname", user.getName());
         payuParams.put("email", user.getEmail());
-        payuParams.put("phone", user.getPhoneNumber()); // Placeholder
+        payuParams.put("phone", user.getPhoneNumber());
         payuParams.put("productinfo", productInfo);
         payuParams.put("surl", surl);
         payuParams.put("furl", furl);

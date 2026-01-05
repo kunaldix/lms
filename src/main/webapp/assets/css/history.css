@@ -1,0 +1,121 @@
+/* Sidebar Collapse Logic */
+.sidebar.collapsed { 
+    width: 80px; 
+}
+
+.sidebar.collapsed .menu-text { 
+    display: none; 
+}
+
+/* Content Area Expansion Logic */
+.main-container {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+/* This class must be toggled on the .main-container div */
+.main-container.enlarge {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+}
+
+/* Table Header styling to match your blue headers */
+.z-listheader {
+    background: #0093ff !important;
+    color: white !important;
+    font-weight: bold;
+    border-left: 1px solid #0076cc;
+}
+
+.z-listbox-header {
+    background: #0093ff !important;
+}
+
+.history-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            margin-top: 20px;
+}
+.page-header { 
+	margin-bottom: 20px; 
+	}
+.section-title { 
+	font-size: 22px; font-weight: 700; color: #004a99; 
+	}
+        
+.status-success { 
+	color: #2ecc71 !important; font-weight: bold; 
+	}
+.btn-view-style { 
+            background: #008CBA; color: white; border: none; 
+            padding: 5px 15px; border-radius: 4px; cursor: pointer; 
+        }
+        
+/* 1. Header Styling: Blue background with white text */
+.z-listheader {
+    background: #004a99 !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 12px 10px !important;
+}
+.z-listheader-content {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-size: 14px;
+}
+
+/* 2. Row & Cell Styling */
+.z-listitem {
+    background: #ffffff !important;
+    transition: background 0.2s;
+}
+.z-listitem:hover {
+    background: #f0f7ff !important; /* Light blue hover effect */
+}
+.z-listcell-content {
+    padding: 12px 10px !important;
+    color: #444;
+    font-size: 13px;
+}
+
+/* 3. Modern Status Badge */
+.status-success {
+    color: #155724 !important;
+    background-color: #d4edda !important;
+    border: 1px solid #c3e6cb;
+    padding: 4px 12px !important;
+    border-radius: 20px;
+    font-size: 11px !important;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+/* 4. Action Button Styling */
+.btn-view-style {
+    background: #004a99;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.btn-view-style:hover {
+    background: #003377;
+    box-shadow: 0 2px 8px rgba(0, 74, 153, 0.3);
+}
+
+/* 5. Paging (Bottom Navigation) */
+.z-paging {
+    background: transparent !important;
+    border: none !important;
+    border-top: 1px solid #eee !important;
+    padding-top: 10px;
+}
+.z-paging-button {
+    border-radius: 50%;
+}

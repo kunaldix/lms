@@ -187,4 +187,41 @@ public class UserRepository {
 			e.printStackTrace();
 		}
 	}
+	
+	public List<User> getAllCustomers() {
+
+        List<User> list = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection()) {
+
+            String query = "SELECT * FROM users";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                if ("CUSTOMER".equals(rs.getString("role"))) {
+
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setName(rs.getString("name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPhoneNumber(rs.getString("phone_number"));
+                    user.setPassword(null);
+                    user.setRole(
+                        "CUSTOMER".equals(rs.getString("role"))
+                            ? Role.CUSTOMER
+                            : Role.ADMIN
+                    );
+
+                    list.add(user);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    } 
 }

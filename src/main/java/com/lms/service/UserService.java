@@ -19,8 +19,8 @@ public interface UserService {
 	
 	public List<User> getAllAdmins();
 	
-	public void updatePassword(int id, String newPassword);
+	public List<User> getAllCustomers();
 	
-//	public void createAccount(Account acc);
+	public void updatePassword(int id, String newPassword);
 	
 }

@@ -1,8 +1,11 @@
 package com.lms.service.impl;
 
 import com.lms.model.Emi;
+import com.lms.model.EmiTransaction;
 import com.lms.model.Loan;
 import com.lms.constant.EmiStatus;
+import com.lms.constant.PaymentMode;
+import com.lms.constant.TransactionStatus;
 import com.lms.service.EmiService;
 import com.lms.repository.EmiRepository;
 
@@ -70,13 +73,37 @@ public class EmiServiceImpl implements EmiService {
 
 	@Override
 	public List<Emi> getEmisForCurrentUser(int userId) {
-		// TODO Auto-generated method stub
 		return emiRepo.getUpcomingEmisForUser(userId);
 	}
 
 	@Override
-	public boolean processPayment(Emi selectedEmi, String paymentId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean processPayment(String txnid, String paymentId, String mode) {
+	    // 1. Map Mode
+	    String mappedMode = "OTHER";
+	    if ("CC".equals(mode)) mappedMode = "CREDIT_CARD";
+	    else if ("DC".equals(mode)) mappedMode = "DEBIT_CARD";
+	    else if ("NB".equals(mode)) mappedMode = "NET_BANKING";
+	    else if ("UPI".equals(mode)) mappedMode = "UPI";
+
+	    // 2. Extract emiId
+	    String emiId = txnid.replaceAll("TXN[0-9]{13}", "");
+
+	    // 3. Get Details
+	    String[] details = emiRepo.getEmiDetails(emiId);
+	    if (details == null) return false;
+
+	    String loanId = details[0];
+	    Double amount = Double.parseDouble(details[1]);
+
+	    // 4. Create POJO
+	    EmiTransaction txn = new EmiTransaction();
+	    txn.setTxnId(txnid);
+	    txn.setPayuId(paymentId);
+	    txn.setAmount(amount);
+	    txn.setStatus(TransactionStatus.SUCCESS);
+	    txn.setPaymentMode(PaymentMode.valueOf(mappedMode));
+
+	    // 5. Save everything in one database transaction
+	    return emiRepo.recordPayment(txn, emiId, loanId);
 	}
 }

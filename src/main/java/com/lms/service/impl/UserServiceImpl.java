@@ -62,4 +62,10 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		userRepository.updatePassword(id, newPassword);
 	}
+	
+	@Override
+    public List<User> getAllCustomers() {
+        // TODO Auto-generated method stub
+        return userRepository.getAllCustomers();
+    }
 }

@@ -1,0 +1,219 @@
+<?page title="Track EMIs | CreditHub" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/myloan.css" ?>
+<?link rel="stylesheet" type="text/css" href="/assets/css/layout.css" ?>
+
+<zk>
+	<style>
+		@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css");
+        
+	</style>
+
+	<div width="100%" height="100%" apply="com.lms.controller.MyLoanComposer">
+		
+		<navbar />
+
+		<sidebar id="sidebarMacro" activePage="loans" />
+
+		<vlayout id="mainContainer" sclass="main-container">
+		<div id ="myLoanPage">
+			<hlayout spacing="20px" style="margin-bottom: 25px;">
+				<vlayout hflex="2">
+					<label value="MY LOAN" sclass="page-header-title" />
+					<label value="Track and manage all your loan." style="color:#666;" />
+				</vlayout>
+				
+				<div sclass="stats-card" hflex="1">
+					<label value="ACTIVE LOANS" sclass="stats-label" />
+					<label value="02" sclass="stats-value" />
+				</div>
+				
+				<div sclass="stats-card" hflex="1" style="background: white; border: 1px solid #ddd; color: #333;">
+					<label value="TOTAL LOANS" sclass="stats-label" style="color:#777;" />
+					<label value="05" sclass="stats-value" style="color:#e65100; font-size:22px;"/>
+					
+				</div>
+			</hlayout>
+
+			<separator bar="true" style="background:#eee; margin-bottom:20px;" />
+
+			<vlayout spacing="20px">
+
+				<div sclass="loan-card">
+					<div sclass="card-header">
+						<hlayout>
+							<span class="fa-solid fa-house-chimney" style="color:#004b98; font-size:18px; margin-right:10px;" />
+							<label value="Home Loan" sclass="loan-title" />
+							<label value="#HL-8892" sclass="loan-id" />
+						</hlayout>
+						<label value="Completed" sclass="status-badge status-due" />
+					</div>
+					<div sclass="card-body">
+						<hlayout>
+							<vlayout hflex="1">
+								<label value="Loan Amount" sclass="info-label" />
+								<label value="₹ 35,000" sclass="info-value highlight-value" />
+							</vlayout>
+							<vlayout hflex="1">
+								<label value="Next Due Date" sclass="info-label" />
+								<label value="03 Jan 2026" sclass="info-value" style="color:#c62828;" />
+							</vlayout>
+							<vlayout hflex="1">
+								<label value="Outstanding Principal" sclass="info-label" />
+								<label value="₹ 20,40,500" sclass="info-value" />
+							</vlayout>
+							<vlayout hflex="1">
+								<label value="Remaining Tenure" sclass="info-label" />
+								<label value="121 Months" sclass="info-value" />
+							</vlayout>
+							<div hflex="1" style="text-align: right;">
+								<button id = "vdetailbtn1" label="View Details" sclass="pay-btn" />
+							</div>
+						</hlayout>
+					</div>
+				</div>
+
+				<div sclass="loan-card">
+					<div sclass="card-header">
+						<hlayout>
+							<span class="fa-solid fa-car" style="color:#004b98; font-size:18px; margin-right:10px;" />
+							<label value="Car Loan" sclass="loan-title" />
+							<label value="#CL-2201" sclass="loan-id" />
+						</hlayout>
+						<label value="Completed" sclass="status-badge status-paid" />
+					</div>
+					<div sclass="card-body">
+						<hlayout>
+							<vlayout hflex="1">
+								<label value="Loan Amount" sclass="info-label" />
+								<label value="₹ 11,500" sclass="info-value" style="color:#555;" />
+							</vlayout>
+							<vlayout hflex="1">
+								<label value="Next Due Date" sclass="info-label" />
+								<label value="09 Aug 2026" sclass="info-value" />
+							</vlayout>
+							<vlayout hflex="1">
+								<label value="Outstanding Principal" sclass="info-label" />
+								<label value="₹ 3,11,000" sclass="info-value" />
+							</vlayout>
+							<vlayout hflex="1">
+								<label value="Remaining Tenure" sclass="info-label" />
+								<label value="17 Months" sclass="info-value" />
+							</vlayout>
+							<div hflex="1" style="text-align: right;">
+								<button id = "vdetailbtn2" label="View Details" sclass="pay-btn" />
+							</div>
+						</hlayout>
+					</div>
+				</div>
+
+				<div sclass="loan-card">
+					<div sclass="card-header">
+						<hlayout>
+							<span class="fa-solid fa-user-tag" style="color:#004b98; font-size:18px; margin-right:10px;" />
+							<label value="Personal Loan" sclass="loan-title" />
+							<label value="#PL-9931" sclass="loan-id" />
+						</hlayout>
+						<label value="Completed" sclass="status-badge status-active" />
+					</div>
+					<div sclass="card-body">
+						<hlayout>
+							<vlayout hflex="1">
+								<label value="Loan Amount" sclass="info-label" />
+								<label value="₹ 8,500" sclass="info-value" style="color:#555;" />
+							</vlayout>
+							<vlayout hflex="1">
+								<label value="Next Due Date" sclass="info-label" />
+								<label value="05 Jan 2026" sclass="info-value" />
+							</vlayout>
+							<vlayout hflex="1">
+								<label value="Outstanding Principal" sclass="info-label" />
+								<label value="₹ 95,000" sclass="info-value" />
+							</vlayout>
+							<vlayout hflex="1">
+								<label value="Remaining Tenure" sclass="info-label" />
+								<label value="11 Months" sclass="info-value" />
+							</vlayout>
+							<div hflex="1" style="text-align: right;">
+								<button id = "vdetailbtn3" label="View Details" sclass="pay-btn" />
+							</div>
+						</hlayout>
+					</div>
+				</div>
+
+			</vlayout>
+		</div>
+	<div sclass="page-container" id = "viewDetails"  visible="false">
+        <div sclass="title-area">
+            <hlayout valign="bottom">
+                <vlayout spacing="2px">
+                    <label value="AMIT KUMAR" style="font-size: 24px; font-weight: bold; color: #1A5A96;"/>
+                    <label value="Customer ID: #USR-101 | Loan Account: #HL-8892" style="color: #64748B; font-size: 12px;"/>
+                </vlayout>
+                <label value="LOAN STATUS: ACTIVE" style="color: #28A745; font-weight: bold; font-size: 14px; padding: 5px 10px; background: #E8F5E9; border-radius: 4px;"/>
+            </hlayout>
+        </div>
+
+
+
+        <div sclass="section-header">1. FINANCIAL LOAN DETAILS</div>
+        <grid style="border:none;">
+            <columns>
+                <column width="200px" /> <column hflex="1" />
+                <column width="200px" /> <column hflex="1" />
+            </columns>
+            <rows>
+                <row height="50px" sclass="border-bottom">
+                    <label value="Total Sanctioned" sclass="data-label"/>
+                    <label value="₹ 35,00,000" sclass="data-value" style="font-weight:bold;"/>
+                    <label value="Interest Rate" sclass="data-label"/>
+                    <label value="11.75% p.a. (Floating)" sclass="data-value"/>
+                </row>
+                <row height="50px" sclass="border-bottom">
+                    <label value="Current Outstanding" sclass="data-label"/>
+                    <label value="₹ 20,40,500" style="color:#D32F2F; font-weight:bold; font-size:15px;"/>
+                    <label value="Monthly EMI" sclass="data-label"/>
+                    <label value="₹ 28,450" sclass="data-value" style="font-weight:bold;"/>
+                </row>
+                <row height="50px" sclass="border-bottom">
+                    <label value="Tenure Remaining" sclass="data-label"/>
+                    <label value="121 Months" sclass="data-value"/>
+                    <label value="Next Due Date" sclass="data-label"/>
+                    <label value="03 Jan 2026" style="color:#1A5A96; font-weight:bold;"/>
+                </row>
+            </rows>
+        </grid>
+
+        
+
+        <div sclass="section-header">2. RECENT PAYMENTS</div>
+        <listbox style="border:none;">
+            <listhead>
+                <listheader label="Date" height="40px" width="20%"/>
+                <listheader label="Transaction Details" height="40px" width="40%"/>
+                <listheader label="Amount Paid" height="40px" width="20%"/>
+                <listheader label="Status" height="40px" width="20%"/>
+            </listhead>
+            <listitem height="45px">
+                <listcell label="05 Dec 2025"/>
+                <listcell label="EMI Payment - Internet Banking"/>
+                <listcell label="₹ 28,450" style="font-weight:bold;"/>
+                <listcell><label value="SUCCESS" style="color:green; font-weight:bold; font-size:11px;"/></listcell>
+            </listitem>
+            <listitem height="45px">
+                <listcell label="05 Nov 2025"/>
+                <listcell label="EMI Payment - Auto-Debit"/>
+                <listcell label="₹ 28,450" style="font-weight:bold;"/>
+                <listcell><label value="SUCCESS" style="color:green; font-weight:bold; font-size:11px;"/></listcell>
+            </listitem>
+        </listbox>
+
+        <separator height="40px"/>
+        <hlayout spacing="15px">
+            <button id="backbtn" label="BACK" width="160px" height="45px" style="background:#64748B; color:white; border:none; cursor:pointer; font-weight:bold;"/>
+        </hlayout>
+
+    </div>
+			
+		</vlayout>
+	</div>
+</zk>

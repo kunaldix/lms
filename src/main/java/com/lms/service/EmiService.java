@@ -9,6 +9,6 @@ public interface EmiService {
 	
 	public void generateEmiSchedule(Loan loan);
 	public List<Emi> getEmisForCurrentUser(int userId);
-	public boolean processPayment(Emi selectedEmi, String paymentId);
+	public boolean processPayment(String txnid, String paymentId, String modeFromPayu);
 	
 }

@@ -25,7 +25,7 @@
 
 					<menupopup id="userMenu">
 						<menuitem id="popProfile" label="My Profile"
-							iconSclass="fa fa-user" onClick='Executions.sendRedirect("/profile/user_profile.zul")'/>
+							iconSclass="fa fa-user" />
 						<menuitem id="popSupport" label="Support"
 							iconSclass="fa fa-headset" />
 						<menuseparator />

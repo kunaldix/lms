@@ -48,4 +48,38 @@ public class LoanServiceImpl implements LoanService{
 	    // 4. Format: PREFIX-YEAR-RANDOM (e.g., PL-2025-4582)
 	    return String.format("%s-%d-%d", prefix, year, randomNumber);
 	}
+	@Override
+    public String getTotalDebt(int id) {
+        // TODO Auto-generated method stub
+        return loanRepo.getAllDebt(id);
+    }
+
+    @Override
+    public int getActiveLoans(int id) {
+        
+        return loanRepo.getActiveLoan(id);
+    }
+
+    @Override
+    public String getTotalLoanOfUser(int id) {
+        // TODO Auto-generated method stub
+        return loanRepo.getTotalLoan(id);
+    }
+
+    @Override
+    public int getTotalActiveLoans() {
+          return loanRepo.getTotalActiveLoans();
+
+    }
+
+    @Override
+    public int getTotalLoans() {
+        return loanRepo.getTotalLoans();
+        
+    }
+
+    @Override
+    public int getTotalPendingLoans() {
+        return loanRepo.getPendingLoans();
+    }
 }

@@ -1,10 +1,11 @@
 package com.lms.controller;
 
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Component; // Correct Import
+import org.zkoss.zk.ui.Component; 
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
@@ -20,7 +21,7 @@ public class ProfileController extends SelectorComposer<Component> {
 	private Vlayout mainContainer;
 	
 	@Wire
-	private Label userName,role,email;
+	private Label userName,role,email,lblFullName,lblEmail,lblPhone,lblRole;
 	
 	@Wire
 	private Image userProfileImage;
@@ -48,6 +49,7 @@ public class ProfileController extends SelectorComposer<Component> {
         // We check if 'userName' is not null before setting value to prevent crashes
         if (userName != null) {
             userName.setValue(currentUser.getName());
+            lblFullName.setValue(currentUser.getName());
         }
         
         if (userProfileImage != null) {
@@ -58,8 +60,21 @@ public class ProfileController extends SelectorComposer<Component> {
         }
         role.setValue(currentUser.getRole().name());
         email.setValue(currentUser.getEmail());
+        
+        lblPhone.setValue(currentUser.getPhoneNumber());
+        lblRole.setValue(currentUser.getRole().name());
+        lblEmail.setValue(currentUser.getEmail());
 	}
 	
+	@Listen("onClick = #btnEditProfile")
+	public void openEditProfile() {
+	    Executions.createComponents(
+	        "/profile/edit-profile.zul",
+	        null,
+	        null
+	    );
+	}
+
 	private void resizeContent() {
 		if (mainContainer != null) {
             if (mainContainer.getSclass().contains("enlarge")) {

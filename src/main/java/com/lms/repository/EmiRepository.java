@@ -11,6 +11,7 @@ import com.lms.constant.EmiStatus;
 import com.lms.constant.LoanType;
 import com.lms.dbutils.DBConnection;
 import com.lms.model.Emi;
+import com.lms.model.EmiTransaction;
 import com.lms.model.Loan; 
 
 public class EmiRepository {
@@ -110,5 +111,68 @@ public class EmiRepository {
             ex.printStackTrace();
         }
         return emis;
+    }
+    
+    public boolean recordPayment(EmiTransaction txn, String emiId, String loanId) {
+        Connection conn = null;
+        try {
+            conn = DBConnection.getConnection();
+            conn.setAutoCommit(false); // Start Transaction
+
+            // 1. Insert Transaction Record
+            String sql1 = "INSERT INTO emi_transactions (txn_id, emi_id, loan_id, payu_id, amount, status, payment_mode) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement ps1 = conn.prepareStatement(sql1)) {
+                ps1.setString(1, txn.getTxnId());
+                ps1.setString(2, emiId);
+                ps1.setString(3, loanId);
+                ps1.setString(4, txn.getPayuId());
+                ps1.setDouble(5, txn.getAmount());
+                ps1.setString(6, txn.getStatus().name());
+                ps1.setString(7, txn.getPaymentMode().name());
+                ps1.executeUpdate();
+            }
+
+            // 2. Update EMI Schedule Status
+            String sql2 = "UPDATE emi_schedule SET status = 'PAID' WHERE emi_id = ?";
+            try (PreparedStatement ps2 = conn.prepareStatement(sql2)) {
+                ps2.setString(1, emiId);
+                ps2.executeUpdate();
+            }
+
+            // 3. Update Loans table (Accumulate amount_paid)
+            String sql3 = "UPDATE loans SET amount_paid = amount_paid + ? WHERE loan_id = ?";
+            try (PreparedStatement ps3 = conn.prepareStatement(sql3)) {
+                ps3.setDouble(1, txn.getAmount());
+                ps3.setString(2, loanId);
+                ps3.executeUpdate();
+            }
+
+            conn.commit(); // Save all changes
+            return true;
+
+        } catch (SQLException e) {
+            if (conn != null) {
+                try { conn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+    }
+
+    // Helper to get loan_id and amount before starting the transaction
+    public String[] getEmiDetails(String emiId) {
+        String sql = "SELECT loan_id, emi_amount FROM emi_schedule WHERE emi_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, emiId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new String[]{rs.getString("loan_id"), String.valueOf(rs.getDouble("emi_amount"))};
+                }
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return null;
     }
 }
