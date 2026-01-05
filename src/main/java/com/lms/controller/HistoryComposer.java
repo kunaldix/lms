@@ -5,23 +5,27 @@ import org.zkoss.zk.ui.*;
 import org.zkoss.zk.ui.event.*;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.*;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 import org.zkoss.zul.*;
 
+import com.lms.model.User;
+import com.lms.repository.EmiTransactionRepository;
+
+@VariableResolver(DelegatingVariableResolver.class)
 public class HistoryComposer extends SelectorComposer<Component> {
 
     private static final long serialVersionUID = 1L;
-
     
     @Wire
     private Listbox historyList;
     
-    
     @Wire
     private HtmlMacroComponent sidebarMacro; 
-
-   
     @Wire
     private Div mainContainer; 
+    
+    @WireVariable
+    private EmiTransactionRepository emiTransactionRepo;
 
     @Override
     public void doAfterCompose(Component comp) throws Exception {
@@ -36,7 +40,7 @@ public class HistoryComposer extends SelectorComposer<Component> {
             });
 
         if (historyList != null) {
-            loadStaticData();
+        	loadDynamicData();
         }
     }
 
@@ -69,22 +73,41 @@ public class HistoryComposer extends SelectorComposer<Component> {
                    .publish(new Event("onSidebarToggle"));
     }
 
-    private void loadStaticData() {
+   private void loadDynamicData() {
+        // 1. Get current user from session
+        User user = (User) Sessions.getCurrent().getAttribute("user");
+        if (user == null) {
+            Executions.sendRedirect("/auth/login.zul");
+            return;
+        }
+
+        // 2. Fetch real data from DB
+        List<Map<String, Object>> payments = emiTransactionRepo.getTransactionsByUserId(user.getId());
+        
         historyList.getItems().clear();
-        for (Map<String, Object> p : getStaticPayments()) {
+        
+        if (payments.isEmpty()) {
+            historyList.setEmptyMessage("No payment transactions found.");
+            return;
+        }
+
+        for (Map<String, Object> p : payments) {
             Listitem item = new Listitem();
             item.appendChild(new Listcell(String.valueOf(p.get("date"))));
             item.appendChild(new Listcell(String.valueOf(p.get("loanType"))));
             item.appendChild(new Listcell("₹" + p.get("amount")));
             item.appendChild(new Listcell(String.valueOf(p.get("mode"))));
-            item.appendChild(new Listcell(String.valueOf(p.get("txnId"))));
+            item.appendChild(new Listcell(String.valueOf(p.get("txnId")).substring(0, 16)));
             
+            // Status Cell with CSS class
             Listcell statusCell = new Listcell();
-            Label statusLabel = new Label(String.valueOf(p.get("status")));
-            statusLabel.setSclass("status-success"); 
+            String status = String.valueOf(p.get("status"));
+            Label statusLabel = new Label(status);
+            statusLabel.setSclass("SUCCESS".equalsIgnoreCase(status) ? "status-success" : "status-failed");
             statusCell.appendChild(statusLabel);
             item.appendChild(statusCell);
 
+            // Action Cell
             Button viewBtn = new Button("View");
             viewBtn.setSclass("btn-view-style");
             final String path = String.valueOf(p.get("receipt"));
@@ -93,6 +116,7 @@ public class HistoryComposer extends SelectorComposer<Component> {
             Listcell actionCell = new Listcell();
             actionCell.appendChild(viewBtn);
             item.appendChild(actionCell);
+            
             historyList.appendChild(item);
         }
     }
@@ -110,23 +134,5 @@ public class HistoryComposer extends SelectorComposer<Component> {
         window.appendChild(iframe);
         window.setPage(historyList.getPage());
         window.doModal();
-    }
-
-    private List<Map<String, Object>> getStaticPayments() {
-        List<Map<String, Object>> list = new ArrayList<>();
-        list.add(createPayment("10-Jan-2026", "Home Loan", "8,500.00", "UPI", "TXN123456", "SUCCESS", "/receipts/sample.pdf"));
-        list.add(createPayment("12-Feb-2026", "Personal Loan", "4,200.00", "Credit Card", "TXN789012", "SUCCESS", "/receipts/sample.pdf"));
-        list.add(createPayment("15-Mar-2026", "Car Loan", "12,750.00", "Net Banking", "TXN456789", "SUCCESS", "/receipts/sample.pdf"));
-        list.add(createPayment("05-Apr-2026", "Personal Loan", "5,500.00", "Debit Card", "TXN112233", "SUCCESS", "/receipts/sample.pdf"));
-        list.add(createPayment("20-May-2026", "Car Loan", "2,300.00", "UPI", "TXN998877", "SUCCESS", "/receipts/sample.pdf"));
-        list.add(createPayment("10-Jun-2026", "Home Loan", "8,500.00", "UPI", "TXN334455", "SUCCESS", "/receipts/sample.pdf"));
-        return list;
-    }
-
-    private Map<String, Object> createPayment(String date, String type, String amt, String mode, String id, String status, String path) {
-        Map<String, Object> p = new HashMap<>();
-        p.put("date", date); p.put("loanType", type); p.put("amount", amt);
-        p.put("mode", mode); p.put("txnId", id); p.put("status", status); p.put("receipt", path);
-        return p;
     }
 }

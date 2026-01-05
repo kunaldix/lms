@@ -1,12 +1,14 @@
 package com.lms.repository;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-
 import com.lms.constant.EmiStatus;
 import com.lms.constant.LoanType;
 import com.lms.dbutils.DBConnection;
@@ -175,4 +177,141 @@ public class EmiRepository {
         } catch (SQLException e) { e.printStackTrace(); }
         return null;
     }
+    
+    public int countOverdueLoans() {
+
+        int count = 0;
+
+        try (Connection conn = DBConnection.getConnection()) {
+
+            String sql = """
+                SELECT COUNT(*)
+                FROM emi_schedule
+                WHERE status = ?
+                  AND due_date < CURRENT_DATE
+            """;
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "PENDING");
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+    
+    public BigDecimal getNextEmiAmountDue(int userId) {
+
+        BigDecimal emiAmount = BigDecimal.ZERO;
+
+        try (Connection conn = DBConnection.getConnection()) {
+
+            String sql = """
+                SELECT emi_amount
+                FROM emi_schedule
+                WHERE user_id = ?
+                  AND status = ?
+                ORDER BY 
+                    CASE WHEN due_date < CURRENT_DATE THEN 0 ELSE 1 END,
+                    due_date ASC
+                LIMIT 1
+            """;
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, userId);
+            stmt.setString(2, "PENDING");
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                emiAmount = rs.getBigDecimal("emi_amount");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return emiAmount;
+    }
+
+    public LinkedHashMap<YearMonth, BigDecimal> getLast5PaidMonthsEmi(int userId) {
+
+        LinkedHashMap<YearMonth, BigDecimal> result = new LinkedHashMap<>();
+
+        try (Connection conn = DBConnection.getConnection()) {
+
+            String sql = """
+                SELECT 
+                    YEAR(due_date) AS yr,
+                    MONTH(due_date) AS mn,
+                    SUM(emi_amount) AS total_paid
+                FROM emi_schedule
+                WHERE user_id = ?
+                  AND status = ?
+                GROUP BY yr, mn
+                ORDER BY yr DESC, mn DESC
+                LIMIT 5
+            """;
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, userId);
+            stmt.setString(2, "PAID");
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                YearMonth ym = YearMonth.of(
+                    rs.getInt("yr"),
+                    rs.getInt("mn")
+                );
+                result.put(ym, rs.getBigDecimal("total_paid"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public YearMonth getLatestPaidEmiMonth(int userId) {
+
+        YearMonth latest = null;
+
+        try (Connection conn = DBConnection.getConnection()) {
+
+            String sql = """
+                SELECT YEAR(due_date) AS yr, MONTH(due_date) AS mn
+                FROM emi_schedule
+                WHERE user_id = ?
+                  AND status = ?
+                ORDER BY due_date DESC
+                LIMIT 1
+            """;
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, userId);
+            stmt.setString(2, "PAID");
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                latest = YearMonth.of(rs.getInt("yr"), rs.getInt("mn"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return latest;
+    }
+
+    
 }

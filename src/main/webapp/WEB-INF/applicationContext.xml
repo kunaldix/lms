@@ -9,6 +9,9 @@
 
 
 	<import resource="applicationContext-security.xml" />
+	
+	<bean id="emiTransactionRepo"
+		class="com.lms.repository.EmiTransactionRepository" />
 
 	<bean id="adminLoanRepository"
 		class="com.lms.repository.AdminLoanRepository" />

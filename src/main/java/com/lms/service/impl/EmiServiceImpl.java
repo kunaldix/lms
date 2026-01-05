@@ -9,9 +9,12 @@ import com.lms.constant.TransactionStatus;
 import com.lms.service.EmiService;
 import com.lms.repository.EmiRepository;
 
+import java.math.BigDecimal;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class EmiServiceImpl implements EmiService {
@@ -105,5 +108,26 @@ public class EmiServiceImpl implements EmiService {
 
 	    // 5. Save everything in one database transaction
 	    return emiRepo.recordPayment(txn, emiId, loanId);
+	}
+
+	@Override
+	public int countOverdueLoans() {
+	
+		return emiRepo.countOverdueLoans();
+	}
+
+	@Override
+	public BigDecimal getNextEmiAmountDueForUser(int userId) {
+				return emiRepo.getNextEmiAmountDue(userId);
+	}
+
+	@Override
+	 public LinkedHashMap<YearMonth, BigDecimal> getLast5PaidMonthsEmi(int userId) {
+				return emiRepo.getLast5PaidMonthsEmi(userId);
+	}
+
+	@Override
+	public YearMonth getLatestPaidEmiMonth(int userId) {
+				return emiRepo.getLatestPaidEmiMonth(userId);
 	}
 }

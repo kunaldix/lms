@@ -18,7 +18,7 @@
 		<div id ="myLoanPage">
 			<hlayout spacing="20px" style="margin-bottom: 25px;">
 				<vlayout hflex="2">
-					<label value="MY LOAN" sclass="page-header-title" />
+					<label value="My Loans" sclass="page-header-title" />
 					<label value="Track and manage all your loan." style="color:#666;" />
 				</vlayout>
 				

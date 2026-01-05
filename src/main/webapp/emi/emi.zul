@@ -49,6 +49,7 @@
 		</vlayout>
 
 		<html>
+			
 			<![CDATA[ <form id="payuForm" method="post"
 			action="https://test.payu.in/_payment"
 			style="display:none;"> <input type="hidden" name="key"
@@ -61,11 +62,13 @@
 			id="payu_phone" /> <input type="hidden" name="productinfo"
 			id="payu_productinfo" /> <input type="hidden" name="surl"
 			id="payu_surl" /> <input type="hidden" name="furl"
-			id="payu_furl" /> </form> ]]>
+			id="payu_furl" />  </form> ]]>
+			
 		</html>
 	</div>
 
 	<script>
+		
 		<![CDATA[ function launchPayU(data) { var json =
 		JSON.parse(data); document.getElementById('payu_key').value =
 		json.key; document.getElementById('payu_hash').value =
@@ -80,5 +83,6 @@
 		json.furl;
 
 		document.getElementById('payuForm').submit(); } ]]>
+		
 	</script>
 </zk>

@@ -107,7 +107,6 @@ public class EmiComposer extends SelectorComposer<Div> {
         payuParams.put("productinfo", productInfo);
         payuParams.put("surl", surl);
         payuParams.put("furl", furl);
-
         // Call JS function in emi.zul to submit hidden form
         Clients.evalJavaScript("launchPayU('" + payuParams.toString() + "')");
     }
