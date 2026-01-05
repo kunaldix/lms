@@ -1,4 +1,3 @@
-
 package com.lms.service.impl;
 
 import com.lms.model.Loan;
@@ -66,5 +65,22 @@ public class LoanServiceImpl implements LoanService{
     public String getTotalLoanOfUser(int id) {
         // TODO Auto-generated method stub
         return loanRepo.getTotalLoan(id);
+    }
+
+    @Override
+    public int getTotalActiveLoans() {
+          return loanRepo.getTotalActiveLoans();
+
+    }
+
+    @Override
+    public int getTotalLoans() {
+        return loanRepo.getTotalLoans();
+        
+    }
+
+    @Override
+    public int getTotalPendingLoans() {
+        return loanRepo.getPendingLoans();
     }
 }

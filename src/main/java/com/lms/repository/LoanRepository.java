@@ -204,6 +204,30 @@ public class LoanRepository {
         return activeLoanCount;
     }
 
+    public int getTotalActiveLoans() {
+        int activeLoanCount = 0;
+
+        try (Connection conn = DBConnection.getConnection()) {
+
+            String sql = "SELECT COUNT(*) FROM loans " + "WHERE application_status = ? ";
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "ACCEPTED");
+            
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                activeLoanCount = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return activeLoanCount;
+    }
+    
     public String getTotalLoan(int id) {
 
         BigDecimal totalLoan = BigDecimal.ZERO;
@@ -232,6 +256,51 @@ public class LoanRepository {
         }
 
         return totalLoan.toString();
+    }
+    
+    public int getTotalLoans() {
+
+        int count = 0;
+
+        try (Connection conn = DBConnection.getConnection()) {
+
+            String sql = "SELECT COUNT(*) FROM loans";
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+    public int getPendingLoans() {
+
+        int count = 0;
+
+        try (Connection conn = DBConnection.getConnection()) {
+
+            String sql = "SELECT COUNT(*) FROM loans WHERE application_status = ?";
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, "PENDING");
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
     }
 
 }
