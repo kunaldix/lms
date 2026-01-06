@@ -188,7 +188,15 @@ public class MyLoanComposer extends SelectorComposer<Div> {
         detOutstanding.setValue(currencyFormat.format(loan.getLoanAmount().subtract(paid)));
         
         detRemaining.setValue(loan.getTenureMonths() + " Months");
-        detEmi.setValue(currencyFormat.format(loan.getLoanAmount().doubleValue() / loan.getTenureMonths()));
+        double principal = loan.getLoanAmount().doubleValue(); 
+        double annualRate = loan.getInterestRate();
+        double monthlyRate = annualRate / 12 / 100;
+        int tenure = loan.getTenureMonths();
+
+        // Standard Amortization Formula: [P x R x (1+R)^N]/[(1+R)^N-1]
+        double emiAmount = (principal * monthlyRate * Math.pow(1 + monthlyRate, tenure)) 
+                           / (Math.pow(1 + monthlyRate, tenure) - 1);
+        detEmi.setValue(currencyFormat.format(emiAmount));
         detNextDue.setValue(loan.getPreferredEmiDate() + " " + new SimpleDateFormat("MMM yyyy").format(new java.util.Date()));
     }
 
