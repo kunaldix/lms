@@ -63,6 +63,7 @@ public class SignupComposer extends SelectorComposer<Window> {
 			isEmailVerified = true;
 			temail.setReadonly(true);
 			btnVerifyEmail.setDisabled(true);
+			btnVerifyEmail.setVisible(false);
 			rowEmailOtp.setVisible(false);
 			Clients.showNotification("Email Verified!", "info", null, null, 2000);
 		} else {
@@ -72,24 +73,59 @@ public class SignupComposer extends SelectorComposer<Window> {
 
 	@Listen("onClick = #signupBtn")
 	public void signupAction() {
-		if (!isEmailVerified) {
-			Clients.showNotification("Please verify your email first.", "warning", null, null, 3000);
-			return;
-		}
-		if (!tpassword.getValue().equals(tconfirmPwd.getValue())) {
-			alert("Passwords do not match");
-			return;
-		}
+	    String name = tname.getValue().trim();
+	    String email = temail.getValue().trim();
+	    String phone = tphone.getValue().trim();
+	    String password = tpassword.getValue();
+	    String confirmPwd = tconfirmPwd.getValue();
 
-		String passdig = userService.passwordDigest(tpassword.getValue());
-		Role role = crole.getSelectedItem().getValue().equals("ADMIN") ? Role.ADMIN : Role.CUSTOMER;
+	    // 1. Check if Email is verified
+	    if (!isEmailVerified) {
+	        Clients.showNotification("Please verify your email first.", "warning", null, "middle_center", 3000);
+	        return;
+	    }
 
-		User u = new User(tname.getValue(), temail.getValue(), passdig, tphone.getValue(), role);
-		userService.saveUser(u);
+	    // 2. Mobile Number Validation (Exactly 10 digits)
+	    if (!phone.matches("^[0-9]{10}$")) {
+	        Clients.showNotification("Mobile number must be exactly 10 digits.", "error", tphone, "end_after", 3000);
+	        tphone.focus();
+	        return;
+	    }
 
-		Messagebox.show("Account created successfully!", "Success", Messagebox.OK, Messagebox.INFORMATION, event -> {
-			Executions.sendRedirect("/auth/login.zul");
-		});
+	    // 3. Password Strength Validation
+	    // Regex: One uppercase, one lowercase, one number, one special character, min 8 chars
+	    String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
+	    if (!password.matches(passwordRegex)) {
+	        Clients.showNotification("Password must contain: one uppercase, one lowercase, one number, and one special character and at least 8 characters.", 
+	                "error", tpassword, "end_after", 5000);
+	        return;
+	    }
 
+	    // 4. Password Match Validation
+	    if (!password.equals(confirmPwd)) {
+	        Clients.showNotification("Passwords do not match.", "error", tconfirmPwd, "end_after", 3000);
+	        return;
+	    }
+
+	    // 5. Check empty fields (Basic)
+	    if (name.isEmpty() || crole.getSelectedItem() == null) {
+	        Clients.showNotification("All fields are required.", "warning", null, "middle_center", 3000);
+	        return;
+	    }
+
+	    // Proceed with Saving
+	    try {
+	        String passdig = userService.passwordDigest(password);
+	        Role role = crole.getSelectedItem().getValue().equals("ADMIN") ? Role.ADMIN : Role.CUSTOMER;
+
+	        User u = new User(name, email, passdig, phone, role);
+	        userService.saveUser(u);
+
+	        Messagebox.show("Account created successfully!", "Success", Messagebox.OK, Messagebox.INFORMATION, event -> {
+	            Executions.sendRedirect("/auth/login.zul");
+	        });
+	    } catch (Exception e) {
+	        Clients.showNotification("Signup failed: " + e.getMessage(), "error", null, "middle_center", 3000);
+	    }
 	}
 }
