@@ -18,7 +18,6 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Vlayout;
 
@@ -51,7 +50,7 @@ public class UserDashboardComposer extends SelectorComposer<Vlayout> {
     @WireVariable
     private LoanService loanService;
 
-    User currentUser;
+    private User currentUser;
 	
 	@Override
 	public void doAfterCompose(Vlayout comp) throws Exception {
@@ -81,7 +80,6 @@ public class UserDashboardComposer extends SelectorComposer<Vlayout> {
 		loadUserStats();
 		loadRepaymentChart();
 		loadEmiHistoryChart();
-		loadUpcomingEmis();
 	}
 	
 	private void resizeContent() {
@@ -157,33 +155,6 @@ public class UserDashboardComposer extends SelectorComposer<Vlayout> {
 	    emiHistoryChart.setModel(model);
 	    emiHistoryChart.getXAxis().setTitle("Month");
 	    emiHistoryChart.getYAxis().setTitle("Amount (₹)");
-	}
-
-
-	private void loadUpcomingEmis() {
-		ListModelList<EmiDTO> list = new ListModelList<>();
-		// Mock Data
-		list.add(new EmiDTO("LN-2023-001", "Home Loan", "05 Jan 2026", "₹ 15,200", "Pending"));
-		list.add(new EmiDTO("LN-2024-089", "Personal Loan", "10 Jan 2026", "₹ 4,500", "Pending"));
-		
-		emiListbox.setModel(list);
-	}
+	}	
 	
-	// Helper DTO Class for Listbox
-	public static class EmiDTO {
-		private String loanAccount;
-		private String loanType;
-		private String dueDate;
-		private String amount;
-		private String status;
-		
-		public EmiDTO(String la, String lt, String dd, String amt, String st) {
-			this.loanAccount = la; this.loanType = lt; this.dueDate = dd; this.amount = amt; this.status = st;
-		}
-		public String getLoanAccount() { return loanAccount; }
-		public String getLoanType() { return loanType; }
-		public String getDueDate() { return dueDate; }
-		public String getAmount() { return amount; }
-		public String getStatus() { return status; }
-	}
 }

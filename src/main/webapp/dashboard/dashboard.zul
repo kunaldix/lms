@@ -64,32 +64,7 @@
 					</div>
 				</hlayout>
 
-				<vlayout>
-					<label value="Upcoming EMI Payments"
-						sclass="section-title" />
-					<listbox id="emiListbox" mold="paging" pageSize="5"
-						width="100%">
-						<listhead>
-							<listheader label="Loan Account"
-								width="20%" />
-							<listheader label="Loan Type" width="20%" />
-							<listheader label="Due Date" width="20%" />
-							<listheader label="EMI Amount" width="20%" />
-							<listheader label="Status" width="20%" />
-						</listhead>
-						<template name="model">
-							<listitem>
-								<listcell label="${each.loanAccount}" />
-								<listcell label="${each.loanType}" />
-								<listcell label="${each.dueDate}" />
-								<listcell label="${each.amount}"
-									style="font-weight:bold; color:#004a99;" />
-								<listcell label="${each.status}"
-									style="color:red;" />
-							</listitem>
-						</template>
-					</listbox>
-				</vlayout>
+				
 
 				<hlayout sclass="footer-bar">
 					<label value="© 2025 CrediHub | User Panel" />

@@ -3,7 +3,11 @@ package com.lms.service.impl;
 import com.lms.model.Loan;
 import com.lms.repository.LoanRepository;
 import com.lms.service.LoanService;
+
+import java.time.YearMonth;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class LoanServiceImpl implements LoanService{
@@ -81,5 +85,23 @@ public class LoanServiceImpl implements LoanService{
     @Override
     public int getTotalPendingLoans() {
         return loanRepo.getPendingLoans();
+    }
+
+	@Override
+	public List<Loan> getLoansByUserId(int id) {
+		// TODO Auto-generated method stub
+		return loanRepo.getLoansByUserId(id);
+	}
+	
+	@Override
+    public List<Loan> getALlApprovedLoans() {
+        // TODO Auto-generated method stub
+        return loanRepo.getAllApprovedLoans();
+    }
+
+    @Override
+     public Map<YearMonth, Integer> getLast5MonthsLoanCount() {
+        // TODO Auto-generated method stub
+        return loanRepo.getLast5MonthsLoanCount();
     }
 }

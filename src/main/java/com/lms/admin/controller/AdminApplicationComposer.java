@@ -1,5 +1,6 @@
 package com.lms.admin.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,9 @@ public class AdminApplicationComposer extends SelectorComposer<Component> {
 	private AdminLoanService adminLoanService;
 
 	private List<Loan> loans;
+	
+	// Add this to your class fields
+	private final SimpleDateFormat shorthandDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
 
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
@@ -125,7 +129,11 @@ public class AdminApplicationComposer extends SelectorComposer<Component> {
 			hlBody.appendChild(createInfoBlock("Loan Type", loan.getLoanType().toString(), ""));
 			hlBody.appendChild(
 					createInfoBlock("Monthly Income", "₹ " + loan.getEmploymentDetails().getMonthlyIncome(), ""));
-			hlBody.appendChild(createInfoBlock("Submission Date", loan.getSubmissionDate().toString(), ""));
+			String formattedDate = (loan.getSubmissionDate() != null) 
+                    ? shorthandDateFormat.format(loan.getSubmissionDate()) 
+                    : "N/A";
+
+			hlBody.appendChild(createInfoBlock("Submission Date", formattedDate, ""));
 
 			// 3. Action Button
 			Div btnDiv = new Div();

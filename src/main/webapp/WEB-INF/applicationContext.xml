@@ -27,18 +27,18 @@
 		<property name="adminLoanRepo" ref="adminLoanRepository" />
 		<property name="emiService" ref="emiService" />
 	</bean>
+	
+	<bean name="userRepository"
+		class="com.lms.repository.UserRepository" />
 
 	<bean id="loanRepository"
-		class="com.lms.repository.LoanRepository" />
+		class="com.lms.repository.LoanRepository" >
+		</bean>
 
 	<bean id="loanService"
 		class="com.lms.service.impl.LoanServiceImpl">
 		<property name="loanRepo" ref="loanRepository" />
 	</bean>
-
-	<bean name="userRepository"
-		class="com.lms.repository.UserRepository" />
-
 	<bean id="passwordEncoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 

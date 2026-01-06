@@ -160,9 +160,6 @@
 
 							<label value="PHONE" sclass="info-label" />
 							<label id="lblPhone" sclass="info-value" />
-
-							<label value="ADDRESS" sclass="info-label" />
-							<label id="lblAddress" sclass="info-value" />
 						</vlayout>
 					</div>
 

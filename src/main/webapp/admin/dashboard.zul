@@ -27,27 +27,32 @@
 					<div sclass="dash-card card-blue">
 						<label id="lblTotalLoans" sclass="card-number" />
 						<label value="Total Loans" sclass="card-label" />
-						<label sclass="card-icon icon-dashboard"></label>
+						<span
+							sclass="card-icon fa-solid fa-file-invoice-dollar" />
 					</div>
 
 					<div sclass="dash-card card-red">
 						<label id="lblPendingApps" sclass="card-number" />
 						<label value="Pending Apps" sclass="card-label" />
-						<label sclass="card-icon icon-clock"></label>
+						<span
+							sclass="card-icon fa-solid fa-clock-rotate-left" />
 					</div>
 
 					<div sclass="dash-card card-green">
 						<label id="lblActiveLoans" sclass="card-number" />
 						<label value="Active Loans" sclass="card-label" />
-						<label sclass="card-icon icon-check"></label>
+						<span
+							sclass="card-icon fa-solid fa-circle-check" />
 					</div>
 
 					<div sclass="dash-card card-orange">
 						<label id="lblOverdue" sclass="card-number" />
 						<label value="Overdue Loans"
 							sclass="card-label" />
-						<label sclass="card-icon icon-warning"></label>
+						<span
+							sclass="card-icon fa-solid fa-triangle-exclamation" />
 					</div>
+
 				</hlayout>
 
 				<!-- Charts -->
@@ -62,37 +67,6 @@
 					</div>
 				</hlayout>
 
-				<!-- Recent Applications -->
-				<vlayout>
-					<label value="Recent Applications"
-						sclass="section-title" />
-					<listbox id="loanListbox" mold="paging" pageSize="5"
-						width="100%">
-						<listhead>
-							<listheader label="Applicant" />
-							<listheader label="Amount" />
-							<listheader label="Status" />
-							<listheader label="Date" />
-						</listhead>
-
-						<template name="model">
-							<listitem>
-								<listcell label="${each[0]}" />
-								<listcell label="${each[1]}" />
-								<listcell label="${each[2] }" />
-								<listcell label="${each[3] }" />
-							</listitem>
-						</template>
-					</listbox>
-
-				</vlayout>
-
-				<hlayout sclass="footer-bar">
-					<label
-						value="© 2025 CrediHub | All Rights Reserved" />
-					<space />
-					<label value="Made by ❤ CreditHuB Team" />
-				</hlayout>
 			</vlayout>
 		</hlayout>
 	</vlayout>

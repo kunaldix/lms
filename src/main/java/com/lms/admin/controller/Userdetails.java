@@ -19,10 +19,10 @@ import com.lms.service.UserService;
 
 @VariableResolver(DelegatingVariableResolver.class)
 public class Userdetails extends SelectorComposer<Div> {
+	
+	private static final long serialVersionUID = 615498041154939607L;
 
-    private static final long serialVersionUID = 1L;
-
-    /* ---------- LAYOUT ---------- */
+	/* ---------- LAYOUT ---------- */
     @Wire
     private Vlayout mainContainer;
 
@@ -31,7 +31,6 @@ public class Userdetails extends SelectorComposer<Div> {
     @Wire private Label lblUserId;
     @Wire private Label lblEmail;
     @Wire private Label lblPhone;
-    @Wire private Label lblAddress;
 
     /* ---------- LOAN SUMMARY ---------- */
     @Wire private Label lblTotalLoan;
@@ -84,10 +83,9 @@ public class Userdetails extends SelectorComposer<Div> {
 
         // Profile information
         lblName.setValue(user.getName());
-        lblUserId.setValue("ID: #" + user.getId());
+        lblUserId.setValue("ID: #EMP" + user.getId());
         lblEmail.setValue(user.getEmail());
         lblPhone.setValue(user.getPhoneNumber());
-//        lblAddress.setValue(user.getAddress());
 
         // Loan summary
         lblTotalLoan.setValue("₹ " + loanService.getTotalLoanOfUser(user.getId()));

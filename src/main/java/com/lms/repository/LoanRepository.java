@@ -2,12 +2,22 @@ package com.lms.repository;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.lms.constant.LoanApplicationStatus;
+import com.lms.constant.LoanType;
+import com.lms.constant.RepaymentType;
 import com.lms.dbutils.DBConnection;
 import com.lms.model.Loan;
+import com.lms.model.User;
 
 public class LoanRepository {
 
@@ -301,6 +311,137 @@ public class LoanRepository {
         }
 
         return count;
+    }
+
+    public List<Loan> getLoansByUserId(int userId) {
+        List<Loan> loanList = new ArrayList<>();
+        
+        // SQL with JOINs to fetch User and Employment information
+        String sql = "SELECT l.*, u.name, u.email, u.phone_number " +
+                     "FROM loans l " +
+                     "JOIN users u ON l.user_id = u.id " +
+                     "WHERE l.user_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setInt(1, userId);          
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Loan loan = new Loan();
+                    
+                    // 1. Populate Loan Details
+                    loan.setLoanId(rs.getString("loan_id"));
+                    loan.setLoanType(LoanType.valueOf(rs.getString("loan_type")));
+                    loan.setLoanAmount(rs.getBigDecimal("loan_amount"));
+                    loan.setTenureMonths(rs.getInt("tenure_months"));
+                    loan.setInterestRate(rs.getDouble("interest_rate"));
+                    loan.setRepaymentType(RepaymentType.valueOf(rs.getString("repayment_type")));
+                    loan.setPreferredEmiDate(rs.getInt("preferred_emi_date"));
+                    loan.setApplicationStatus(LoanApplicationStatus.valueOf(rs.getString("application_status")));
+                    loan.setSubmissionDate(rs.getTimestamp("submission_date"));
+                    loan.setAmountPaid(rs.getBigDecimal("amount_paid"));
+
+                    // 2. Populate User Object
+                    User user = new User();
+                    user.setId(userId);
+                    user.setName(rs.getString("name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPhoneNumber(rs.getString("phone_number"));
+                    loan.setUser(user);
+                    
+                    loanList.add(loan);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loanList;
+    }
+
+    public List<Loan> getAllApprovedLoans() {
+        List<Loan> loanList = new ArrayList<>();
+        
+        // SQL with JOINs to fetch User and Employment information
+       
+        String sql = "SELECT l.*, u.name, u.email, u.phone_number " +
+                "FROM loans l " +
+                "JOIN users u ON l.user_id = u.id " +
+                "WHERE application_status = 'ACCEPTED'";
+
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+                   
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Loan loan = new Loan();
+                    
+                    // 1. Populate Loan Details
+                    loan.setLoanId(rs.getString("loan_id"));
+                    loan.setLoanType(LoanType.valueOf(rs.getString("loan_type")));
+                    loan.setLoanAmount(rs.getBigDecimal("loan_amount"));
+                    loan.setTenureMonths(rs.getInt("tenure_months"));
+                    loan.setInterestRate(rs.getDouble("interest_rate"));
+                    loan.setRepaymentType(RepaymentType.valueOf(rs.getString("repayment_type")));
+                    loan.setPreferredEmiDate(rs.getInt("preferred_emi_date"));
+                    loan.setApplicationStatus(LoanApplicationStatus.valueOf(rs.getString("application_status")));
+                    loan.setSubmissionDate(rs.getTimestamp("submission_date"));
+                    loan.setAmountPaid(rs.getBigDecimal("amount_paid"));
+
+                    // 2. Populate User Object
+                    User user = new User();
+                    user.setId(rs.getInt("user_id"));
+                    user.setName(rs.getString("name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPhoneNumber(rs.getString("phone_number"));
+                    loan.setUser(user);
+                    
+                    loanList.add(loan);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loanList;
+    }
+
+    public Map<YearMonth, Integer> getLast5MonthsLoanCount() {
+
+        Map<YearMonth, Integer> dbData = new HashMap<>();
+
+        String sql =
+            "SELECT YEAR(submission_date) yr, MONTH(submission_date) mn, COUNT(*) total " +
+            "FROM loans GROUP BY YEAR(submission_date), MONTH(submission_date)";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                YearMonth ym = YearMonth.of(
+                        rs.getInt("yr"),
+                        rs.getInt("mn")
+                );
+                dbData.put(ym, rs.getInt("total"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //  Generate last 5 months in ascending order
+        Map<YearMonth, Integer> finalData = new LinkedHashMap<>();
+
+        YearMonth current = YearMonth.now().minusMonths(4);
+
+        for (int i = 0; i < 5; i++) {
+            finalData.put(current,
+                    dbData.getOrDefault(current, 0));
+            current = current.plusMonths(1);
+        }
+
+        return finalData;
     }
 
 }
