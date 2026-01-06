@@ -1,5 +1,6 @@
 package com.lms.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -7,9 +8,15 @@ import com.lms.constant.LoanApplicationStatus;
 import com.lms.constant.LoanType;
 import com.lms.constant.RepaymentType;
 
-public class Loan{
+/**
+ * Main entity representing a Loan application within CreditHub.
+ * This class encapsulates the entire application lifecycle, linking the core loan 
+ * parameters with the user's personal, employment, and banking information.
+ */
+public class Loan implements Serializable{
     
-    // STEP 1: Loan Details
+    private static final long serialVersionUID = 1718457507165011577L;
+	// Core financial parameters of the loan
     private String loanId;
     private LoanType loanType;         
     private BigDecimal loanAmount;   
@@ -18,165 +25,167 @@ public class Loan{
     private RepaymentType repaymentType;    
     private Integer preferredEmiDate; 
     
-    // STEP 2: Personal Info
+    // Links to supporting entities for a complete profile
     private User user;     
-
-    // STEP 3: Employment Details
     private EmploymentDetails employmentDetails;
-
-    // STEP 4: Bank Details
     private AccountInfo accountInfo;    
-
-    // STEP 5: Document Status (Tracking if uploaded)
     private UserLoanDocuments userDoc;
 
-    // SYSTEM FIELDS
+    // Internal system tracking fields
     private LoanApplicationStatus applicationStatus; 
     private Date submissionDate;
-    
     private BigDecimal amountPaid;
 
-    // Default Constructor
-    public Loan() {}
+    /**
+     * Default constructor required for framework operations and reflection.
+     */
+    public Loan() {
+        // Essential for ZK data binding and persistence frameworks
+    }
 
-	public Loan(String loanId, LoanType loanType, BigDecimal loanAmount, Integer tenureMonths, Double interestRate,
-			RepaymentType repaymentType, Integer preferredEmiDate, User user, EmploymentDetails employmentDetails,
-			AccountInfo accountInfo, UserLoanDocuments userDoc, LoanApplicationStatus applicationStatus,
-			Date submissionDate) {
-		super();
-		this.loanId = loanId;
-		this.loanType = loanType;
-		this.loanAmount = loanAmount;
-		this.tenureMonths = tenureMonths;
-		this.interestRate = interestRate;
-		this.repaymentType = repaymentType;
-		this.preferredEmiDate = preferredEmiDate;
-		this.user = user;
-		this.employmentDetails = employmentDetails;
-		this.accountInfo = accountInfo;
-		this.userDoc = userDoc;
-		this.applicationStatus = applicationStatus;
-		this.submissionDate = submissionDate;
-	}
+    /**
+     * Comprehensive constructor used to initialize a new loan application.
+     */
+    public Loan(String loanId, LoanType loanType, BigDecimal loanAmount, Integer tenureMonths, Double interestRate,
+            RepaymentType repaymentType, Integer preferredEmiDate, User user, EmploymentDetails employmentDetails,
+            AccountInfo accountInfo, UserLoanDocuments userDoc, LoanApplicationStatus applicationStatus,
+            Date submissionDate) {
+        this.loanId = loanId;
+        this.loanType = loanType;
+        this.loanAmount = loanAmount;
+        this.tenureMonths = tenureMonths;
+        this.interestRate = interestRate;
+        this.repaymentType = repaymentType;
+        this.preferredEmiDate = preferredEmiDate;
+        this.user = user;
+        this.employmentDetails = employmentDetails;
+        this.accountInfo = accountInfo;
+        this.userDoc = userDoc;
+        this.applicationStatus = applicationStatus;
+        this.submissionDate = submissionDate;
+    }
 
-	public BigDecimal getAmountPaid() {
-		return amountPaid;
-	}
+    /* --- Standard Getters and Setters --- */
 
-	public void setAmountPaid(BigDecimal amountPaid) {
-		this.amountPaid = amountPaid;
-	}
+    public BigDecimal getAmountPaid() {
+        return amountPaid;
+    }
 
-	public String getLoanId() {
-		return loanId;
-	}
+    public void setAmountPaid(BigDecimal amountPaid) {
+        this.amountPaid = amountPaid;
+    }
 
-	public void setLoanId(String loanId) {
-		this.loanId = loanId;
-	}
+    public String getLoanId() {
+        return loanId;
+    }
 
-	public LoanType getLoanType() {
-		return loanType;
-	}
+    public void setLoanId(String loanId) {
+        this.loanId = loanId;
+    }
 
-	public void setLoanType(LoanType loanType) {
-		this.loanType = loanType;
-	}
+    public LoanType getLoanType() {
+        return loanType;
+    }
 
-	public BigDecimal getLoanAmount() {
-		return loanAmount;
-	}
+    public void setLoanType(LoanType loanType) {
+        this.loanType = loanType;
+    }
 
-	public void setLoanAmount(BigDecimal loanAmount) {
-		this.loanAmount = loanAmount;
-	}
+    public BigDecimal getLoanAmount() {
+        return loanAmount;
+    }
 
-	public Integer getTenureMonths() {
-		return tenureMonths;
-	}
+    public void setLoanAmount(BigDecimal loanAmount) {
+        this.loanAmount = loanAmount;
+    }
 
-	public void setTenureMonths(Integer tenureMonths) {
-		this.tenureMonths = tenureMonths;
-	}
+    public Integer getTenureMonths() {
+        return tenureMonths;
+    }
 
-	public Double getInterestRate() {
-		return interestRate;
-	}
+    public void setTenureMonths(Integer tenureMonths) {
+        this.tenureMonths = tenureMonths;
+    }
 
-	public void setInterestRate(Double interestRate) {
-		this.interestRate = interestRate;
-	}
+    public Double getInterestRate() {
+        return interestRate;
+    }
 
-	public RepaymentType getRepaymentType() {
-		return repaymentType;
-	}
+    public void setInterestRate(Double interestRate) {
+        this.interestRate = interestRate;
+    }
 
-	public void setRepaymentType(RepaymentType repaymentType) {
-		this.repaymentType = repaymentType;
-	}
+    public RepaymentType getRepaymentType() {
+        return repaymentType;
+    }
 
-	public Integer getPreferredEmiDate() {
-		return preferredEmiDate;
-	}
+    public void setRepaymentType(RepaymentType repaymentType) {
+        this.repaymentType = repaymentType;
+    }
 
-	public void setPreferredEmiDate(Integer preferredEmiDate) {
-		this.preferredEmiDate = preferredEmiDate;
-	}
+    public Integer getPreferredEmiDate() {
+        return preferredEmiDate;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void setPreferredEmiDate(Integer preferredEmiDate) {
+        this.preferredEmiDate = preferredEmiDate;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public EmploymentDetails getEmploymentDetails() {
-		return employmentDetails;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public void setEmploymentDetails(EmploymentDetails employmentDetails) {
-		this.employmentDetails = employmentDetails;
-	}
+    public EmploymentDetails getEmploymentDetails() {
+        return employmentDetails;
+    }
 
-	public AccountInfo getAccountInfo() {
-		return accountInfo;
-	}
+    public void setEmploymentDetails(EmploymentDetails employmentDetails) {
+        this.employmentDetails = employmentDetails;
+    }
 
-	public void setAccountInfo(AccountInfo accountInfo) {
-		this.accountInfo = accountInfo;
-	}
+    public AccountInfo getAccountInfo() {
+        return accountInfo;
+    }
 
-	public UserLoanDocuments getUserDoc() {
-		return userDoc;
-	}
+    public void setAccountInfo(AccountInfo accountInfo) {
+        this.accountInfo = accountInfo;
+    }
 
-	public void setUserDoc(UserLoanDocuments userDoc) {
-		this.userDoc = userDoc;
-	}
+    public UserLoanDocuments getUserDoc() {
+        return userDoc;
+    }
 
-	public LoanApplicationStatus getApplicationStatus() {
-		return applicationStatus;
-	}
+    public void setUserDoc(UserLoanDocuments userDoc) {
+        this.userDoc = userDoc;
+    }
 
-	public void setApplicationStatus(LoanApplicationStatus applicationStatus) {
-		this.applicationStatus = applicationStatus;
-	}
+    public LoanApplicationStatus getApplicationStatus() {
+        return applicationStatus;
+    }
 
-	public Date getSubmissionDate() {
-		return submissionDate;
-	}
+    public void setApplicationStatus(LoanApplicationStatus applicationStatus) {
+        this.applicationStatus = applicationStatus;
+    }
 
-	public void setSubmissionDate(Date submissionDate) {
-		this.submissionDate = submissionDate;
-	}
+    public Date getSubmissionDate() {
+        return submissionDate;
+    }
 
-	@Override
-	public String toString() {
-		return "Loan [loanId=" + loanId + ", loanType=" + loanType + ", loanAmount=" + loanAmount + ", tenureMonths="
-				+ tenureMonths + ", interestRate=" + interestRate + ", repaymentType=" + repaymentType
-				+ ", preferredEmiDate=" + preferredEmiDate + ", user=" + user + ", employmentDetails="
-				+ employmentDetails + ", accountInfo=" + accountInfo + ", userDoc=" + userDoc + ", applicationStatus="
-				+ applicationStatus + ", submissionDate=" + submissionDate + ", amountPaid=" + amountPaid + "]";
-	}
+    public void setSubmissionDate(Date submissionDate) {
+        this.submissionDate = submissionDate;
+    }
+
+    /**
+     * Generates a descriptive string for the loan application.
+     * Useful for debugging and audit logs.
+     */
+    @Override
+    public String toString() {
+        return "Loan Record [ID=" + loanId + ", Type=" + loanType + ", Amount=" + loanAmount + 
+               ", Status=" + applicationStatus + ", Submitted On=" + submissionDate + "]";
+    }
 }

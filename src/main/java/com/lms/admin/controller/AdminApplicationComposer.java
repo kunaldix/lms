@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventQueues;
@@ -20,53 +22,69 @@ import org.zkoss.zul.*;
 import com.lms.model.Loan;
 import com.lms.service.AdminLoanService;
 
+/**
+ * Composer for the Admin Loan Applications view.
+ * Handles filtering, dashboard statistics, and launching the document review modal.
+ */
 @VariableResolver(DelegatingVariableResolver.class)
 public class AdminApplicationComposer extends SelectorComposer<Component> {
 
 	private static final long serialVersionUID = -4579866573238714329L;
 
-	@Wire
-	private Vlayout mainContainer;
-	@Wire
-	private Vlayout loanCardsContainer;
-	@Wire
-	private Textbox tApplicant;
-	@Wire
-	private Combobox loanType;
-	@Wire
-	private Combobox loanStatus;
-	@Wire
-	private Label processed, pending;
+	// Log4j Logger for admin activity auditing
+	private static final Logger logger = LogManager.getLogger(AdminApplicationComposer.class);
+
+	@Wire private Vlayout mainContainer;
+	@Wire private Vlayout loanCardsContainer;
+	@Wire private Textbox tApplicant;
+	@Wire private Combobox loanType;
+	@Wire private Combobox loanStatus;
+	@Wire private Label processed, pending;
 
 	@WireVariable
 	private AdminLoanService adminLoanService;
 
-	private List<Loan> loans;
-	
-	// Add this to your class fields
+	private List<Loan> allLoans;
 	private final SimpleDateFormat shorthandDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
 
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
+		logger.info("AdminApplicationComposer initialized.");
 
+		// Sync with sidebar toggle for responsive layout
 		EventQueues.lookup("dashboardQueue", EventQueues.DESKTOP, true).subscribe(event -> {
 			if ("onSidebarToggle".equals(event.getName())) {
 				resizeContent();
 			}
 		});
 
-		loans = adminLoanService.getAllLoans();
-		int pendingApp = pendingApp(loans);
-		pending.setValue(pendingApp+"");
-		processed.setValue(loans.size()+"");
-		renderLoanCards(loans);
+		// Initial Data Load
+		loadInitialData();
+	}
+
+	/**
+	 * Fetches all loans from the service and updates the dashboard summary.
+	 */
+	private void loadInitialData() {
+		try {
+			allLoans = adminLoanService.getAllLoans();
+			int pendingApp = countPendingApplications(allLoans);
+			
+			pending.setValue(String.valueOf(pendingApp));
+			processed.setValue(String.valueOf(allLoans.size()));
+			
+			renderLoanCards(allLoans);
+			logger.info("Successfully loaded {} total applications.", allLoans.size());
+		} catch (Exception e) {
+			logger.error("Error loading initial loan data: {}", e.getMessage(), e);
+		}
 	}
 	
-	private int pendingApp(List<Loan> loans) {
+	private int countPendingApplications(List<Loan> loanList) {
 		int count = 0;
-		for(Loan e : loans) {
-			if(e.getApplicationStatus().name().equalsIgnoreCase("pending")) {
+		for(Loan loan : loanList) {
+			if(loan.getApplicationStatus().name().equalsIgnoreCase("PENDING")) {
 				count++;
 			}
 		}
@@ -74,25 +92,24 @@ public class AdminApplicationComposer extends SelectorComposer<Component> {
 	}
 
 	private void resizeContent() {
-		// Toggle the Main Container Margin
 		if (mainContainer.getSclass().contains("enlarge")) {
-			// Sidebar is opening (Back to Normal)
 			mainContainer.setSclass("main-container");
 		} else {
-			// Sidebar is collapsing (Expand content)
 			mainContainer.setSclass("main-container enlarge");
 		}
 	}
 
-	private void renderLoanCards(List<Loan> loans) {
-		// Clear previous cards
+	/**
+	 * Dynamically generates Loan Cards for the admin review list.
+	 */
+	private void renderLoanCards(List<Loan> loanList) {
 		loanCardsContainer.getChildren().clear();
 
-		for (Loan loan : loans) {
+		for (Loan loan : loanList) {
 			Div card = new Div();
 			card.setSclass("loan-card");
 
-			// 1. Header Section
+			// --- Header Section ---
 			Div header = new Div();
 			header.setSclass("card-header");
 			Hlayout hlHeader = new Hlayout();
@@ -119,7 +136,7 @@ public class AdminApplicationComposer extends SelectorComposer<Component> {
 			header.appendChild(hlHeader);
 			header.appendChild(statusBadge);
 
-			// 2. Body Section
+			// --- Body Section ---
 			Div body = new Div();
 			body.setSclass("card-body");
 			Hlayout hlBody = new Hlayout();
@@ -127,15 +144,15 @@ public class AdminApplicationComposer extends SelectorComposer<Component> {
 
 			hlBody.appendChild(createInfoBlock("Requested Amount", "₹ " + loan.getLoanAmount(), "highlight-value"));
 			hlBody.appendChild(createInfoBlock("Loan Type", loan.getLoanType().toString(), ""));
-			hlBody.appendChild(
-					createInfoBlock("Monthly Income", "₹ " + loan.getEmploymentDetails().getMonthlyIncome(), ""));
+			hlBody.appendChild(createInfoBlock("Monthly Income", "₹ " + loan.getEmploymentDetails().getMonthlyIncome(), ""));
+			
 			String formattedDate = (loan.getSubmissionDate() != null) 
-                    ? shorthandDateFormat.format(loan.getSubmissionDate()) 
-                    : "N/A";
+					? shorthandDateFormat.format(loan.getSubmissionDate()) 
+					: "N/A";
 
 			hlBody.appendChild(createInfoBlock("Submission Date", formattedDate, ""));
 
-			// 3. Action Button
+			// --- Action Button ---
 			Div btnDiv = new Div();
 			btnDiv.setHflex("1");
 			btnDiv.setStyle("text-align: right;");
@@ -143,10 +160,11 @@ public class AdminApplicationComposer extends SelectorComposer<Component> {
 			btn.setSclass("review-btn");
 			btn.setIconSclass("z-icon-folder-open");
 
-			// Attach the specific loan data to the button for the modal
+			// Attach data to button for the click event
 			btn.setAttribute("loanData", loan);
 			btn.addEventListener("onClick", event -> {
-				openReviewModal((Loan) btn.getAttribute("loanData"));
+				Loan data = (Loan) event.getTarget().getAttribute("loanData");
+				openReviewModal(data);
 			});
 
 			btnDiv.appendChild(btn);
@@ -172,54 +190,51 @@ public class AdminApplicationComposer extends SelectorComposer<Component> {
 		return v;
 	}
 
+	/**
+	 * Opens the Document Review window as a modal.
+	 */
 	public void openReviewModal(Loan loan) {
+		logger.debug("Opening review modal for Loan ID: {}", loan.getLoanId());
 		Map<String, Object> args = new HashMap<>();
 		args.put("loanData", loan);
 		Window window = (Window) Executions.createComponents("/admin/review_docs.zul", null, args);
 		window.doModal();
 	}
 
+	/**
+	 * Handles searching and multi-criteria filtering.
+	 */
 	@Listen("onClick = #search")
 	public void searchLoan() {
-		String applicantName = tApplicant.getValue() == null ? "" : tApplicant.getValue().trim().toLowerCase();
-		String selectedLoanType = null;
+		String applicantName = (tApplicant.getValue() == null) ? "" : tApplicant.getValue().trim().toLowerCase();
+		
+		String selectedType = (loanType.getSelectedItem() != null && !loanType.getSelectedItem().getLabel().contains("Loan Type")) 
+				? loanType.getSelectedItem().getValue() : null;
 
-		if (loanType.getSelectedItem() != null && loanType.getSelectedItem().getLabel() != null
-				&& !loanType.getSelectedItem().getLabel().equalsIgnoreCase("Loan Type")) {
-			selectedLoanType = loanType.getSelectedItem().getValue();
-		}
+		String selectedStatus = (loanStatus.getSelectedItem() != null && !loanStatus.getSelectedItem().getLabel().contains("Loan Status")) 
+				? loanStatus.getSelectedItem().getValue() : null;
 
-		String selectedLoanStatus = null;
-		if (loanStatus.getSelectedItem() != null && loanStatus.getSelectedItem().getLabel() != null
-				&& !loanStatus.getSelectedItem().getLabel().equalsIgnoreCase("Loan Status")) {
-			selectedLoanStatus = loanStatus.getSelectedItem().getValue();
-		}
+		logger.info("Searching applications. Criteria -> Name: {}, Type: {}, Status: {}", applicantName, selectedType, selectedStatus);
 
-		List<Loan> filteredLoans = new ArrayList<>();
-		for (Loan loan : loans) {
-			boolean match = true;
-			if (!applicantName.isEmpty()) {
-				if (loan.getUser() == null || loan.getUser().getName() == null
-						|| !loan.getUser().getName().toLowerCase().contains(applicantName)) {
-					match = false;
-				}
+		List<Loan> filtered = new ArrayList<>();
+		for (Loan loan : allLoans) {
+			boolean matches = true;
+			
+			// Applicant Name Filter
+			if (!applicantName.isEmpty() && (loan.getUser() == null || !loan.getUser().getName().toLowerCase().contains(applicantName))) {
+				matches = false;
 			}
-			if (selectedLoanType != null) {
-				if (!selectedLoanType.equalsIgnoreCase(String.valueOf(loan.getLoanType()))) {
-					match = false;
-				}
+			// Type Filter
+			if (matches && selectedType != null && !selectedType.equalsIgnoreCase(String.valueOf(loan.getLoanType()))) {
+				matches = false;
 			}
-			if (selectedLoanStatus != null) {
-				if (!selectedLoanStatus.equalsIgnoreCase(String.valueOf(loan.getApplicationStatus()))) {
-					match = false;
-				}
+			// Status Filter
+			if (matches && selectedStatus != null && !selectedStatus.equalsIgnoreCase(String.valueOf(loan.getApplicationStatus()))) {
+				matches = false;
 			}
-			if (match) {
-				filteredLoans.add(loan);
-			}
+
+			if (matches) filtered.add(loan);
 		}
-		renderLoanCards(filteredLoans);
+		renderLoanCards(filtered);
 	}
-	
-	
 }

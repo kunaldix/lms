@@ -1,20 +1,35 @@
 package com.lms.controller;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
+
+// Apache Log4j for auditing
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.*;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 import org.zkoss.zul.*;	
+
 import com.lms.model.Loan;
 import com.lms.model.User;
 import com.lms.service.LoanService; 
 
+/**
+ * Composer for the My Loans page.
+ * Synchronized with EmiComposer UI for a consistent "CreditHub" experience.
+ */
 @VariableResolver(DelegatingVariableResolver.class)
 public class MyLoanComposer extends SelectorComposer<Div> {
     private static final long serialVersionUID = 1L;
+    
+    private static final Logger logger = LogManager.getLogger(MyLoanComposer.class);
 
     @Wire private Vlayout mainContainer;
     @Wire private Vlayout loanCardsContainer;
@@ -27,11 +42,17 @@ public class MyLoanComposer extends SelectorComposer<Div> {
     @WireVariable
     private LoanService loanService;
 
+    // Standardized Formatters for the team
+    @SuppressWarnings("deprecation")
+	private final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+
     @Override
     public void doAfterCompose(Div comp) throws Exception {
         super.doAfterCompose(comp);
         
-        // Handle Sidebar Toggle
+        logger.info("Initializing MyLoanComposer...");
+
+        // Subscribe to sidebar toggle for responsive resizing
         EventQueues.lookup("dashboardQueue", EventQueues.DESKTOP, true).subscribe(event -> {
             if ("onSidebarToggle".equals(event.getName())) {
                 resizeContent();
@@ -41,20 +62,33 @@ public class MyLoanComposer extends SelectorComposer<Div> {
         refreshData();
     }
 
+    /**
+     * Fetches loans for the logged-in user and updates the UI stats and cards.
+     */
     private void refreshData() {
         User currentUser = (User) Sessions.getCurrent().getAttribute("user");
-        if (currentUser == null) return;
+        if (currentUser == null) {
+            logger.warn("No user found in session. Redirecting to login might be needed.");
+            return;
+        }
 
         List<Loan> userLoans = loanService.getLoansByUserId(currentUser.getId());
+        logger.info("Retrieved {} loans for user ID: {}", userLoans.size(), currentUser.getId());
         
-        // Update Stats
-        long activeCount = userLoans.stream().filter(l -> l.getApplicationStatus().name().equalsIgnoreCase("ACCEPTED")).count();
+        // Update Dashboard Stats
+        long activeCount = userLoans.stream()
+                .filter(l -> l.getApplicationStatus().name().equalsIgnoreCase("ACCEPTED"))
+                .count();
+        
         lblActiveLoans.setValue(String.format("%02d", activeCount));
         lblTotalLoans.setValue(String.format("%02d", userLoans.size()));
 
         renderLoanCards(userLoans);
     }
 
+    /**
+     * Builds the Loan Cards dynamically using classes from loans.css
+     */
     private void renderLoanCards(List<Loan> loans) {
         loanCardsContainer.getChildren().clear();
 
@@ -62,14 +96,15 @@ public class MyLoanComposer extends SelectorComposer<Div> {
             Div card = new Div();
             card.setSclass("loan-card");
 
-            // Header
+            // --- 1. Header Section ---
             Div header = new Div();
             header.setSclass("card-header");
             Hlayout hlHeader = new Hlayout();
             
+            
             Span icon = new Span();
-            icon.setSclass(getIconForType(loan.getLoanType().name()));
-            icon.setStyle("color:#004b98; font-size:18px; margin-right:10px;");
+            icon.setSclass(getIconForType(loan.getLoanType().name()) + " fa-fw");
+            icon.setStyle("color:#004b98; font-size:16px; margin-right:10px;");
 
             Label title = new Label(loan.getLoanType().toString());
             title.setSclass("loan-title");
@@ -81,26 +116,42 @@ public class MyLoanComposer extends SelectorComposer<Div> {
             hlHeader.appendChild(title);
             hlHeader.appendChild(idLabel);
 
+            // Mapping Loan Status to CSS Badge classes
+            String statusStr = loan.getApplicationStatus().toString().toLowerCase();
             Label statusBadge = new Label(loan.getApplicationStatus().toString());
-            statusBadge.setSclass("status-badge status-" + loan.getApplicationStatus().toString().toLowerCase());
+            // Logic: Accepted -> Paid (Green), Rejected -> Overdue (Red), Pending -> Pending (Blue)
+            String badgeClass = statusStr.contains("accepted") ? "paid" : (statusStr.contains("rejected") ? "overdue" : "pending");
+            statusBadge.setSclass("status-badge status-" + badgeClass);
 
             header.appendChild(hlHeader);
             header.appendChild(statusBadge);
 
-            // Body
+            // --- 2. Body Section ---
             Div body = new Div();
             body.setSclass("card-body");
             Hlayout hlBody = new Hlayout();
-            BigDecimal outstanding = loan.getLoanAmount().subtract(loan.getAmountPaid());
+            
+            BigDecimal paid = (loan.getAmountPaid() != null) ? loan.getAmountPaid() : BigDecimal.ZERO;
+            BigDecimal outstanding = loan.getLoanAmount().subtract(paid);
 
-            hlBody.appendChild(createInfoBlock("Loan Amount", "₹ " + loan.getLoanAmount(), "highlight-value"));
-            hlBody.appendChild(createInfoBlock("Next Due Date", loan.getPreferredEmiDate() + " " + new java.text.SimpleDateFormat("MMM yyyy").format(new java.util.Date()), "")); // Dynamic logic here
-            hlBody.appendChild(createInfoBlock("Outstanding", "₹ " + outstanding.toString(), ""));
+            // Using currencyFormat for ₹ symbol and proper commas
+            hlBody.appendChild(createInfoBlock("Loan Amount", currencyFormat.format(loan.getLoanAmount()), "highlight-value"));
+            
+            // Due date logic (matching EmiComposer style)
+            String nextDue = loan.getPreferredEmiDate() + " " + new SimpleDateFormat("MMM yyyy").format(new java.util.Date());
+            hlBody.appendChild(createInfoBlock("Next Due Date", nextDue, ""));
+            
+            hlBody.appendChild(createInfoBlock("Outstanding", currencyFormat.format(outstanding), ""));
             hlBody.appendChild(createInfoBlock("Tenure", loan.getTenureMonths() + " Months", ""));
 
+            // --- 3. Action Section ---
             Button btn = new Button("View Details");
-            btn.setSclass("pay-btn");
-            btn.addEventListener("onClick", e -> showLoanDetails(loan));
+            btn.setSclass("pay-btn"); // Matches the "Pay Now" button style from CSS
+            btn.setIconSclass("fa-solid fa-eye");
+            btn.addEventListener("onClick", e -> {
+                logger.debug("Viewing details for Loan ID: {}", loan.getLoanId());
+                showLoanDetails(loan);
+            });
 
             Div btnDiv = new Div();
             btnDiv.setHflex("1");
@@ -124,28 +175,21 @@ public class MyLoanComposer extends SelectorComposer<Div> {
         detLoanInfo.setValue("Customer ID: #USR-" + loan.getUser().getId() + " | Loan Account: #" + loan.getLoanId());
         
         detStatus.setValue("LOAN STATUS: " + loan.getApplicationStatus());
-        String statusTheme = loan.getApplicationStatus().toString().equalsIgnoreCase("ACCEPTED") 
-                             ? "color: #28A745; background: #E8F5E9;"
-                             : "color: #E65100; background: #FFF3E0;"; 
+        
+        // Re-using the logic for status styling in details view
+        boolean isAccepted = loan.getApplicationStatus().toString().equalsIgnoreCase("ACCEPTED");
+        String statusTheme = isAccepted ? "color: #15803d; background: #dcfce7;" : "color: #b91c1c; background: #fee2e2;"; 
         detStatus.setStyle(statusTheme + " font-weight: bold; font-size: 14px; padding: 5px 10px; border-radius: 4px;");
 
-        // 3. Financial Grid Data
-        detSanctioned.setValue("₹ " + loan.getLoanAmount().toString());
+        detSanctioned.setValue(currencyFormat.format(loan.getLoanAmount()));
         detInterest.setValue(loan.getInterestRate() + "% p.a.");
         
-        // Calculation for Outstanding
         BigDecimal paid = (loan.getAmountPaid() != null) ? loan.getAmountPaid() : BigDecimal.ZERO;
-        BigDecimal outstanding = loan.getLoanAmount().subtract(paid);
-        detOutstanding.setValue("₹ " + outstanding.toString());
+        detOutstanding.setValue(currencyFormat.format(loan.getLoanAmount().subtract(paid)));
         
-        // Tenure and Monthly EMI
         detRemaining.setValue(loan.getTenureMonths() + " Months");
-        
-        // Placeholder for EMI (You can replace this with your actual EMI calculation logic)
-        detEmi.setValue("₹ " + String.format("%.2f", (loan.getLoanAmount().doubleValue() / loan.getTenureMonths())));
-        
-        // Next Due Date - Logic to show the preferred date for the current month
-        detNextDue.setValue(loan.getPreferredEmiDate() + " " + new java.text.SimpleDateFormat("MMM yyyy").format(new java.util.Date()));
+        detEmi.setValue(currencyFormat.format(loan.getLoanAmount().doubleValue() / loan.getTenureMonths()));
+        detNextDue.setValue(loan.getPreferredEmiDate() + " " + new SimpleDateFormat("MMM yyyy").format(new java.util.Date()));
     }
 
     @Listen("onClick = #backbtn")
@@ -167,8 +211,9 @@ public class MyLoanComposer extends SelectorComposer<Div> {
     }
 
     private String getIconForType(String type) {
-        if (type.contains("HOME")) return "fa-solid fa-house-chimney";
-        if (type.contains("CAR")) return "fa-solid fa-car";
+        String t = type.toUpperCase();
+        if (t.contains("HOME")) return "fa-solid fa-house-chimney";
+        if (t.contains("CAR")) return "fa-solid fa-car";
         return "fa-solid fa-user-tag";
     }
 

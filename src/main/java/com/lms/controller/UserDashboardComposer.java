@@ -69,6 +69,7 @@ public class UserDashboardComposer extends SelectorComposer<Vlayout> {
 		            Executions.sendRedirect("/auth/login.zul");
 		            return; 
 		        }
+		       
 		
 		// 3. Setup Charts dimensions
 		repaymentChart.setWidth(450);

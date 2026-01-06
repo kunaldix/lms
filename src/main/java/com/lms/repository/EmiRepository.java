@@ -1,23 +1,33 @@
 package com.lms.repository;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.lms.constant.EmiStatus;
 import com.lms.constant.LoanType;
 import com.lms.dbutils.DBConnection;
 import com.lms.model.Emi;
 import com.lms.model.EmiTransaction;
-import com.lms.model.Loan; 
+import com.lms.model.Loan;
 
+/**
+ * Repository class handling all database operations related to the EMI lifecycle.
+ * This includes schedule generation, payment recording via transactions, and 
+ * analytical queries for dashboard reporting.
+ */
 public class EmiRepository {
 
+    private static final Logger logger = LogManager.getLogger(EmiRepository.class);
+
+    /**
+     * Inserts a single EMI record into the database.
+     */
     public boolean saveEmiRecord(Emi emi) {
         String sql = "INSERT INTO emi_schedule (emi_id, installment_number, due_date, emi_amount, " +
                      "interest_rate, status, loan_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -25,6 +35,8 @@ public class EmiRepository {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
+            logger.info("Saving single EMI record: {}", emi.getEmiId());
+            
             ps.setString(1, emi.getEmiId());
             ps.setInt(2, emi.getInstallmentNumber());
             ps.setDate(3, new java.sql.Date(emi.getDueDate().getTime()));
@@ -37,11 +49,15 @@ public class EmiRepository {
             return ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error saving EMI record for ID {}: {}", emi.getEmiId(), e.getMessage());
             return false;
         }
     }
 
+    /**
+     * Efficiently saves multiple EMI installments using JDBC batch processing.
+     * This minimizes database round-trips for large loan tenures.
+     */
     public void saveEmiBatch(List<Emi> emiList) {
         String sql = "INSERT INTO emi_schedule (emi_id, installment_number, due_date, emi_amount, " +
                      "interest_rate, status, loan_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -50,6 +66,7 @@ public class EmiRepository {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             conn.setAutoCommit(false);
+            logger.info("Initiating batch save for {} EMI installments", emiList.size());
 
             for (Emi emi : emiList) {
                 ps.setString(1, emi.getEmiId());
@@ -65,11 +82,17 @@ public class EmiRepository {
 
             ps.executeBatch();
             conn.commit();
+            logger.info("Successfully committed EMI batch save.");
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Failed to execute EMI batch save: {}", e.getMessage());
         }
     }
+
+    /**
+     * Fetches the next upcoming installments for a user across all their loans.
+     * It ensures only the earliest pending EMI per loan is returned.
+     */
     public List<Emi> getUpcomingEmisForUser(int userId) {
         List<Emi> emis = new ArrayList<>();
         String sql = "SELECT e.*, l.* FROM emi_schedule e " +
@@ -94,34 +117,38 @@ public class EmiRepository {
                 emi.setDueDate(rs.getDate("due_date"));
                 emi.setEmiAmount(rs.getDouble("emi_amount"));
                 emi.setInterestRate(rs.getDouble("interest_rate"));
-                
-                // Map the Enum from the VARCHAR column
                 emi.setStatus(EmiStatus.valueOf(rs.getString("status")));
 
-                // Map Loan details for the UI
                 Loan loan = new Loan();
                 loan.setLoanId(rs.getString("loan_id"));
                 loan.setLoanType(LoanType.valueOf(rs.getString("loan_type")));
-                loan.setLoanAmount(rs.getBigDecimal("loan_amount")); // Get total loan
-                loan.setAmountPaid(rs.getBigDecimal("amount_paid")); // Get amount already paid
+                loan.setLoanAmount(rs.getBigDecimal("loan_amount"));
+                loan.setAmountPaid(rs.getBigDecimal("amount_paid"));
                 loan.setTenureMonths(rs.getInt("tenure_months"));
                 emi.setLoan(loan);
 
                 emis.add(emi);
             }
+            logger.info("Retrieved {} upcoming installments for user ID: {}", emis.size(), userId);
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            logger.error("Error fetching upcoming EMIs for user {}: {}", userId, ex.getMessage());
         }
         return emis;
     }
-    
+
+    /**
+     * Executes an atomic database transaction to record a payment.
+     * It inserts the transaction record, marks the EMI as PAID, and updates the accumulated paid amount on the loan.
+     */
     public boolean recordPayment(EmiTransaction txn, String emiId, String loanId) {
         Connection conn = null;
         try {
             conn = DBConnection.getConnection();
-            conn.setAutoCommit(false); // Start Transaction
+            conn.setAutoCommit(false); 
 
-            // 1. Insert Transaction Record
+            logger.info("Starting payment transaction for EMI: {} and Loan: {}", emiId, loanId);
+
+            // Insert audit record for the transaction
             String sql1 = "INSERT INTO emi_transactions (txn_id, emi_id, loan_id, payu_id, amount, status, payment_mode) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement ps1 = conn.prepareStatement(sql1)) {
                 ps1.setString(1, txn.getTxnId());
@@ -134,14 +161,14 @@ public class EmiRepository {
                 ps1.executeUpdate();
             }
 
-            // 2. Update EMI Schedule Status
+            // Update individual installment status
             String sql2 = "UPDATE emi_schedule SET status = 'PAID' WHERE emi_id = ?";
             try (PreparedStatement ps2 = conn.prepareStatement(sql2)) {
                 ps2.setString(1, emiId);
                 ps2.executeUpdate();
             }
 
-            // 3. Update Loans table (Accumulate amount_paid)
+            // Update global loan paid balance
             String sql3 = "UPDATE loans SET amount_paid = amount_paid + ? WHERE loan_id = ?";
             try (PreparedStatement ps3 = conn.prepareStatement(sql3)) {
                 ps3.setDouble(1, txn.getAmount());
@@ -149,21 +176,24 @@ public class EmiRepository {
                 ps3.executeUpdate();
             }
 
-            conn.commit(); // Save all changes
+            conn.commit(); 
+            logger.info("Payment transaction committed successfully for EMI: {}", emiId);
             return true;
 
         } catch (SQLException e) {
+            logger.error("Transaction failed for EMI ID {}. Rolling back... {}", emiId, e.getMessage());
             if (conn != null) {
-                try { conn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+                try { conn.rollback(); } catch (SQLException ex) { logger.error("Rollback failed!", ex); }
             }
-            e.printStackTrace();
             return false;
         } finally {
-            try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (conn != null) conn.close(); } catch (SQLException e) { logger.error("Closing connection failed!", e); }
         }
     }
 
-    // Helper to get loan_id and amount before starting the transaction
+    /**
+     * Retrieves specific installment details required before initiating a payment transaction.
+     */
     public String[] getEmiDetails(String emiId) {
         String sql = "SELECT loan_id, emi_amount FROM emi_schedule WHERE emi_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -174,144 +204,122 @@ public class EmiRepository {
                     return new String[]{rs.getString("loan_id"), String.valueOf(rs.getDouble("emi_amount"))};
                 }
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            logger.error("Error fetching EMI details for ID {}: {}", emiId, e.getMessage());
+        }
         return null;
     }
-    
+
+    /**
+     * Admin Dashboard: Counts how many pending installments have crossed their due date.
+     */
     public int countOverdueLoans() {
-
         int count = 0;
+        String sql = "SELECT COUNT(*) FROM emi_schedule WHERE status = 'PENDING' AND due_date < CURRENT_DATE";
 
-        try (Connection conn = DBConnection.getConnection()) {
-
-            String sql = """
-                SELECT COUNT(*)
-                FROM emi_schedule
-                WHERE status = ?
-                  AND due_date < CURRENT_DATE
-            """;
-
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, "PENDING");
-
-            ResultSet rs = stmt.executeQuery();
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {
                 count = rs.getInt(1);
             }
+            logger.info("Found {} overdue installments across the platform.", count);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error counting overdue loans: {}", e.getMessage());
         }
-
         return count;
     }
-    
+
+    /**
+     * User Dashboard: Calculates the next amount the user needs to pay, prioritizing overdue amounts.
+     */
     public BigDecimal getNextEmiAmountDue(int userId) {
-
         BigDecimal emiAmount = BigDecimal.ZERO;
+        String sql = """
+            SELECT emi_amount
+            FROM emi_schedule
+            WHERE user_id = ? AND status = 'PENDING'
+            ORDER BY CASE WHEN due_date < CURRENT_DATE THEN 0 ELSE 1 END, due_date ASC
+            LIMIT 1
+        """;
 
-        try (Connection conn = DBConnection.getConnection()) {
-
-            String sql = """
-                SELECT emi_amount
-                FROM emi_schedule
-                WHERE user_id = ?
-                  AND status = ?
-                ORDER BY 
-                    CASE WHEN due_date < CURRENT_DATE THEN 0 ELSE 1 END,
-                    due_date ASC
-                LIMIT 1
-            """;
-
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
             stmt.setInt(1, userId);
-            stmt.setString(2, "PENDING");
-
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                emiAmount = rs.getBigDecimal("emi_amount");
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    emiAmount = rs.getBigDecimal("emi_amount");
+                }
             }
+            logger.info("Next due amount for User {}: {}", userId, emiAmount);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error fetching next EMI amount for user {}: {}", userId, e.getMessage());
         }
-
         return emiAmount;
     }
 
+    /**
+     * User Dashboard: Retrieves the last 5 successful payments for charting purposes.
+     */
     public LinkedHashMap<YearMonth, BigDecimal> getLast5PaidMonthsEmi(int userId) {
-
         LinkedHashMap<YearMonth, BigDecimal> result = new LinkedHashMap<>();
+        String sql = """
+            SELECT YEAR(due_date) AS yr, MONTH(due_date) AS mn, SUM(emi_amount) AS total_paid
+            FROM emi_schedule
+            WHERE user_id = ? AND status = 'PAID'
+            GROUP BY yr, mn
+            ORDER BY yr DESC, mn DESC
+            LIMIT 5
+        """;
 
-        try (Connection conn = DBConnection.getConnection()) {
-
-            String sql = """
-                SELECT 
-                    YEAR(due_date) AS yr,
-                    MONTH(due_date) AS mn,
-                    SUM(emi_amount) AS total_paid
-                FROM emi_schedule
-                WHERE user_id = ?
-                  AND status = ?
-                GROUP BY yr, mn
-                ORDER BY yr DESC, mn DESC
-                LIMIT 5
-            """;
-
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
             stmt.setInt(1, userId);
-            stmt.setString(2, "PAID");
-
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                YearMonth ym = YearMonth.of(
-                    rs.getInt("yr"),
-                    rs.getInt("mn")
-                );
-                result.put(ym, rs.getBigDecimal("total_paid"));
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    YearMonth ym = YearMonth.of(rs.getInt("yr"), rs.getInt("mn"));
+                    result.put(ym, rs.getBigDecimal("total_paid"));
+                }
             }
+            logger.info("Successfully generated last 5 paid months history for user {}.", userId);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error generating payment history chart for user {}: {}", userId, e.getMessage());
         }
-
         return result;
     }
 
+    /**
+     * Identifies the most recent month where a payment was successfully recorded.
+     */
     public YearMonth getLatestPaidEmiMonth(int userId) {
-
         YearMonth latest = null;
+        String sql = """
+            SELECT YEAR(due_date) AS yr, MONTH(due_date) AS mn
+            FROM emi_schedule
+            WHERE user_id = ? AND status = 'PAID'
+            ORDER BY due_date DESC
+            LIMIT 1
+        """;
 
-        try (Connection conn = DBConnection.getConnection()) {
-
-            String sql = """
-                SELECT YEAR(due_date) AS yr, MONTH(due_date) AS mn
-                FROM emi_schedule
-                WHERE user_id = ?
-                  AND status = ?
-                ORDER BY due_date DESC
-                LIMIT 1
-            """;
-
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
             stmt.setInt(1, userId);
-            stmt.setString(2, "PAID");
-
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                latest = YearMonth.of(rs.getInt("yr"), rs.getInt("mn"));
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    latest = YearMonth.of(rs.getInt("yr"), rs.getInt("mn"));
+                }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error fetching latest paid month for user {}: {}", userId, e.getMessage());
         }
-
         return latest;
     }
-
-    
 }

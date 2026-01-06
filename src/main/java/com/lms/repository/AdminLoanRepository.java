@@ -3,33 +3,62 @@ package com.lms.repository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.lms.model.*;
 import com.lms.constant.*;
 import com.lms.dbutils.DBConnection;
 
+/**
+ * Repository class for administrative loan operations.
+ * Handles database interactions for updating loan statuses and retrieving
+ * comprehensive loan details including user, employment, and bank information.
+ */
 public class AdminLoanRepository {
-	
-	public boolean updateLoanStatus(String loanId, LoanApplicationStatus ls) {
-	    String sql = "UPDATE loans SET application_status = ? WHERE loan_id = ?";
-	    try (Connection conn = DBConnection.getConnection();
-	         PreparedStatement ps = conn.prepareStatement(sql)) {
-	        
-	        ps.setString(1, ls.name());
-	        ps.setString(2, loanId);
-	        
-	        int rowsAffected = ps.executeUpdate();
-	        
-	        return rowsAffected > 0;
-	    } catch (SQLException e) {
-	    	System.err.println("Error updating loan status: " + e.getMessage());
-	        e.printStackTrace();
-	        return false;
-	    }
-	}
 
+    // Initializing Log4j for systematic tracking of database transactions
+    private static final Logger logger = LogManager.getLogger(AdminLoanRepository.class);
+
+    /**
+     * Updates the application status of a specific loan record.
+     * This is primarily used by admins to Approve or Reject a request.
+     */
+    public boolean updateLoanStatus(String loanId, LoanApplicationStatus ls) {
+        String sql = "UPDATE loans SET application_status = ? WHERE loan_id = ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            logger.info("Attempting to update status for Loan ID: {} to {}", loanId, ls);
+            
+            ps.setString(1, ls.name());
+            ps.setString(2, loanId);
+            
+            int rowsAffected = ps.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                logger.info("Successfully updated status for Loan ID: {}", loanId);
+                return true;
+            } else {
+                logger.warn("No loan found with ID: {} to update", loanId);
+                return false;
+            }
+            
+        } catch (SQLException e) {
+            logger.error("Database error while updating loan status for ID: {}. Error: {}", loanId, e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Retrieves all loan applications from the system with full details.
+     * Uses a multi-table LEFT JOIN to pull associated User, Employment, 
+     * Account, and Document data in a single query for efficiency.
+     */
     public List<Loan> getAllLoans() {
         List<Loan> loanList = new ArrayList<>();
         
+        // Comprehensive query to build the full Loan object graph
         String sql = "SELECT l.*, u.name, u.email, u.phone_number, u.role, u.profile_image, " +
                      "e.employment_type, e.employer_name, e.business_type, e.monthly_income, " +
                      "a.bank_name, a.branch_code, a.ifsc_code, a.account_number, a.balance, " +
@@ -46,9 +75,12 @@ public class AdminLoanRepository {
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
+            logger.info("Executing fetch for all loan records...");
+
             while (rs.next()) {
                 Loan loan = new Loan();
 
+                // Hydrating core Loan fields
                 loan.setLoanId(rs.getString("loan_id"));
                 loan.setLoanType(LoanType.valueOf(rs.getString("loan_type")));
                 loan.setLoanAmount(rs.getBigDecimal("loan_amount"));
@@ -60,6 +92,7 @@ public class AdminLoanRepository {
                 loan.setSubmissionDate(rs.getTimestamp("submission_date"));
                 loan.setAmountPaid(rs.getBigDecimal("amount_paid"));
 
+                // Mapping associated User profile
                 User user = new User();
                 user.setId(rs.getInt("user_id"));
                 user.setName(rs.getString("name"));
@@ -69,6 +102,7 @@ public class AdminLoanRepository {
                 user.setRole(Role.valueOf(rs.getString("role")));
                 loan.setUser(user);
 
+                // Mapping Employment history
                 EmploymentDetails emp = new EmploymentDetails();
                 emp.setId(rs.getInt("employment_id"));
                 emp.setEmploymentType(rs.getString("employment_type"));
@@ -78,6 +112,7 @@ public class AdminLoanRepository {
                 emp.setUser(user);
                 loan.setEmploymentDetails(emp);
 
+                // Mapping Bank account details
                 AccountInfo acc = new AccountInfo();
                 acc.setId(rs.getInt("account_id"));
                 acc.setBankName(rs.getString("bank_name"));
@@ -88,6 +123,7 @@ public class AdminLoanRepository {
                 acc.setUser(user);
                 loan.setAccountInfo(acc);
 
+                // Mapping uploaded Document status
                 UserLoanDocuments docs = new UserLoanDocuments();
                 docs.setId(rs.getInt("document_id"));
                 docs.setPhotoUploaded(rs.getString("photo_uploaded"));
@@ -101,10 +137,12 @@ public class AdminLoanRepository {
 
                 loanList.add(loan);
             }
+            logger.info("Successfully retrieved {} loan applications.", loanList.size());
+            
         } catch (SQLException e) {
-            System.err.println("Error fetching loans: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Failed to fetch loans from database. SQL Error: {}", e.getMessage());
         }
+        
         return loanList;
     }
 }
