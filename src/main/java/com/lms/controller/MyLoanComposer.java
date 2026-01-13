@@ -185,7 +185,7 @@ public class MyLoanComposer extends SelectorComposer<Div> {
         detInterest.setValue(loan.getInterestRate() + "% p.a.");
         
         BigDecimal paid = (loan.getAmountPaid() != null) ? loan.getAmountPaid() : BigDecimal.ZERO;
-        detOutstanding.setValue(currencyFormat.format(loan.getLoanAmount().subtract(paid)));
+        detOutstanding.setValue(loan.getApplicationStatus().name().equalsIgnoreCase("accepted") ? currencyFormat.format(loan.getLoanAmount().subtract(paid)) : "-");
         
         detRemaining.setValue(loan.getTenureMonths() + " Months");
         double principal = loan.getLoanAmount().doubleValue(); 
@@ -196,8 +196,8 @@ public class MyLoanComposer extends SelectorComposer<Div> {
         // Standard Amortization Formula: [P x R x (1+R)^N]/[(1+R)^N-1]
         double emiAmount = (principal * monthlyRate * Math.pow(1 + monthlyRate, tenure)) 
                            / (Math.pow(1 + monthlyRate, tenure) - 1);
-        detEmi.setValue(currencyFormat.format(emiAmount));
-        detNextDue.setValue(loan.getPreferredEmiDate() + " " + new SimpleDateFormat("MMM yyyy").format(new java.util.Date()));
+        detEmi.setValue(loan.getApplicationStatus().name().equalsIgnoreCase("accepted") ? currencyFormat.format(emiAmount) : "-");
+        detNextDue.setValue(loan.getApplicationStatus().name().equalsIgnoreCase("accepted") ? loan.getPreferredEmiDate() + " " + new SimpleDateFormat("MMM yyyy").format(new java.util.Date()) : "-");
     }
 
     @Listen("onClick = #backbtn")

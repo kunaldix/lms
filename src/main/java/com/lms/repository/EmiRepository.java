@@ -266,11 +266,18 @@ public class EmiRepository {
      * User Dashboard: Retrieves the last 5 successful payments for charting purposes.
      */
     public LinkedHashMap<YearMonth, BigDecimal> getLast5PaidMonthsEmi(int userId) {
+
         LinkedHashMap<YearMonth, BigDecimal> result = new LinkedHashMap<>();
+
         String sql = """
-            SELECT YEAR(due_date) AS yr, MONTH(due_date) AS mn, SUM(emi_amount) AS total_paid
-            FROM emi_schedule
-            WHERE user_id = ? AND status = 'PAID'
+            SELECT 
+                YEAR(et.created_at) AS yr,
+                MONTH(et.created_at) AS mn,
+                SUM(et.amount) AS total_paid
+            FROM emi_transactions et
+            JOIN loans l ON et.loan_id = l.loan_id
+            WHERE l.user_id = ?
+              AND et.status = 'SUCCESS'
             GROUP BY yr, mn
             ORDER BY yr DESC, mn DESC
             LIMIT 5
@@ -278,22 +285,34 @@ public class EmiRepository {
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
+
             stmt.setInt(1, userId);
+
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    YearMonth ym = YearMonth.of(rs.getInt("yr"), rs.getInt("mn"));
+                    YearMonth ym = YearMonth.of(
+                            rs.getInt("yr"),
+                            rs.getInt("mn")
+                    );
                     result.put(ym, rs.getBigDecimal("total_paid"));
                 }
             }
-            logger.info("Successfully generated last 5 paid months history for user {}.", userId);
+
+            logger.info(
+                "Successfully generated last 5 paid EMI months from transactions for user {}",
+                userId
+            );
 
         } catch (SQLException e) {
-            logger.error("Error generating payment history chart for user {}: {}", userId, e.getMessage());
+            logger.error(
+                "Error generating EMI payment history from transactions for user {}",
+                userId,
+                e
+            );
         }
+
         return result;
     }
-
     /**
      * Identifies the most recent month where a payment was successfully recorded.
      */
