@@ -1,0 +1,140 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>lms</groupId>
+  <artifactId>lms</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <dependencies>
+  <!-- Source: https://mvnrepository.com/artifact/org.zkoss.zk/zk -->
+    <dependency>
+        <groupId>org.zkoss.zk</groupId>
+        <artifactId>zk</artifactId>
+        <version>10.0.0</version>
+        <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/org.zkoss.zk/zul -->
+    <dependency>
+        <groupId>org.zkoss.zk</groupId>
+        <artifactId>zul</artifactId>
+        <version>10.0.0</version>
+        <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/org.zkoss.zk/zkbind -->
+    <dependency>
+        <groupId>org.zkoss.zk</groupId>
+        <artifactId>zkbind</artifactId>
+        <version>10.0.0</version>
+        <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/org.zkoss.zk/zkplus -->
+    <dependency>
+        <groupId>org.zkoss.zk</groupId>
+        <artifactId>zkplus</artifactId>
+        <version>10.0.0</version>
+        <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>2.23.1</version>
+        <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>2.23.1</version>
+        <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/org.zkoss.chart/zkcharts -->
+    <dependency>
+        <groupId>org.zkoss.chart</groupId>
+        <artifactId>zkcharts</artifactId>
+        <version>11.4.7.0-Eval</version>
+        <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/org.json/json -->
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20231013</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>4.0.1</version>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+    <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>javax.mail-api</artifactId>
+        <version>1.6.2</version>
+        <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/org.springframework/spring-core -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>3.0.7.RELEASE</version>
+        <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/org.springframework/spring-web -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>3.0.7.RELEASE</version>
+        <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>3.1.2.RELEASE</version>
+        <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>3.1.2.RELEASE</version>
+        <scope>compile</scope>
+    </dependency>
+    <!-- Source: https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-config</artifactId>
+        <version>3.1.2.RELEASE</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
+     </dependency>
+     <!-- Source: https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
+    <dependency>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+        <version>8.3.0</version>
+        <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <release>21</release>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.3</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>
